@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import unisa.diem.parser.DatasetService;
 
 import java.io.IOException;
 
@@ -15,6 +16,9 @@ public class HelloApplication extends Application {
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
+
+        DatasetService datasetUtility = new DatasetService();
+        datasetUtility.loadDataset();
     }
 
     public static void main(String[] args) {
