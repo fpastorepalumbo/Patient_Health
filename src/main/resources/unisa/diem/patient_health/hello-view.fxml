@@ -1,14 +1,326 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" prefHeight="582.0" prefWidth="881.0" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="unisa.diem.patient_health.HelloController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-    </padding>
-
-    <Label fx:id="welcomeText" />
-    <Button onAction="#onHelloButtonClick" text="Hello!" />
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="unisa.diem.patient_health.HelloController">
+   <children>
+      <MenuBar prefHeight="74.0" prefWidth="1280.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+                  <MenuItem mnemonicParsing="false" text="Load Dataset" />
+              <MenuItem mnemonicParsing="false" text="Altro" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <AnchorPane prefHeight="637.0" prefWidth="1280.0">
+         <children>
+            <SplitPane dividerPositions="0.18013856812933027" prefHeight="695.0" prefWidth="1280.0">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="671.0" prefWidth="227.0">
+                     <children>
+                        <TextField layoutX="14.0" layoutY="27.0" prefHeight="25.0" prefWidth="140.0" />
+                        <Button layoutX="161.0" layoutY="27.0" mnemonicParsing="false" text="Search" />
+                        <Label alignment="CENTER" layoutX="14.0" layoutY="83.0" prefHeight="39.0" prefWidth="182.0" text="Patient" />
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="122.0" prefHeight="49.0" prefWidth="182.0" text="Organization" />
+                        <Label alignment="CENTER" layoutX="14.0" layoutY="171.0" prefHeight="49.0" prefWidth="182.0" text="Encounter" />
+                        <Label alignment="CENTER" layoutX="14.0" layoutY="220.0" prefHeight="39.0" prefWidth="182.0" text="Imaging Study" />
+                     </children>
+                  </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="672.0" prefWidth="1045.0">
+                     <children>
+                        <Pane fx:id="PatientPane" prefHeight="695.0" prefWidth="1045.0">
+                           <children>
+                              <ScrollPane hbarPolicy="ALWAYS" layoutX="11.0" layoutY="14.0" prefHeight="197.0" prefWidth="1024.0" vbarPolicy="ALWAYS">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="1098.0">
+                                       <children>
+                                          <TableView prefHeight="200.0" prefWidth="1098.0">
+                                            <columns>
+                                              <TableColumn prefWidth="75.0" text="Nome" />
+                                              <TableColumn prefWidth="75.0" text="Cognome" />
+                                                <TableColumn prefWidth="75.0" text="Birthdate" />
+                                                <TableColumn prefWidth="75.0" text="Deathdate" />
+                                                <TableColumn prefWidth="75.0" text="SSN" />
+                                                <TableColumn prefWidth="75.0" text="Marital" />
+                                                <TableColumn prefWidth="75.0" text="Gender" />
+                                                <TableColumn prefWidth="75.0" text="Birthplace" />
+                                                <TableColumn prefWidth="75.0" text="Address" />
+                                                <TableColumn prefWidth="75.0" text="City" />
+                                                <TableColumn prefWidth="75.0" text="State" />
+                                                <TableColumn prefWidth="137.0" text="Healthcare Expenses" />
+                                                <TableColumn minWidth="2.0" prefWidth="134.0" text="Healthcare Coverage" />
+                                            </columns>
+                                          </TableView>
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </ScrollPane>
+                              <ScrollPane layoutX="11.0" layoutY="228.0" prefHeight="119.0" prefWidth="573.0">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                                       <children>
+                                          <TableView prefHeight="118.0" prefWidth="558.0">
+                                            <columns>
+                                              <TableColumn prefWidth="94.0" text="Allergy Code" />
+                                                <TableColumn prefWidth="145.0" text="Allergy Description" />
+                                                <TableColumn prefWidth="75.0" text="Start Date" />
+                                                <TableColumn prefWidth="75.0" text="Stop Date" />
+                                                <TableColumn prefWidth="168.0" text="Encounter" />
+                                            </columns>
+                                          </TableView>
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </ScrollPane>
+                              <ScrollPane layoutX="11.0" layoutY="361.0" prefHeight="190.0" prefWidth="573.0">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                                       <children>
+                                          <TableView prefHeight="200.0" prefWidth="573.0">
+                                            <columns>
+                                              <TableColumn prefWidth="179.0" text="Immunization Code" />
+                                              <TableColumn prefWidth="112.0" text="Description" />
+                                                <TableColumn minWidth="0.0" prefWidth="91.0" text="Base Cost" />
+                                                <TableColumn prefWidth="86.0" text="Date " />
+                                                <TableColumn minWidth="0.0" prefWidth="104.0" text="Encounter" />
+                                            </columns>
+                                          </TableView>
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </ScrollPane>
+                              <ScrollPane layoutX="596.0" layoutY="228.0" prefHeight="313.0" prefWidth="440.0">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="437.0">
+                                       <children>
+                                          <TableView layoutX="-14.0" prefHeight="313.0" prefWidth="454.0">
+                                            <columns>
+                                              <TableColumn prefWidth="123.0" text="Condition Code" />
+                                              <TableColumn prefWidth="91.0" text="Ddescription" />
+                                                <TableColumn prefWidth="74.0" text="Start Date" />
+                                                <TableColumn prefWidth="75.0" text="Stop Date" />
+                                                <TableColumn prefWidth="88.0" text="Encounter" />
+                                            </columns>
+                                          </TableView>
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </ScrollPane>
+                              <TableView layoutX="181.0" layoutY="592.0" prefHeight="67.0" prefWidth="440.0">
+                                <columns>
+                                  <TableColumn prefWidth="107.0" text="Care Plan Code" />
+                                  <TableColumn prefWidth="87.0" text="Description" />
+                                    <TableColumn prefWidth="108.0" text="Reason Code" />
+                                    <TableColumn prefWidth="137.0" text="Reason Description" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </Pane>
+                        <Pane disable="true" prefHeight="695.0" prefWidth="1053.0" visible="false">
+                           <children>
+                              <ScrollPane layoutX="14.0" layoutY="22.0" prefHeight="245.0" prefWidth="772.0">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="243.0" prefWidth="770.0">
+                                       <children>
+                                          <TableView prefHeight="249.0" prefWidth="772.0">
+                                            <columns>
+                                              <TableColumn prefWidth="151.0" text="Organizzation Name" />
+                                              <TableColumn minWidth="0.0" prefWidth="116.0" text="Address" />
+                                                <TableColumn prefWidth="97.0" text="City" />
+                                                <TableColumn prefWidth="117.0" text="State" />
+                                                <TableColumn prefWidth="141.0" text="Phone Number" />
+                                                <TableColumn prefWidth="185.0" text="Revenue" />
+                                            </columns>
+                                          </TableView>
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </ScrollPane>
+                              <ScrollPane layoutX="14.0" layoutY="278.0" prefHeight="234.0" prefWidth="772.0">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="232.0" prefWidth="770.0">
+                                       <children>
+                                          <TableView prefHeight="234.0" prefWidth="772.0">
+                                            <columns>
+                                              <TableColumn prefWidth="157.0" text="Payer Name" />
+                                              <TableColumn prefWidth="107.0" text="Address" />
+                                                <TableColumn prefWidth="102.0" text="City" />
+                                                <TableColumn prefWidth="109.0" text="State" />
+                                                <TableColumn prefWidth="139.0" text="Phone Number" />
+                                                <TableColumn prefWidth="193.0" text="Revenue" />
+                                            </columns>
+                                          </TableView>
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </ScrollPane>
+                              <ScrollPane layoutX="130.0" layoutY="524.0" prefHeight="167.0" prefWidth="606.0">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="163.0" prefWidth="604.0">
+                                       <children>
+                                          <TableView layoutX="-6.0" prefHeight="165.0" prefWidth="610.0">
+                                            <columns>
+                                              <TableColumn prefWidth="75.0" text="Name" />
+                                              <TableColumn prefWidth="86.0" text="Gender" />
+                                                <TableColumn prefWidth="75.0" text="Speciality" />
+                                                <TableColumn prefWidth="120.0" text="Organizzation" />
+                                                <TableColumn prefWidth="107.0" text="Address" />
+                                                <TableColumn prefWidth="75.0" text="City" />
+                                                <TableColumn prefWidth="75.0" text="State" />
+                                            </columns>
+                                          </TableView>
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </ScrollPane>
+                           </children></Pane>
+                        <Pane disable="true" prefHeight="685.0" prefWidth="1045.0" visible="false">
+                           <children>
+                              <Pane disable="true" prefHeight="685.0" prefWidth="1045.0" visible="false">
+                                 <children>
+                                    <ScrollPane layoutX="14.0" layoutY="25.0" prefHeight="269.0" prefWidth="1014.0">
+                                      <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="662.0" prefWidth="1017.0">
+                                             <children>
+                                                <TableView prefHeight="662.0" prefWidth="1474.0">
+                                                  <columns>
+                                                    <TableColumn prefWidth="118.0" text="Encounter Code" />
+                                                    <TableColumn prefWidth="101.0" text="Class" />
+                                                      <TableColumn prefWidth="102.0" text="Description" />
+                                                      <TableColumn prefWidth="110.0" text="Start Date" />
+                                                      <TableColumn prefWidth="121.0" text="Stop Date" />
+                                                      <TableColumn prefWidth="125.0" text="Patient" />
+                                                      <TableColumn prefWidth="157.0" text="Organizzation" />
+                                                      <TableColumn prefWidth="168.0" text="Practitioner" />
+                                                      <TableColumn prefWidth="130.0" text="Payer" />
+                                                      <TableColumn prefWidth="141.0" text="Cost" />
+                                                      <TableColumn prefWidth="200.0" text="Payer Coverage" />
+                                                  </columns>
+                                                </TableView>
+                                             </children>
+                                          </AnchorPane>
+                                      </content>
+                                    </ScrollPane>
+                                 </children>
+                              </Pane>
+                              <Pane disable="true" prefHeight="685.0" prefWidth="1045.0" visible="false">
+                                 <children>
+                                    <ScrollPane layoutX="14.0" layoutY="14.0" prefHeight="289.0" prefWidth="490.0">
+                                      <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="539.0" prefWidth="1045.0">
+                                             <children>
+                                                <TableView prefHeight="541.0" prefWidth="1045.0">
+                                                  <columns>
+                                                    <TableColumn prefWidth="205.0" text="Observation Code" />
+                                                    <TableColumn prefWidth="273.0" text="Description" />
+                                                      <TableColumn prefWidth="254.0" text="Value" />
+                                                      <TableColumn prefWidth="156.0" text="Date" />
+                                                      <TableColumn prefWidth="156.0" text="Patient" />
+                                                  </columns>
+                                                </TableView>
+                                             </children></AnchorPane>
+                                      </content>
+                                    </ScrollPane>
+                                    <ScrollPane layoutX="526.0" layoutY="13.0" prefHeight="289.0" prefWidth="516.0">
+                                      <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="521.0" prefWidth="1487.0">
+                                             <children>
+                                                <TableView prefHeight="521.0" prefWidth="1487.0">
+                                                  <columns>
+                                                    <TableColumn prefWidth="270.0" text="Medication Request Code" />
+                                                    <TableColumn minWidth="0.0" prefWidth="153.0" text="Description" />
+                                                      <TableColumn prefWidth="134.0" text="Base Cost" />
+                                                      <TableColumn prefWidth="128.0" text="Payer Coverage" />
+                                                      <TableColumn prefWidth="145.0" text="Dispenses" />
+                                                      <TableColumn prefWidth="120.0" text="Total Cost" />
+                                                      <TableColumn minWidth="0.0" prefWidth="110.0" text="Start Date" />
+                                                      <TableColumn prefWidth="122.0" text="Stop Date" />
+                                                      <TableColumn prefWidth="128.0" text="Patient" />
+                                                      <TableColumn prefWidth="176.0" text="Payer" />
+                                                  </columns>
+                                                </TableView>
+                                             </children></AnchorPane>
+                                      </content>
+                                    </ScrollPane>
+                                    <ScrollPane layoutX="14.0" layoutY="333.0" prefHeight="333.0" prefWidth="490.0">
+                                      <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="486.0" prefWidth="915.0">
+                                             <children>
+                                                <TableView prefHeight="419.0" prefWidth="918.0">
+                                                  <columns>
+                                                    <TableColumn prefWidth="224.0" text="Procedure Code" />
+                                                    <TableColumn minWidth="0.0" prefWidth="222.0" text="Description" />
+                                                      <TableColumn prefWidth="122.0" text="Date" />
+                                                      <TableColumn prefWidth="164.0" text="Cost" />
+                                                      <TableColumn prefWidth="185.0" text="Patient" />
+                                                  </columns>
+                                                </TableView>
+                                             </children>
+                                          </AnchorPane>
+                                      </content>
+                                    </ScrollPane>
+                                    <ScrollPane layoutX="523.0" layoutY="333.0" prefHeight="333.0" prefWidth="516.0">
+                                      <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="321.0" prefWidth="620.0">
+                                             <children>
+                                                <TableView prefHeight="321.0" prefWidth="620.0">
+                                                  <columns>
+                                                    <TableColumn prefWidth="151.0" text="Device Code" />
+                                                    <TableColumn prefWidth="116.0" text="Description" />
+                                                      <TableColumn prefWidth="110.0" text="Start Date" />
+                                                      <TableColumn prefWidth="113.0" text="Stop Date" />
+                                                      <TableColumn prefWidth="129.0" text="Patient" />
+                                                  </columns>
+                                                </TableView>
+                                             </children>
+                                          </AnchorPane>
+                                      </content>
+                                    </ScrollPane>
+                                 </children>
+                              </Pane>
+                           </children></Pane>
+                        <Pane disable="true" prefHeight="685.0" prefWidth="1045.0" visible="false">
+                           <children>
+                              <ScrollPane layoutX="16.0" layoutY="24.0" prefHeight="269.0" prefWidth="1014.0">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="557.0" prefWidth="1228.0">
+                                       <children>
+                                          <TableView prefHeight="557.0" prefWidth="1228.0">
+                                            <columns>
+                                              <TableColumn prefWidth="117.0" text="Body Site Code" />
+                                              <TableColumn prefWidth="166.0" text="Body Site Description" />
+                                                <TableColumn prefWidth="148.0" text="Modality Code" />
+                                                <TableColumn prefWidth="168.0" text="Modality Description" />
+                                                <TableColumn prefWidth="107.0" text="SOP Code" />
+                                                <TableColumn prefWidth="154.0" text="SOP Description" />
+                                                <TableColumn prefWidth="111.0" text="Date" />
+                                                <TableColumn prefWidth="125.0" text="Patient" />
+                                                <TableColumn prefWidth="131.0" text="Encounter" />
+                                            </columns>
+                                          </TableView>
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </ScrollPane>
+                           </children>
+                        </Pane>
+                     </children></AnchorPane>
+              </items>
+            </SplitPane>
+         </children>
+      </AnchorPane>
+   </children>
 </VBox>
