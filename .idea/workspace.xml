@@ -4,15 +4,33 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e9d5dc9a-86d9-43b9-876d-da441170e0d0" name="Changes" comment="prima">
+    <list default="true" id="e9d5dc9a-86d9-43b9-876d-da441170e0d0" name="Changes" comment="intreface">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/converter/BaseConverter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/converter/Converter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/converter/PatientConverter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/BaseDownloader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/Downloader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/PatientDownload.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/DatasetLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/DatasetLoader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/patient_health/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/patient_health/HelloApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/patient_health/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/patient_health/HelloController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/unisa/diem/patient_health/hello-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/unisa/diem/patient_health/hello-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Rebase.Settings">
     <option name="NEW_BASE" value="master" />
@@ -44,17 +62,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/FRANCESCO/IdeaProjects/PatientHealt_PW&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "C:/Users/FRANCESCO/IdeaProjects/PatientHealt_PW",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -106,7 +125,14 @@
       <option name="project" value="LOCAL" />
       <updated>1708536148778</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="intreface">
+      <created>1708967130566</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1708967130566</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -134,6 +160,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="prima" />
-    <option name="LAST_COMMIT_MESSAGE" value="prima" />
+    <MESSAGE value="intreface" />
+    <option name="LAST_COMMIT_MESSAGE" value="intreface" />
   </component>
 </project>

@@ -17,8 +17,6 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
-        //DatasetService datasetUtility = new DatasetService();
-       // datasetUtility.loadDataset();
     }
 
     public static void main(String[] args) {

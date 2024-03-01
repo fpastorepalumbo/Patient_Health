@@ -10,8 +10,11 @@ module unisa.diem.patient_health {
     requires hapi.fhir.base;
     requires lombok;
     requires org.apache.commons.csv;
+    requires com.fasterxml.jackson.core;
+    requires org.apache.commons.lang3;
 
 
     opens unisa.diem.patient_health to javafx.fxml;
+    opens unisa.diem.converter to javafx.base;
     exports unisa.diem.patient_health;
 }

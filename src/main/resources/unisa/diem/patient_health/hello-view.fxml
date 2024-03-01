@@ -33,41 +33,35 @@
                      <children>
                         <TextField layoutX="14.0" layoutY="27.0" prefHeight="25.0" prefWidth="140.0" />
                         <Button layoutX="161.0" layoutY="27.0" mnemonicParsing="false" text="Search" />
-                        <Label alignment="CENTER" layoutX="14.0" layoutY="83.0" prefHeight="39.0" prefWidth="182.0" text="Patient" />
-                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="122.0" prefHeight="49.0" prefWidth="182.0" text="Organization" />
-                        <Label alignment="CENTER" layoutX="14.0" layoutY="171.0" prefHeight="49.0" prefWidth="182.0" text="Encounter" />
-                        <Label alignment="CENTER" layoutX="14.0" layoutY="220.0" prefHeight="39.0" prefWidth="182.0" text="Imaging Study" />
+                        <Label fx:id="patientLabel" alignment="CENTER" layoutX="14.0" layoutY="83.0" onMouseClicked="#patientLabelClick" prefHeight="39.0" prefWidth="182.0" text="Patient" />
+                        <Label fx:id="organizzationLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="122.0" onMouseClicked="#organizzationLabelClick" prefHeight="49.0" prefWidth="182.0" text="Organization" />
+                        <Label fx:id="encounterLabel" alignment="CENTER" layoutX="14.0" layoutY="171.0" onMouseClicked="#encounterLabelClick" prefHeight="49.0" prefWidth="182.0" text="Encounter" />
+                        <Label fx:id="imagingLabel" alignment="CENTER" layoutX="14.0" layoutY="220.0" onMouseClicked="#imagineLabelClick" prefHeight="39.0" prefWidth="182.0" text="Imaging Study" />
                      </children>
                   </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="672.0" prefWidth="1045.0">
                      <children>
-                        <Pane fx:id="PatientPane" prefHeight="695.0" prefWidth="1045.0">
+                        <Pane fx:id="patientPane" prefHeight="695.0" prefWidth="1045.0">
                            <children>
-                              <ScrollPane hbarPolicy="ALWAYS" layoutX="11.0" layoutY="14.0" prefHeight="197.0" prefWidth="1024.0" vbarPolicy="ALWAYS">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="1098.0">
-                                       <children>
-                                          <TableView prefHeight="200.0" prefWidth="1098.0">
+
+                                          <TableView fx:id="personTable" layoutX="11.0" layoutY="14.0" prefHeight="200.0" prefWidth="1029.0">
                                             <columns>
-                                              <TableColumn prefWidth="75.0" text="Nome" />
-                                              <TableColumn prefWidth="75.0" text="Cognome" />
-                                                <TableColumn prefWidth="75.0" text="Birthdate" />
-                                                <TableColumn prefWidth="75.0" text="Deathdate" />
-                                                <TableColumn prefWidth="75.0" text="SSN" />
-                                                <TableColumn prefWidth="75.0" text="Marital" />
-                                                <TableColumn prefWidth="75.0" text="Gender" />
-                                                <TableColumn prefWidth="75.0" text="Birthplace" />
-                                                <TableColumn prefWidth="75.0" text="Address" />
-                                                <TableColumn prefWidth="75.0" text="City" />
-                                                <TableColumn prefWidth="75.0" text="State" />
-                                                <TableColumn prefWidth="137.0" text="Healthcare Expenses" />
-                                                <TableColumn minWidth="2.0" prefWidth="134.0" text="Healthcare Coverage" />
+                                              <TableColumn fx:id="nameClmPersona" prefWidth="75.0" text="Name" />
+                                              <TableColumn fx:id="surnameClmPersona" prefWidth="75.0" text="Surname" />
+                                                <TableColumn fx:id="birthdateClmPersona" prefWidth="75.0" text="Birthdate" />
+                                                <TableColumn fx:id="deathdateClmPersona" prefWidth="75.0" text="Deathdate" />
+                                                <TableColumn fx:id="ssnClmPersona" prefWidth="75.0" text="SSN" />
+                                                <TableColumn fx:id="maritalClmPersona" prefWidth="75.0" text="Marital" />
+                                                <TableColumn fx:id="genderClmPersona" prefWidth="75.0" text="Gender" />
+                                                <TableColumn fx:id="birthplaceClmPersona" prefWidth="75.0" text="Birthplace" />
+                                                <TableColumn fx:id="addressClmPersona" prefWidth="75.0" text="Address" />
+                                                <TableColumn fx:id="cityClmPersona" prefWidth="75.0" text="City" />
+                                                <TableColumn fx:id="stateClmPersona" prefWidth="75.0" text="State" />
+                                                <TableColumn fx:id="expensesClmPersona" prefWidth="137.0" text="Healthcare Expenses" />
+                                                <TableColumn fx:id="coverageClmPersona" minWidth="2.0" prefWidth="134.0" text="Healthcare Coverage" />
                                             </columns>
                                           </TableView>
-                                       </children>
-                                    </AnchorPane>
-                                </content>
-                              </ScrollPane>
+
                               <ScrollPane layoutX="11.0" layoutY="228.0" prefHeight="119.0" prefWidth="573.0">
                                 <content>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
@@ -129,7 +123,7 @@
                               </TableView>
                            </children>
                         </Pane>
-                        <Pane disable="true" prefHeight="695.0" prefWidth="1053.0" visible="false">
+                        <Pane fx:id="organizationPane" disable="true" prefHeight="695.0" prefWidth="1053.0" visible="false">
                            <children>
                               <ScrollPane layoutX="14.0" layoutY="22.0" prefHeight="245.0" prefWidth="772.0">
                                 <content>
@@ -137,7 +131,7 @@
                                        <children>
                                           <TableView prefHeight="249.0" prefWidth="772.0">
                                             <columns>
-                                              <TableColumn prefWidth="151.0" text="Organizzation Name" />
+                                              <TableColumn prefWidth="151.0" text="Organization Name" />
                                               <TableColumn minWidth="0.0" prefWidth="116.0" text="Address" />
                                                 <TableColumn prefWidth="97.0" text="City" />
                                                 <TableColumn prefWidth="117.0" text="State" />
@@ -187,15 +181,15 @@
                                 </content>
                               </ScrollPane>
                            </children></Pane>
-                        <Pane disable="true" prefHeight="685.0" prefWidth="1045.0" visible="false">
+                        <Pane fx:id="exstEncounterPane" disable="true" prefHeight="685.0" prefWidth="1045.0" visible="false">
                            <children>
-                              <Pane disable="true" prefHeight="685.0" prefWidth="1045.0" visible="false">
+                              <Pane fx:id="encounterPane1" prefHeight="685.0" prefWidth="1045.0" visible="false">
                                  <children>
                                     <ScrollPane layoutX="14.0" layoutY="25.0" prefHeight="269.0" prefWidth="1014.0">
                                       <content>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="662.0" prefWidth="1017.0">
                                              <children>
-                                                <TableView prefHeight="662.0" prefWidth="1474.0">
+                                                <TableView fx:id="encounterTable" onMouseClicked="#encounterTableClick" prefHeight="662.0" prefWidth="1474.0">
                                                   <columns>
                                                     <TableColumn prefWidth="118.0" text="Encounter Code" />
                                                     <TableColumn prefWidth="101.0" text="Class" />
@@ -203,7 +197,7 @@
                                                       <TableColumn prefWidth="110.0" text="Start Date" />
                                                       <TableColumn prefWidth="121.0" text="Stop Date" />
                                                       <TableColumn prefWidth="125.0" text="Patient" />
-                                                      <TableColumn prefWidth="157.0" text="Organizzation" />
+                                                      <TableColumn prefWidth="157.0" text="Organization" />
                                                       <TableColumn prefWidth="168.0" text="Practitioner" />
                                                       <TableColumn prefWidth="130.0" text="Payer" />
                                                       <TableColumn prefWidth="141.0" text="Cost" />
@@ -216,7 +210,7 @@
                                     </ScrollPane>
                                  </children>
                               </Pane>
-                              <Pane disable="true" prefHeight="685.0" prefWidth="1045.0" visible="false">
+                              <Pane fx:id="encounterPane2" prefHeight="685.0" prefWidth="1045.0" visible="false">
                                  <children>
                                     <ScrollPane layoutX="14.0" layoutY="14.0" prefHeight="289.0" prefWidth="490.0">
                                       <content>
@@ -292,7 +286,7 @@
                                  </children>
                               </Pane>
                            </children></Pane>
-                        <Pane disable="true" prefHeight="685.0" prefWidth="1045.0" visible="false">
+                        <Pane fx:id="imagingPane" disable="true" prefHeight="685.0" prefWidth="1045.0" visible="false">
                            <children>
                               <ScrollPane layoutX="16.0" layoutY="24.0" prefHeight="269.0" prefWidth="1014.0">
                                 <content>
