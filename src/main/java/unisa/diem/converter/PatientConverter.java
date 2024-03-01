@@ -3,9 +3,10 @@ package unisa.diem.converter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import org.hl7.fhir.r4.model.Patient;
+import org.hl7.fhir.r4.model.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 public class PatientConverter extends BaseConverter {
 
@@ -23,35 +24,60 @@ public class PatientConverter extends BaseConverter {
         int i = 0;
         for(Patient patient : Boundlepatients) {
             PatientClass pc = new PatientClass();
-            //print .getName
-            System.out.println(patient.getName() +"\n");
 
-
-            // Now you can work with the patient resource
-            // String patientName = patient.getNameFirstRep().getNameAsSingleString();
-            // Do whatever you need with the patient
-            //  System.out.println("Patient name: " + patientName);
-
-
-            pc.setName(patient.getNameFirstRep().getNameAsSingleString());
-            pc.setSurname(patient.getName().get(0).toString());
-            pc.setBirthdate(patient.getBirthDate().toString());
+            pc.setName(patient.getNameFirstRep().getGivenAsSingleString());
+            pc.setSurname(patient.getNameFirstRep().getFamily());
+            DateType birthdate = patient.getBirthDateElement();
+            String date = birthdate.getDay() + "/" + birthdate.getMonth() + "/" + birthdate.getYear();
+            pc.setBirthdate(date);
             String temp ="";
             if ( !patient.hasDeceasedDateTimeType()){
-                temp = "-";
+                temp = "---";
             }else {
-                temp = patient.getDeceasedDateTimeType().toString();
+                DateTimeType d = patient.getDeceasedDateTimeType();
+                temp = d.getDay() + "/" + d.getMonth() + "/" + d.getYear();
             }
             pc.setDeathdate(temp);
-            pc.setSsn(patient.getIdentifier().toString());
-            pc.setMarital(patient.getMaritalStatus().toString());
+            pc.setSsn(patient.getIdentifier().get(1).getValue());
+
+
+            if (patient.getMaritalStatus().getCoding().isEmpty()) {
+                pc.setMarital("---");
+            } else {
+                if (patient.getMaritalStatus().fhirType() == "M") {
+                    pc.setMarital("Married");
+                } else if (patient.getMaritalStatus().getText() == "S") {
+                    pc.setMarital("Never Married");
+                } else if (patient.getMaritalStatus().getText() == "W") {
+                    pc.setMarital("Widowed");
+                } else if (patient.getMaritalStatus().getText() == "U") {
+                    pc.setMarital("Unmarried");
+                } else if (patient.getMaritalStatus().getText() == "T") {
+                    pc.setMarital("Domestic partner");
+                } else if (patient.getMaritalStatus().getText() == "P") {
+                    pc.setMarital("Polygamus");
+                } else if (patient.getMaritalStatus().getText() == "C") {
+                    pc.setMarital("Common law");
+                } else if (patient.getMaritalStatus().getText() == "L") {
+                    pc.setMarital("Legally Separated");
+                } else if (patient.getMaritalStatus().getText() == "I") {
+                    pc.setMarital("Interlocutory");
+                } else if (patient.getMaritalStatus().getText() == "D") {
+                    pc.setMarital("Divorced");
+                } else if (patient.getMaritalStatus().getText() == "A") {
+                    pc.setMarital("Annulled");
+                } else {
+                    pc.setMarital("Unknown");
+                }
+                // pc.setMarital(patient.getMaritalStatus().getText()); //qua non stampa bene
+            }
             pc.setGender(patient.getGender().toString());
             pc.setBirthplace(patient.getGender().toString()); //ADDO CAZZ STA BIRTHPLACE
-            pc.setAddress(patient.getAddress().toString());
+            pc.setAddress(patient.getAddress().get(0).getLine().get(0).toString());
             pc.setCity(patient.getAddress().get(0).getCity());
             pc.setState(patient.getAddress().get(0).getState());
-            pc.setExpenses(patient.getExtension().get(0).getValue().toString());
-            pc.setCoverage(patient.getExtension().get(1).getValue().toString());
+            pc.setExpenses(patient.getExtension().get(0).getValue().toString()); //luigi non lo carica mai
+            pc.setCoverage(patient.getExtension().get(1).getValue().toString()); //luigi non lo carica mai
 
             listaCampiPatient.add(pc);
             //System.out.println( i + "\n");
