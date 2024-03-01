@@ -30,15 +30,28 @@ public class PatientDownload extends BaseDownloader{
         Bundle bundle = null;
 
         try {
-           bundle = client.search().forResource(Patient.class).returnBundle(Bundle.class).execute();
+           bundle = (Bundle) client.search().forResource(Patient.class).encodedXml().execute();
         }
         catch (Exception e) {
            new RuntimeException("Error during the download of the patient");
         }
 
-        patients = bundle.getEntry().stream()
-                .map(e -> (Patient) e.getResource())
-                .toList();
+        for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
+            // Check if the entry contains a patient resource
+            if (entry.getResource() instanceof Patient) {
+                // Cast the resource to Patient
+                //Patient patient = (Patient) entry.getResource();
+                patients.add((Patient) entry.getResource());
+
+                // Now you can work with the patient resource
+               // String patientName = patient.getNameFirstRep().getNameAsSingleString();
+                // Do whatever you need with the patient
+              //  System.out.println("Patient name: " + patientName);
+
+                // If you only need one patient from the bundle, you can break out of the loop
+               // break;
+            }
+        }
 
         if (patients.isEmpty()) {
             throw new RuntimeException("No patient found");

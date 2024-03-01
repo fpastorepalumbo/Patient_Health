@@ -26,7 +26,14 @@ public class PatientConverter extends BaseConverter {
             //print .getName
             System.out.println(patient.getName() +"\n");
 
-            pc.setName(patient.getName().toString());
+
+            // Now you can work with the patient resource
+            // String patientName = patient.getNameFirstRep().getNameAsSingleString();
+            // Do whatever you need with the patient
+            //  System.out.println("Patient name: " + patientName);
+
+
+            pc.setName(patient.getNameFirstRep().getNameAsSingleString());
             pc.setSurname(patient.getName().get(0).toString());
             pc.setBirthdate(patient.getBirthDate().toString());
             String temp ="";
