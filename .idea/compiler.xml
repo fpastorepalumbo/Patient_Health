@@ -10,8 +10,5 @@
         <module name="Patient_Health" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Patient_Health" target="17" />
-    </bytecodeTargetLevel>
   </component>
 </project>

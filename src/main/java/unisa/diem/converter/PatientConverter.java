@@ -39,7 +39,11 @@ public class PatientConverter extends BaseConverter {
             }
             pc.setDeathdate(temp);
             pc.setSsn(patient.getIdentifier().get(1).getValue());
-
+            if (patient.hasMaritalStatus())
+                pc.setMarital(patient.getMaritalStatus().getCodingFirstRep().getCode());
+            else
+                pc.setMarital("Unknown");
+            /*
             if (patient.getMaritalStatus().fhirType() == "M") {
                 pc.setMarital("Married");
             } else if (patient.getMaritalStatus().getText() == "S") {
@@ -64,19 +68,24 @@ public class PatientConverter extends BaseConverter {
                 pc.setMarital("Annulled");
             } else {
                 pc.setMarital("Unknown");
-            } //qua non stampa bene, si deve cambiare funzione get
+            }
+             */
 
             pc.setGender(patient.getGender().toString());
-            pc.setBirthplace(patient.getGender().toString()); //ADDO CAZZ STA BIRTHPLACE
+            for (Extension ext : patient.getExtension()) {
+                if (ext.getUrl().equals("http://hl7.org/fhir/StructureDefinition/patient-birthPlace")) {
+                    Address value = (Address) ext.getValue();
+                    pc.setBirthplace(value.getCity() + " " + value.getState() + " " + value.getCountry());
+                    break;
+                }
+            }
             pc.setAddress(patient.getAddress().get(0).getLine().get(0).toString());
             pc.setCity(patient.getAddress().get(0).getCity());
             pc.setState(patient.getAddress().get(0).getState());
-            pc.setExpenses(patient.getExtension().get(0).getValue().toString()); //luigi non lo carica mai
-            pc.setCoverage(patient.getExtension().get(1).getValue().toString()); //luigi non lo carica mai
 
             listaCampiPatient.add(pc);
             System.out.println( i + "\n");
-            //System.out.println(listaCampiPatient.toString() +"\n"+ i + "\n\n");
+            // System.out.println(listaCampiPatient.toString() +"\n"+ i + "\n\n");
             i++;
         }
         /*
@@ -107,9 +116,6 @@ public class PatientConverter extends BaseConverter {
         private String address;
         private String city;
         private String state;
-        private String expenses;
-        private String coverage;
-
         private String id;
 
 
@@ -125,10 +131,9 @@ public class PatientConverter extends BaseConverter {
             this.address = "";
             this.city = "";
             this.state = "";
-            this.expenses = "";
-            this.coverage = "";
             this.id = "";
         }
+
 
         public String getName() {
             return name;
@@ -149,7 +154,6 @@ public class PatientConverter extends BaseConverter {
         public String getBirthdate() {
             return birthdate;
         }
-
         public void setBirthdate(String birthdate) {
             this.birthdate = birthdate;
         }
@@ -218,22 +222,6 @@ public class PatientConverter extends BaseConverter {
             this.state = state;
         }
 
-        public String getExpenses() {
-            return expenses;
-        }
-
-        public void setExpenses(String expenses) {
-            this.expenses = expenses;
-        }
-
-        public String getCoverage() {
-            return coverage;
-        }
-
-        public void setCoverage(String coverage) {
-            this.coverage = coverage;
-        }
-
         public String getId() {
             return id;
         }
@@ -256,10 +244,8 @@ public class PatientConverter extends BaseConverter {
                     ", address='" + address + '\'' +
                     ", city='" + city + '\'' +
                     ", state='" + state + '\'' +
-                    ", expenses='" + expenses + '\'' +
-                    ", coverage='" + coverage + '\'' +
+                    ", id='" + id + '\'' +
                     '}';
         }
     }
-
 }

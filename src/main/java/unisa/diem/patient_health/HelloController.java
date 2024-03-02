@@ -152,8 +152,6 @@ public class HelloController implements Initializable {
         addressClmPersona.setCellValueFactory(new PropertyValueFactory<>("address"));
         cityClmPersona.setCellValueFactory(new PropertyValueFactory<>("city"));
         stateClmPersona.setCellValueFactory(new PropertyValueFactory<>("state"));
-        expensesClmPersona.setCellValueFactory(new PropertyValueFactory<>("expenses"));
-        coverageClmPersona.setCellValueFactory(new PropertyValueFactory<>("coverage"));
 
         codeClmAllergy.setCellValueFactory(new PropertyValueFactory<>("code"));
         descriptionClmAllergy.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -203,7 +201,7 @@ public class HelloController implements Initializable {
 
         for (PatientConverter.PatientClass patient : patientConverter.getListaCampiPatient()) {
             personTable.getItems().add(patient);
-            //personTable.setItems(patient);
+            // personTable.setItems(patient);
         }
 
 
@@ -239,13 +237,12 @@ public class HelloController implements Initializable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
          */
     }
 
 
     public void encounterTableClick(MouseEvent mouseEvent) {
-        //encounterTable.getSelectionModel().getSelectedItem();
+        // encounterTable.getSelectionModel().getSelectedItem();
         encounterPane1.setVisible(false);
         encounterPane2.setVisible(true);
     }
@@ -253,8 +250,8 @@ public class HelloController implements Initializable {
     public void clickPatientTable(MouseEvent mouseEvent) {
         personTable.getSelectionModel().getSelectedItem();
         System.out.println("\n"+personTable.getSelectionModel().getSelectedItem().getName() + "\n " + personTable.getSelectionModel().getSelectedItem().getSurname() + "\n " + personTable.getSelectionModel().getSelectedItem().getId() + "\n");
-        //carico allergie, immunization e condition
-        //carico le relative tabelle
+        // carico allergie, immunization e condition
+        // carico le relative tabelle
         AllergieDownload allergieDownload = new AllergieDownload(personTable.getSelectionModel().getSelectedItem().getId());
         allergieDownload.download();
         List<AllergyIntolerance> allergies = allergieDownload.getAllergies();
@@ -263,8 +260,7 @@ public class HelloController implements Initializable {
 
         for (AllergieConverter.AllergieClass allergie : allergieConverter.getListaCampiAllergie()) {
             allergieTable.getItems().add(allergie);
-            //personTable.setItems(patient);
+            // personTable.setItems(patient);
         }
-
     }
 }
