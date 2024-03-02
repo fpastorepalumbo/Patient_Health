@@ -5,26 +5,26 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import org.hl7.fhir.r4.model.*;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 public class PatientConverter extends BaseConverter {
 
-    private List<Patient> Boundlepatients;
-@FXML
+    private List<Patient> boundlePatients;
+    int i = 0;
+    @FXML
     private ObservableList<PatientClass> listaCampiPatient;
 
-    public PatientConverter(List<Patient> Boundlepatients) {
-        this.Boundlepatients = Boundlepatients;
+    public PatientConverter(List<Patient> boundlePatients) {
+        this.boundlePatients = boundlePatients;
         this.listaCampiPatient = FXCollections.observableArrayList();
     }
 
     @Override
     public void convert() {
-        int i = 0;
-        for(Patient patient : Boundlepatients) {
+
+        for(Patient patient : boundlePatients) {
             PatientClass pc = new PatientClass();
 
+            pc.setId(patient.getIdentifier().get(0).getValue());
             pc.setName(patient.getNameFirstRep().getGivenAsSingleString());
             pc.setSurname(patient.getNameFirstRep().getFamily());
             DateType birthdate = patient.getBirthDateElement();
@@ -40,37 +40,32 @@ public class PatientConverter extends BaseConverter {
             pc.setDeathdate(temp);
             pc.setSsn(patient.getIdentifier().get(1).getValue());
 
-
-            if (patient.getMaritalStatus().getCoding().isEmpty()) {
-                pc.setMarital("---");
+            if (patient.getMaritalStatus().fhirType() == "M") {
+                pc.setMarital("Married");
+            } else if (patient.getMaritalStatus().getText() == "S") {
+                pc.setMarital("Never Married");
+            } else if (patient.getMaritalStatus().getText() == "W") {
+                pc.setMarital("Widowed");
+            } else if (patient.getMaritalStatus().getText() == "U") {
+                pc.setMarital("Unmarried");
+            } else if (patient.getMaritalStatus().getText() == "T") {
+                pc.setMarital("Domestic partner");
+            } else if (patient.getMaritalStatus().getText() == "P") {
+                pc.setMarital("Polygamus");
+            } else if (patient.getMaritalStatus().getText() == "C") {
+                pc.setMarital("Common law");
+            } else if (patient.getMaritalStatus().getText() == "L") {
+                pc.setMarital("Legally Separated");
+            } else if (patient.getMaritalStatus().getText() == "I") {
+                pc.setMarital("Interlocutory");
+            } else if (patient.getMaritalStatus().getText() == "D") {
+                pc.setMarital("Divorced");
+            } else if (patient.getMaritalStatus().getText() == "A") {
+                pc.setMarital("Annulled");
             } else {
-                if (patient.getMaritalStatus().fhirType() == "M") {
-                    pc.setMarital("Married");
-                } else if (patient.getMaritalStatus().getText() == "S") {
-                    pc.setMarital("Never Married");
-                } else if (patient.getMaritalStatus().getText() == "W") {
-                    pc.setMarital("Widowed");
-                } else if (patient.getMaritalStatus().getText() == "U") {
-                    pc.setMarital("Unmarried");
-                } else if (patient.getMaritalStatus().getText() == "T") {
-                    pc.setMarital("Domestic partner");
-                } else if (patient.getMaritalStatus().getText() == "P") {
-                    pc.setMarital("Polygamus");
-                } else if (patient.getMaritalStatus().getText() == "C") {
-                    pc.setMarital("Common law");
-                } else if (patient.getMaritalStatus().getText() == "L") {
-                    pc.setMarital("Legally Separated");
-                } else if (patient.getMaritalStatus().getText() == "I") {
-                    pc.setMarital("Interlocutory");
-                } else if (patient.getMaritalStatus().getText() == "D") {
-                    pc.setMarital("Divorced");
-                } else if (patient.getMaritalStatus().getText() == "A") {
-                    pc.setMarital("Annulled");
-                } else {
-                    pc.setMarital("Unknown");
-                }
-                // pc.setMarital(patient.getMaritalStatus().getText()); //qua non stampa bene
-            }
+                pc.setMarital("Unknown");
+            } //qua non stampa bene, si deve cambiare funzione get
+
             pc.setGender(patient.getGender().toString());
             pc.setBirthplace(patient.getGender().toString()); //ADDO CAZZ STA BIRTHPLACE
             pc.setAddress(patient.getAddress().get(0).getLine().get(0).toString());
@@ -80,10 +75,8 @@ public class PatientConverter extends BaseConverter {
             pc.setCoverage(patient.getExtension().get(1).getValue().toString()); //luigi non lo carica mai
 
             listaCampiPatient.add(pc);
-            //System.out.println( i + "\n");
-
+            System.out.println( i + "\n");
             //System.out.println(listaCampiPatient.toString() +"\n"+ i + "\n\n");
-
             i++;
         }
         /*
@@ -117,6 +110,9 @@ public class PatientConverter extends BaseConverter {
         private String expenses;
         private String coverage;
 
+        private String id;
+
+
         public PatientClass() {
             this.name = "";
             this.surname = "";
@@ -131,6 +127,7 @@ public class PatientConverter extends BaseConverter {
             this.state = "";
             this.expenses = "";
             this.coverage = "";
+            this.id = "";
         }
 
         public String getName() {
@@ -235,6 +232,14 @@ public class PatientConverter extends BaseConverter {
 
         public void setCoverage(String coverage) {
             this.coverage = coverage;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
         }
 
         @Override

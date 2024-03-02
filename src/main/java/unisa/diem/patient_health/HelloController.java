@@ -9,9 +9,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import org.hl7.fhir.r4.model.AllergyIntolerance;
 import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.Person;
-import unisa.diem.converter.PatientConverter;
+import unisa.diem.converter.*;
+import unisa.diem.downloader.AllergieDownload;
 import unisa.diem.downloader.PatientDownload;
 import unisa.diem.parser.DatasetService;
 
@@ -24,6 +26,14 @@ import java.util.ResourceBundle;
 public class HelloController implements Initializable {
     @FXML
     public TableView<PatientConverter.PatientClass> personTable;
+    @FXML
+    public TableView<AllergieConverter.AllergieClass> allergieTable;
+    @FXML
+    public TableView<ConditionConverter.ConditionClass> conditionTable;
+    @FXML
+    public TableView<ImmunizationConverter.ImmunizationClass> immunizationTable;
+    @FXML
+    public TableView<CarePlanConverter.CarePlanClass> carePlanTable;
     @FXML
     public TableColumn nameClmPersona;
     @FXML
@@ -50,6 +60,45 @@ public class HelloController implements Initializable {
     public TableColumn expensesClmPersona;
     @FXML
     public TableColumn coverageClmPersona;
+    @FXML
+    public TableColumn codeClmAllergy;
+    @FXML
+    public TableColumn descriptionClmAllergy;
+    @FXML
+    public TableColumn startDateClmAllergy;
+    @FXML
+    public TableColumn stopDateClmAllergy;
+    @FXML
+    public TableColumn encounterClmAllergy;
+    @FXML
+    public TableColumn codeClmImmunization;
+    @FXML
+    public TableColumn descriptionClmImmunization;
+    @FXML
+    public TableColumn baseCostClmImmunization;
+    @FXML
+    public TableColumn dateClmImmunization;
+    @FXML
+    public TableColumn encounterClmImmunization;
+    @FXML
+    public TableColumn codeClmCondition;
+    @FXML
+    public TableColumn descriptionClmCondition;
+    @FXML
+    public TableColumn startDateClmCondition;
+    @FXML
+    public TableColumn stopDateClmCondition;
+    @FXML
+    public TableColumn encounterClmCondition;
+    @FXML
+    public TableColumn codeClmCarePlan;
+    @FXML
+    public TableColumn descriptionClmCarePlan;
+    @FXML
+    public TableColumn reasonCodeClmCarePlan;
+    @FXML
+    public TableColumn reasonDescriptionClmCarePlan;
+
 
     @FXML
     private Label welcomeText;
@@ -105,6 +154,30 @@ public class HelloController implements Initializable {
         stateClmPersona.setCellValueFactory(new PropertyValueFactory<>("state"));
         expensesClmPersona.setCellValueFactory(new PropertyValueFactory<>("expenses"));
         coverageClmPersona.setCellValueFactory(new PropertyValueFactory<>("coverage"));
+
+        codeClmAllergy.setCellValueFactory(new PropertyValueFactory<>("code"));
+        descriptionClmAllergy.setCellValueFactory(new PropertyValueFactory<>("description"));
+        startDateClmAllergy.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        stopDateClmAllergy.setCellValueFactory(new PropertyValueFactory<>("stopDate"));
+        encounterClmAllergy.setCellValueFactory(new PropertyValueFactory<>("encounter"));
+
+        codeClmImmunization.setCellValueFactory(new PropertyValueFactory<>("code"));
+        descriptionClmImmunization.setCellValueFactory(new PropertyValueFactory<>("description"));
+        baseCostClmImmunization.setCellValueFactory(new PropertyValueFactory<>("baseCost"));
+        dateClmImmunization.setCellValueFactory(new PropertyValueFactory<>("date"));
+        encounterClmImmunization.setCellValueFactory(new PropertyValueFactory<>("encounter"));
+
+        codeClmCondition.setCellValueFactory(new PropertyValueFactory<>("code"));
+        descriptionClmCondition.setCellValueFactory(new PropertyValueFactory<>("description"));
+        startDateClmCondition.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        stopDateClmCondition.setCellValueFactory(new PropertyValueFactory<>("stopDate"));
+        encounterClmCondition.setCellValueFactory(new PropertyValueFactory<>("encounter"));
+
+        codeClmCarePlan.setCellValueFactory(new PropertyValueFactory<>("code"));
+        descriptionClmCarePlan.setCellValueFactory(new PropertyValueFactory<>("description"));
+        reasonCodeClmCarePlan.setCellValueFactory(new PropertyValueFactory<>("reasonCode"));
+        reasonDescriptionClmCarePlan.setCellValueFactory(new PropertyValueFactory<>("reasonDescription"));
+
     }
     @FXML
     public void patientLabelClick(MouseEvent mouseEvent) {
@@ -175,5 +248,23 @@ public class HelloController implements Initializable {
         //encounterTable.getSelectionModel().getSelectedItem();
         encounterPane1.setVisible(false);
         encounterPane2.setVisible(true);
+    }
+
+    public void clickPatientTable(MouseEvent mouseEvent) {
+        personTable.getSelectionModel().getSelectedItem();
+        System.out.println("\n"+personTable.getSelectionModel().getSelectedItem().getName() + "\n " + personTable.getSelectionModel().getSelectedItem().getSurname() + "\n " + personTable.getSelectionModel().getSelectedItem().getId() + "\n");
+        //carico allergie, immunization e condition
+        //carico le relative tabelle
+        AllergieDownload allergieDownload = new AllergieDownload(personTable.getSelectionModel().getSelectedItem().getId());
+        allergieDownload.download();
+        List<AllergyIntolerance> allergies = allergieDownload.getAllergies();
+        AllergieConverter allergieConverter = new AllergieConverter(allergies);
+        allergieConverter.convert();
+
+        for (AllergieConverter.AllergieClass allergie : allergieConverter.getListaCampiAllergie()) {
+            allergieTable.getItems().add(allergie);
+            //personTable.setItems(patient);
+        }
+
     }
 }

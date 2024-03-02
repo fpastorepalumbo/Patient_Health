@@ -1,6 +1,5 @@
 package unisa.diem.downloader;
 
-
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.hl7.fhir.r4.model.Bundle;
@@ -38,19 +37,9 @@ public class PatientDownload extends BaseDownloader{
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
             // Check if the entry contains a patient resource
-            if (entry.getResource() instanceof Patient) {
-                // Cast the resource to Patient
-                //Patient patient = (Patient) entry.getResource();
+            //if (entry.getResource() instanceof Patient) {
                 patients.add((Patient) entry.getResource());
-
-                // Now you can work with the patient resource
-               // String patientName = patient.getNameFirstRep().getNameAsSingleString();
-                // Do whatever you need with the patient
-              //  System.out.println("Patient name: " + patientName);
-
-                // If you only need one patient from the bundle, you can break out of the loop
-               // break;
-            }
+            //}
         }
 
         if (patients.isEmpty()) {
