@@ -42,3 +42,4 @@ build/
 ### resources ###
 src/main/resources
 !src/main/resources/unisa/diem/patient_health/*
+.idea/workspace.xml

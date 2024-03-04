@@ -26,13 +26,9 @@ public class ImmunizationConverter extends BaseConverter{
     public void convert() {
         for (Immunization immunization : boundleImmunizations) {
             ImmunizationClass ic = new ImmunizationClass();
-            //print immunization code
             ic.setCode(immunization.getVaccineCode().getCoding().get(0).getCode());
-            //print immunization description
             ic.setDescription(immunization.getVaccineCode().getCoding().get(0).getDisplay());
-            //print immunization date
             ic.setDate(immunization.getRecorded().toString());
-            //print immunization encounter
             String code = immunization.getEncounter().getReference();
             String[] parts = code.split("/");
             String encounter = parts[1];

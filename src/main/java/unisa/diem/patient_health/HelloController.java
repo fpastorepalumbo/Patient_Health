@@ -23,7 +23,7 @@ public class HelloController implements Initializable {
     @FXML
     public TableView<PatientConverter.PatientClass> personTable;
     @FXML
-    public TableView<AllergyConverter.AllergieClass> allergieTable;
+    public TableView<AllergyConverter.AllergyClass> allergyTable;
     @FXML
     public TableView<ConditionConverter.ConditionClass> conditionTable;
     @FXML
@@ -52,10 +52,6 @@ public class HelloController implements Initializable {
     public TableColumn cityClmPersona;
     @FXML
     public TableColumn stateClmPersona;
-    @FXML
-    public TableColumn expensesClmPersona;
-    @FXML
-    public TableColumn coverageClmPersona;
     @FXML
     public TableColumn codeClmAllergy;
     @FXML
@@ -250,8 +246,8 @@ public class HelloController implements Initializable {
         List<AllergyIntolerance> allergies = allergyDownload.getAllergies();
         AllergyConverter allergyConverter = new AllergyConverter(allergies);
         allergyConverter.convert();
-        for (AllergyConverter.AllergieClass allergie : allergyConverter.getListaCampiAllergie()) {
-            allergieTable.getItems().add(allergie);
+        for (AllergyConverter.AllergyClass allergie : allergyConverter.getListaCampiAllergie()) {
+            allergyTable.getItems().add(allergie);
             // personTable.setItems(patient);
         }
 
