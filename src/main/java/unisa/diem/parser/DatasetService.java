@@ -7,9 +7,9 @@ import org.apache.commons.csv.CSVRecord;
 
 import java.io.FileReader;
 import java.io.IOException;
-// import java.nio.file.Files;
-// import java.nio.file.Path;
-// import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -128,10 +128,10 @@ public class DatasetService {
      * @throws IOException if file errors arise
      */
     public void loadDataset() throws IOException {
-        // Path path = Paths.get("ds_loaded_ok");
-        // if (!Files.exists(path)) {
+        Path path = Paths.get("ds_loaded_ok");
+        if (!Files.exists(path)) {
             new DatasetLoader(this).load();
-            // Files.createFile(path);
-        // }
+            Files.createFile(path);
+        }
     }
 }

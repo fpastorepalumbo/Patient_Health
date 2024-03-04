@@ -2,6 +2,7 @@ package unisa.diem.downloader;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.AllergyIntolerance;
 import org.hl7.fhir.r4.model.Bundle;
 
@@ -30,8 +31,7 @@ public class AllergyDownload extends BaseDownloader{
         Bundle bundle = null;
 
         try {
-            //cancella le istanze della classe AllergyIntolerance
-         bundle = (Bundle) client.search().forResource(AllergyIntolerance.class)
+            bundle = (Bundle) client.search().forResource(AllergyIntolerance.class)
             .where(AllergyIntolerance.PATIENT.hasId(patientId))
             .encodedXml().execute();
         }
