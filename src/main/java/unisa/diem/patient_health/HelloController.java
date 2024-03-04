@@ -1,6 +1,5 @@
 package unisa.diem.patient_health;
 
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,7 +16,6 @@ import unisa.diem.parser.DatasetService;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -25,7 +23,7 @@ public class HelloController implements Initializable {
     @FXML
     public TableView<PatientConverter.PatientClass> personTable;
     @FXML
-    public TableView<AllergieConverter.AllergieClass> allergieTable;
+    public TableView<AllergyConverter.AllergieClass> allergieTable;
     @FXML
     public TableView<ConditionConverter.ConditionClass> conditionTable;
     @FXML
@@ -247,12 +245,12 @@ public class HelloController implements Initializable {
         System.out.println("\n"+personTable.getSelectionModel().getSelectedItem().getName() + "\n " + personTable.getSelectionModel().getSelectedItem().getSurname() + "\n " + personTable.getSelectionModel().getSelectedItem().getId() + "\n");
         // carico allergie, immunization e condition
         // carico le relative tabelle
-        AllergieDownload allergieDownload = new AllergieDownload(personTable.getSelectionModel().getSelectedItem().getId());
-        allergieDownload.download();
-        List<AllergyIntolerance> allergies = allergieDownload.getAllergies();
-        AllergieConverter allergieConverter = new AllergieConverter(allergies);
-        allergieConverter.convert();
-        for (AllergieConverter.AllergieClass allergie : allergieConverter.getListaCampiAllergie()) {
+        AllergyDownload allergyDownload = new AllergyDownload(personTable.getSelectionModel().getSelectedItem().getId());
+        allergyDownload.download();
+        List<AllergyIntolerance> allergies = allergyDownload.getAllergies();
+        AllergyConverter allergyConverter = new AllergyConverter(allergies);
+        allergyConverter.convert();
+        for (AllergyConverter.AllergieClass allergie : allergyConverter.getListaCampiAllergie()) {
             allergieTable.getItems().add(allergie);
             // personTable.setItems(patient);
         }

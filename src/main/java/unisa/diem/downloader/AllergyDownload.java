@@ -8,7 +8,7 @@ import org.hl7.fhir.r4.model.Bundle;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AllergieDownload extends BaseDownloader{
+public class AllergyDownload extends BaseDownloader{
 
     FhirContext ctx = FhirContext.forR4();
     String serverBaseUrl = "http://localhost:8080/fhir";
@@ -18,7 +18,7 @@ public class AllergieDownload extends BaseDownloader{
 
     String patientId = "";
 
-    public AllergieDownload(String patientId) {
+    public AllergyDownload(String patientId) {
         this.allergies = new ArrayList<>();
         this.patientId = patientId;
     }

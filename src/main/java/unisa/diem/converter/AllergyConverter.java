@@ -4,18 +4,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import org.hl7.fhir.r4.model.AllergyIntolerance;
-import org.hl7.fhir.r4.model.Patient;
 
 import java.util.List;
 
-public class AllergieConverter extends BaseConverter{
+public class AllergyConverter extends BaseConverter{
 
     private List<AllergyIntolerance> boundleAllergies;
     int i = 0;
     @FXML
     private ObservableList<AllergieClass> listaCampiAllergie;
 
-    public AllergieConverter(List<AllergyIntolerance> boundleAllergies) {
+    public AllergyConverter(List<AllergyIntolerance> boundleAllergies) {
         this.boundleAllergies = boundleAllergies;
         this.listaCampiAllergie = FXCollections.observableArrayList();
     }
@@ -36,7 +35,7 @@ public class AllergieConverter extends BaseConverter{
         }
 
         if (listaCampiAllergie.isEmpty()) {
-            System.out.println("No Allergie found in AllergieConverter");
+            System.out.println("No Allergie found in AllergyConverter");
         }
 
     }

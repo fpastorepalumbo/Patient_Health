@@ -72,12 +72,13 @@ public class PatientConverter extends BaseConverter {
              */
 
             pc.setGender(patient.getGender().toString());
+            String place = "";
             for (Extension ext : patient.getExtension()) {
                 if (ext.getUrl().equals("http://hl7.org/fhir/StructureDefinition/patient-birthPlace")) {
                     Address value = (Address) ext.getValue();
-                    pc.setBirthplace(value.getCity() + " " + value.getState() + " " + value.getCountry());
-                    break;
+                    place = value.getCity() + " " + value.getState() + " " + value.getCountry();
                 }
+                pc.setBirthplace(place);
             }
             pc.setAddress(patient.getAddress().get(0).getLine().get(0).toString());
             pc.setCity(patient.getAddress().get(0).getCity());
