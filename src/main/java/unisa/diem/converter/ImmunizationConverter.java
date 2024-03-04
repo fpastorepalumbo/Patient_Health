@@ -4,8 +4,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import org.hl7.fhir.r4.model.AllergyIntolerance;
+import org.hl7.fhir.r4.model.DateType;
 import org.hl7.fhir.r4.model.Immunization;
 
+import java.util.Date;
 import java.util.List;
 
 public class ImmunizationConverter extends BaseConverter{
@@ -24,12 +26,17 @@ public class ImmunizationConverter extends BaseConverter{
     public void convert() {
         for (Immunization immunization : boundleImmunizations) {
             ImmunizationClass ic = new ImmunizationClass();
-
-            ic.setCode(immunization.getVaccineCode().getText());
+            //print immunization code
+            ic.setCode(immunization.getVaccineCode().getCoding().get(0).getCode());
+            //print immunization description
             ic.setDescription(immunization.getVaccineCode().getCoding().get(0).getDisplay());
-            ic.setBaseCost(immunization.getVaccineCode().getCoding().get(0).getCode());
-            ic.setDate(immunization.getOccurrenceDateTimeType().getValueAsString());
-            ic.setEncounter(immunization.getEncounter().getReference());
+            //print immunization date
+            ic.setDate(immunization.getRecorded().toString());
+            //print immunization encounter
+            String code = immunization.getEncounter().getReference();
+            String[] parts = code.split("/");
+            String encounter = parts[1];
+            ic.setEncounter(encounter);
 
             listaCampiImmunization.add(ic);
         }
@@ -47,14 +54,12 @@ public class ImmunizationConverter extends BaseConverter{
     public class ImmunizationClass {
         private String code;
         private String description;
-        private String baseCost;
         private String date;
         private String encounter;
 
         public ImmunizationClass() {
             this.code = "";
             this.description = "";
-            this.baseCost = "";
             this.date = "";
             this.encounter = "";
         }
@@ -73,14 +78,6 @@ public class ImmunizationConverter extends BaseConverter{
 
         public void setDescription(String description) {
             this.description = description;
-        }
-
-        public String getBaseCost() {
-            return baseCost;
-        }
-
-        public void setBaseCost(String baseCost) {
-            this.baseCost = baseCost;
         }
 
         public String getDate() {

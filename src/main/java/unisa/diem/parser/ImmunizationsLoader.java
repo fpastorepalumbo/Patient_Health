@@ -1,13 +1,10 @@
 package unisa.diem.parser;
 
 import ca.uhn.fhir.util.BundleBuilder;
+import org.hl7.fhir.r4.model.*;
 import unisa.diem.fhir.FhirWrapper;
 import lombok.SneakyThrows;
 import org.apache.commons.csv.CSVRecord;
-import org.hl7.fhir.r4.model.CodeableConcept;
-import org.hl7.fhir.r4.model.Coding;
-import org.hl7.fhir.r4.model.Immunization;
-import org.hl7.fhir.r4.model.Reference;
 
 import java.util.ArrayList;
 import java.util.List;

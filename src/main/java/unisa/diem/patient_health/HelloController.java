@@ -1,6 +1,7 @@
 package unisa.diem.patient_health;
 
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -9,12 +10,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import org.hl7.fhir.r4.model.AllergyIntolerance;
-import org.hl7.fhir.r4.model.Patient;
-import org.hl7.fhir.r4.model.Person;
+import org.hl7.fhir.r4.model.*;
 import unisa.diem.converter.*;
-import unisa.diem.downloader.AllergieDownload;
-import unisa.diem.downloader.PatientDownload;
+import unisa.diem.downloader.*;
 import unisa.diem.parser.DatasetService;
 
 import java.io.IOException;
@@ -74,8 +72,6 @@ public class HelloController implements Initializable {
     public TableColumn codeClmImmunization;
     @FXML
     public TableColumn descriptionClmImmunization;
-    @FXML
-    public TableColumn baseCostClmImmunization;
     @FXML
     public TableColumn dateClmImmunization;
     @FXML
@@ -161,7 +157,6 @@ public class HelloController implements Initializable {
 
         codeClmImmunization.setCellValueFactory(new PropertyValueFactory<>("code"));
         descriptionClmImmunization.setCellValueFactory(new PropertyValueFactory<>("description"));
-        baseCostClmImmunization.setCellValueFactory(new PropertyValueFactory<>("baseCost"));
         dateClmImmunization.setCellValueFactory(new PropertyValueFactory<>("date"));
         encounterClmImmunization.setCellValueFactory(new PropertyValueFactory<>("encounter"));
 
@@ -257,10 +252,56 @@ public class HelloController implements Initializable {
         List<AllergyIntolerance> allergies = allergieDownload.getAllergies();
         AllergieConverter allergieConverter = new AllergieConverter(allergies);
         allergieConverter.convert();
-
         for (AllergieConverter.AllergieClass allergie : allergieConverter.getListaCampiAllergie()) {
             allergieTable.getItems().add(allergie);
             // personTable.setItems(patient);
         }
+
+        ImmunizationDownload immunizationDownload = new ImmunizationDownload(personTable.getSelectionModel().getSelectedItem().getId());
+        immunizationDownload.download();
+        List<Immunization> immunizations = immunizationDownload.getImmunizations();
+        ImmunizationConverter immunizationConverter = new ImmunizationConverter(immunizations);
+        immunizationConverter.convert();
+        for (ImmunizationConverter.ImmunizationClass immunization : immunizationConverter.getListaCampiImmunization()) {
+            immunizationTable.getItems().add(immunization);
+            // personTable.setItems(patient);
+        }
+
+        ConditionDownload conditionDownload = new ConditionDownload(personTable.getSelectionModel().getSelectedItem().getId());
+        conditionDownload.download();
+        List<Condition> conditions = conditionDownload.getConditions();
+        ConditionConverter conditionConverter = new ConditionConverter(conditions);
+        conditionConverter.convert();
+        for (ConditionConverter.ConditionClass condition : conditionConverter.getListaCampiCondition()) {
+            conditionTable.getItems().add(condition);
+            // personTable.setItems(patient);
+        }
+
+
+    }
+
+    public void clickConditionTable(MouseEvent mouseEvent) {
+
+        conditionTable.getSelectionModel().getSelectedItem();
+        CarePlanDownload carePlanDownload = new CarePlanDownload(personTable.getSelectionModel().getSelectedItem().getId());
+        carePlanDownload.download();
+        List<CarePlan> carePlans = carePlanDownload.getCarePlans();
+        CarePlanConverter carePlanConverter = new CarePlanConverter(carePlans);
+        carePlanConverter.convert();
+        for (CarePlanConverter.CarePlanClass carePlan : carePlanConverter.getListaCampiCarePlan()) {
+            carePlanTable.getItems().add(carePlan);
+            // personTable.setItems(patient);
+        }
+    }
+
+    public void loadDataset(ActionEvent actionEvent) {
+
+        try {
+            datasetUtility.loadDataset();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 }

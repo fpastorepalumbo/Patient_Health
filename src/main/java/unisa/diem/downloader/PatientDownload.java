@@ -29,7 +29,8 @@ public class PatientDownload extends BaseDownloader{
         Bundle bundle = null;
 
         try {
-           bundle = (Bundle) client.search().forResource(Patient.class).encodedXml().execute();
+            bundle = (Bundle) client.search().forResource(Patient.class).count(100)
+                    .encodedXml().execute();
         }
         catch (Exception e) {
            new RuntimeException("Error during the download of the patient");

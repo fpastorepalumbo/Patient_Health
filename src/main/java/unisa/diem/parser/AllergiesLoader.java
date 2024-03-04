@@ -23,8 +23,8 @@ public class AllergiesLoader extends BaseLoader {
 
         for (CSVRecord rec : records) {
             AllergyIntolerance alin = new AllergyIntolerance();
-            alin.setOnset(DateTimeType.parseV3(rec.get("START")));
-
+//            alin.setOnset(DateTimeType.parseV3(rec.get("START")));
+            alin.setOnset(new DateTimeType(rec.get("START")));
             if (datasetService.hasProp(rec, "STOP"))
                 alin.setLastOccurrence(datasetService.parseDate(rec.get("STOP")));
 
@@ -43,13 +43,13 @@ public class AllergiesLoader extends BaseLoader {
 
             if (count % 100 == 0 || count == records.size()) {
                 BundleBuilder bb = new BundleBuilder(FhirWrapper.getContext());
-                buffer.forEach(bb::addTransactionCreateEntry);
+                buffer.forEach(bb::addTransactionUpdateEntry);
                 FhirWrapper.getClient().transaction().withBundle(bb.getBundle()).execute();
                 if (count % 1000 == 0)
                     datasetService.logInfo("Loaded %d allergies", count);
                 buffer.clear();
             }
         }
-        // datasetService.logInfo("Loaded ALL allergies");
+        datasetService.logInfo("Loaded ALL allergies");
     }
 }

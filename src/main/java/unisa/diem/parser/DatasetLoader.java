@@ -13,16 +13,16 @@ public class DatasetLoader implements Loader {
      */
     public DatasetLoader(DatasetService datasetService) {
         this.loaders = new Loader[]{
-                //new PatientsLoader(datasetService),
-                new OrganizationsLoader(datasetService),
-                new ProvidersLoader(datasetService),
-                new PayersLoader(datasetService),
+                //new PatientsLoader(datasetService), //
+                //new OrganizationsLoader(datasetService), //
+                //new ProvidersLoader(datasetService),  //
+                //new PayersLoader(datasetService), //
                 //new EncountersLoader(datasetService),
-                // new ConditionsLoader(datasetService),
+                //new ConditionsLoader(datasetService),
                 // new ObservationsLoader(datasetService),
-                // new AllergiesLoader(datasetService),
-                // new CarePlansLoader(datasetService),
-                // new ImmunizationsLoader(datasetService),
+                //new AllergiesLoader(datasetService), //
+                //new CarePlansLoader(datasetService),
+                //new ImmunizationsLoader(datasetService), //
                 // new MedicationRequestsLoader(datasetService),
                 // new DevicesLoader(datasetService),
                 // new ImagingStudiesLoader(datasetService),
