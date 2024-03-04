@@ -76,7 +76,7 @@ public class PatientConverter extends BaseConverter {
             for (Extension ext : patient.getExtension()) {
                 if (ext.getUrl().equals("http://hl7.org/fhir/StructureDefinition/patient-birthPlace")) {
                     Address value = (Address) ext.getValue();
-                    place = value.getCity() + " " + value.getState() + " " + value.getCountry();
+                    place = value.getText();
                 }
                 pc.setBirthplace(place);
             }
