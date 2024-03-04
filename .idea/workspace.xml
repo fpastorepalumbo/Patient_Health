@@ -4,20 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e9d5dc9a-86d9-43b9-876d-da441170e0d0" name="Changes" comment="ho quasi aggiustato patient">
-      <change afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/converter/AllergieConverter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/converter/CarePlanConverter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/converter/ConditionConverter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/converter/ImmunizationConverter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/AllergieDownload.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/CarePlanDownload.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/ConditionDownload.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/ImmunizationDownload.java" afterDir="false" />
+    <list default="true" id="e9d5dc9a-86d9-43b9-876d-da441170e0d0" name="Changes" comment="allergie-careplan-condition-immunization">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/converter/PatientConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/converter/PatientConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/PatientDownload.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/PatientDownload.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/patient_health/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/patient_health/HelloController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/unisa/diem/patient_health/hello-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/unisa/diem/patient_health/hello-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,7 +141,14 @@
       <option name="project" value="LOCAL" />
       <updated>1709332073735</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="allergie-careplan-condition-immunization">
+      <created>1709348383282</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1709348383282</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -185,6 +180,7 @@
     <MESSAGE value="caricamento Pazienti" />
     <MESSAGE value="ho quasi aggiustato il nome" />
     <MESSAGE value="ho quasi aggiustato patient" />
-    <option name="LAST_COMMIT_MESSAGE" value="ho quasi aggiustato patient" />
+    <MESSAGE value="allergie-careplan-condition-immunization" />
+    <option name="LAST_COMMIT_MESSAGE" value="allergie-careplan-condition-immunization" />
   </component>
 </project>
