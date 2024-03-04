@@ -30,7 +30,8 @@ public class AllergyDownload extends BaseDownloader{
         Bundle bundle = null;
 
         try {
-            bundle = (Bundle) client.search().forResource(AllergyIntolerance.class)
+            //cancella le istanze della classe AllergyIntolerance
+         bundle = (Bundle) client.search().forResource(AllergyIntolerance.class)
             .where(AllergyIntolerance.PATIENT.hasId(patientId))
             .encodedXml().execute();
         }

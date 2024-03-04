@@ -19,7 +19,7 @@ public class DatasetLoader implements Loader {
                 //new PayersLoader(datasetService), //
                 //new EncountersLoader(datasetService),
                 //new ConditionsLoader(datasetService),
-                // new ObservationsLoader(datasetService),
+                new ObservationsLoader(datasetService),
                 //new AllergiesLoader(datasetService), //
                 //new CarePlansLoader(datasetService),
                 //new ImmunizationsLoader(datasetService), //
