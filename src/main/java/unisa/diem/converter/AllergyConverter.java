@@ -38,9 +38,8 @@ public class AllergyConverter extends BaseConverter{
         }
 
         if (listaCampiAllergie.isEmpty()) {
-            System.out.println("No Allergie found in AllergyConverter");
+            System.out.println("No Allergy found in AllergyConverter");
         }
-
     }
 
     public ObservableList<AllergyClass> getListaCampiAllergie() {
