@@ -26,10 +26,10 @@ public class AllergieConverter extends BaseConverter{
         for (AllergyIntolerance allergyIntolerance : boundleAllergies) {
             AllergieClass ac = new AllergieClass();
 
-            ac.setCode(allergyIntolerance.getCode().getText());
+            ac.setCode(allergyIntolerance.getCode().getCoding().get(0).getCode());
             ac.setDescription(allergyIntolerance.getCode().getCoding().get(0).getDisplay());
             ac.setStartDate(allergyIntolerance.getOnsetDateTimeType().getValueAsString());
-            ac.setStopDate(allergyIntolerance.getRecordedDate().toString());
+            ac.setStopDate(allergyIntolerance.getOnsetDateTimeType().getValueAsString());
             ac.setEncounter(allergyIntolerance.getEncounter().getReference());
 
             listaCampiAllergie.add(ac);
