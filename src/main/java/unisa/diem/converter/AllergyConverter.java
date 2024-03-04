@@ -12,7 +12,7 @@ public class AllergyConverter extends BaseConverter{
     private List<AllergyIntolerance> boundleAllergies;
     int i = 0;
     @FXML
-    private ObservableList<AllergieClass> listaCampiAllergie;
+    private ObservableList<AllergyClass> listaCampiAllergie;
 
     public AllergyConverter(List<AllergyIntolerance> boundleAllergies) {
         this.boundleAllergies = boundleAllergies;
@@ -23,13 +23,16 @@ public class AllergyConverter extends BaseConverter{
     public void convert() {
 
         for (AllergyIntolerance allergyIntolerance : boundleAllergies) {
-            AllergieClass ac = new AllergieClass();
+            AllergyClass ac = new AllergyClass();
 
             ac.setCode(allergyIntolerance.getCode().getCoding().get(0).getCode());
             ac.setDescription(allergyIntolerance.getCode().getCoding().get(0).getDisplay());
             ac.setStartDate(allergyIntolerance.getOnsetDateTimeType().getValueAsString());
             ac.setStopDate(allergyIntolerance.getOnsetDateTimeType().getValueAsString());
-            ac.setEncounter(allergyIntolerance.getEncounter().getReference());
+            String code = allergyIntolerance.getEncounter().getReference();
+            String[] parts = code.split("/");
+            String encounter = parts[1];
+            ac.setEncounter(encounter);
 
             listaCampiAllergie.add(ac);
         }
@@ -40,17 +43,17 @@ public class AllergyConverter extends BaseConverter{
 
     }
 
-    public ObservableList<AllergieClass> getListaCampiAllergie() {
+    public ObservableList<AllergyClass> getListaCampiAllergie() {
         return listaCampiAllergie;
     }
-    public class AllergieClass {
+    public class AllergyClass {
         private String code;
         private String description;
         private String startDate;
         private String stopDate;
         private String encounter;
 
-        public AllergieClass() {
+        public AllergyClass() {
             this.code = "";
             this.description = "";
             this.startDate = "";

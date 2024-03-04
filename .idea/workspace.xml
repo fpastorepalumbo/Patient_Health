@@ -6,7 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="e9d5dc9a-86d9-43b9-876d-da441170e0d0" name="Changes" comment="ho quasi aggiustato patient">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/converter/AllergieConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/converter/AllergieConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/converter/AllergyConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/converter/AllergyConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/converter/ImmunizationConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/converter/ImmunizationConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/patient_health/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/patient_health/HelloController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/unisa/diem/patient_health/hello-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/unisa/diem/patient_health/hello-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +46,9 @@
         <option name="mavenHome" value="Use Maven wrapper" />
       </MavenGeneralSettings>
     </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,

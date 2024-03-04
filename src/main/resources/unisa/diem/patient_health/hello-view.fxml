@@ -34,7 +34,7 @@
                         <TextField layoutX="14.0" layoutY="27.0" prefHeight="25.0" prefWidth="140.0" />
                         <Button layoutX="161.0" layoutY="27.0" mnemonicParsing="false" text="Search" />
                         <Label fx:id="patientLabel" alignment="CENTER" layoutX="14.0" layoutY="83.0" onMouseClicked="#patientLabelClick" prefHeight="39.0" prefWidth="182.0" text="Patient" />
-                        <Label fx:id="organizzationLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="122.0" onMouseClicked="#organizzationLabelClick" prefHeight="49.0" prefWidth="182.0" text="Organization" />
+                        <Label fx:id="organizationLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="122.0" onMouseClicked="#organizzationLabelClick" prefHeight="49.0" prefWidth="182.0" text="Organization" />
                         <Label fx:id="encounterLabel" alignment="CENTER" layoutX="14.0" layoutY="171.0" onMouseClicked="#encounterLabelClick" prefHeight="49.0" prefWidth="182.0" text="Encounter" />
                         <Label fx:id="imagingLabel" alignment="CENTER" layoutX="14.0" layoutY="220.0" onMouseClicked="#imagineLabelClick" prefHeight="39.0" prefWidth="182.0" text="Imaging Study" />
                      </children>
@@ -56,12 +56,10 @@
                                         <TableColumn fx:id="addressClmPersona" prefWidth="75.0" text="Address" />
                                         <TableColumn fx:id="cityClmPersona" prefWidth="75.0" text="City" />
                                         <TableColumn fx:id="stateClmPersona" prefWidth="75.0" text="State" />
-                                        <TableColumn fx:id="expensesClmPersona" prefWidth="137.0" text="Healthcare Expenses" />
-                                        <TableColumn fx:id="coverageClmPersona" minWidth="2.0" prefWidth="134.0" text="Healthcare Coverage" />
                                     </columns>
                                   </TableView>
 
-                                  <TableView fx:id="allergieTable" layoutX="14.0" layoutY="248.0" prefHeight="118.0" prefWidth="558.0">
+                                  <TableView fx:id="allergyTable" layoutX="14.0" layoutY="248.0" prefHeight="118.0" prefWidth="558.0">
                                     <columns>
                                       <TableColumn fx:id="codeClmAllergy" prefWidth="106.0" text="Allergy Code" />
                                         <TableColumn fx:id="descriptionClmAllergy" prefWidth="133.0" text="Allergy Description" />
