@@ -45,17 +45,17 @@
                            <children>
                                   <TableView fx:id="personTable" layoutX="14.0" layoutY="28.0" onMouseClicked="#clickPatientTable" onScroll="#onScroll1" prefHeight="200.0" prefWidth="1022.0">
                                     <columns>
-                                      <TableColumn fx:id="nameClmPersona" prefWidth="75.0" text="Name" />
-                                      <TableColumn fx:id="surnameClmPersona" prefWidth="75.0" text="Surname" />
-                                        <TableColumn fx:id="birthdateClmPersona" prefWidth="75.0" text="Birthdate" />
-                                        <TableColumn fx:id="deathdateClmPersona" prefWidth="75.0" text="Deathdate" />
-                                        <TableColumn fx:id="ssnClmPersona" prefWidth="75.0" text="SSN" />
-                                        <TableColumn fx:id="maritalClmPersona" prefWidth="75.0" text="Marital" />
-                                        <TableColumn fx:id="genderClmPersona" prefWidth="75.0" text="Gender" />
-                                        <TableColumn fx:id="birthplaceClmPersona" prefWidth="75.0" text="Birthplace" />
-                                        <TableColumn fx:id="addressClmPersona" prefWidth="75.0" text="Address" />
-                                        <TableColumn fx:id="cityClmPersona" prefWidth="75.0" text="City" />
-                                        <TableColumn fx:id="stateClmPersona" prefWidth="75.0" text="State" />
+                                      <TableColumn fx:id="nameClmPersona" prefWidth="89.0" text="Name" />
+                                      <TableColumn fx:id="surnameClmPersona" prefWidth="85.0" text="Surname" />
+                                        <TableColumn fx:id="birthdateClmPersona" prefWidth="79.0" text="Birthdate" />
+                                        <TableColumn fx:id="deathdateClmPersona" prefWidth="102.0" text="Deathdate" />
+                                        <TableColumn fx:id="ssnClmPersona" prefWidth="84.0" text="SSN" />
+                                        <TableColumn fx:id="maritalClmPersona" prefWidth="82.0" text="Marital" />
+                                        <TableColumn fx:id="genderClmPersona" prefWidth="89.0" text="Gender" />
+                                        <TableColumn fx:id="birthplaceClmPersona" prefWidth="104.0" text="Birthplace" />
+                                        <TableColumn fx:id="addressClmPersona" prefWidth="109.0" text="Address" />
+                                        <TableColumn fx:id="cityClmPersona" prefWidth="106.0" text="City" />
+                                        <TableColumn fx:id="stateClmPersona" prefWidth="91.0" text="State" />
                                     </columns>
                                   </TableView>
 
@@ -98,192 +98,132 @@
                               </TableView>
                            </children>
                         </Pane>
-                        <Pane fx:id="organizationPane" disable="true" prefHeight="695.0" prefWidth="1053.0" visible="false">
+                        <Pane fx:id="organizationPane" layoutX="-4.0" layoutY="-1.0" prefHeight="695.0" prefWidth="1053.0" visible="false">
                            <children>
-                              <ScrollPane layoutX="14.0" layoutY="22.0" prefHeight="245.0" prefWidth="772.0">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="243.0" prefWidth="770.0">
-                                       <children>
-                                          <TableView prefHeight="249.0" prefWidth="772.0">
-                                            <columns>
-                                              <TableColumn prefWidth="151.0" text="Organization Name" />
-                                              <TableColumn minWidth="0.0" prefWidth="116.0" text="Address" />
-                                                <TableColumn prefWidth="97.0" text="City" />
-                                                <TableColumn prefWidth="117.0" text="State" />
-                                                <TableColumn prefWidth="141.0" text="Phone Number" />
-                                                <TableColumn prefWidth="185.0" text="Revenue" />
-                                            </columns>
-                                          </TableView>
-                                       </children>
-                                    </AnchorPane>
-                                </content>
-                              </ScrollPane>
-                              <ScrollPane layoutX="14.0" layoutY="278.0" prefHeight="234.0" prefWidth="772.0">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="232.0" prefWidth="770.0">
-                                       <children>
-                                          <TableView prefHeight="234.0" prefWidth="772.0">
-                                            <columns>
-                                              <TableColumn prefWidth="157.0" text="Payer Name" />
-                                              <TableColumn prefWidth="107.0" text="Address" />
-                                                <TableColumn prefWidth="102.0" text="City" />
-                                                <TableColumn prefWidth="109.0" text="State" />
-                                                <TableColumn prefWidth="139.0" text="Phone Number" />
-                                                <TableColumn prefWidth="193.0" text="Revenue" />
-                                            </columns>
-                                          </TableView>
-                                       </children>
-                                    </AnchorPane>
-                                </content>
-                              </ScrollPane>
-                              <ScrollPane layoutX="130.0" layoutY="524.0" prefHeight="167.0" prefWidth="606.0">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="163.0" prefWidth="604.0">
-                                       <children>
-                                          <TableView layoutX="-6.0" prefHeight="165.0" prefWidth="610.0">
-                                            <columns>
-                                              <TableColumn prefWidth="75.0" text="Name" />
-                                              <TableColumn prefWidth="86.0" text="Gender" />
-                                                <TableColumn prefWidth="75.0" text="Speciality" />
-                                                <TableColumn prefWidth="120.0" text="Organizzation" />
-                                                <TableColumn prefWidth="107.0" text="Address" />
-                                                <TableColumn prefWidth="75.0" text="City" />
-                                                <TableColumn prefWidth="75.0" text="State" />
-                                            </columns>
-                                          </TableView>
-                                       </children>
-                                    </AnchorPane>
-                                </content>
-                              </ScrollPane>
+                              <TableView fx:id="organizationTable" layoutX="14.0" layoutY="14.0" prefHeight="249.0" prefWidth="772.0">
+                                <columns>
+                                  <TableColumn fx:id="organizationNameClm" prefWidth="151.0" text="Organization Name" />
+                                  <TableColumn fx:id="addressOrganizationClm" minWidth="0.0" prefWidth="116.0" text="Address" />
+                                    <TableColumn fx:id="cityOrganizationClm" prefWidth="97.0" text="City" />
+                                    <TableColumn fx:id="stateOrganizationClm" prefWidth="117.0" text="State" />
+                                    <TableColumn fx:id="phoneOrganizationClm" prefWidth="141.0" text="Phone Number" />
+                                    <TableColumn fx:id="revenueOrganizationClm" prefWidth="185.0" text="Revenue" />
+                                </columns>
+                              </TableView>
+
+                              <TableView fx:id="payerTable" layoutX="14.0" layoutY="271.0" prefHeight="234.0" prefWidth="772.0">
+                                <columns>
+                                  <TableColumn fx:id="payerNameClm" prefWidth="157.0" text="Payer Name" />
+                                  <TableColumn fx:id="addressPayerClm" prefWidth="107.0" text="Address" />
+                                    <TableColumn fx:id="cityPayerClm" prefWidth="102.0" text="City" />
+                                    <TableColumn fx:id="statePayerClm" prefWidth="109.0" text="State" />
+                                    <TableColumn fx:id="phonePayerClm" prefWidth="139.0" text="Phone Number" />
+                                    <TableColumn fx:id="revenuePayerClm" prefWidth="193.0" text="Revenue" />
+                                </columns>
+                              </TableView>
+
+                              <TableView fx:id="practitionerTable" layoutX="14.0" layoutY="516.0" prefHeight="165.0" prefWidth="610.0">
+                                <columns>
+                                  <TableColumn fx:id="namePractitionerClm" prefWidth="75.0" text="Name" />
+                                  <TableColumn fx:id="genderPractitionerClm" prefWidth="86.0" text="Gender" />
+                                    <TableColumn fx:id="specialityPractitionerClm" prefWidth="75.0" text="Speciality" />
+                                    <TableColumn fx:id="organizationPractitionerClm" prefWidth="120.0" text="Organizzation" />
+                                    <TableColumn fx:id="addressPractitionerClm" prefWidth="107.0" text="Address" />
+                                    <TableColumn fx:id="cityPractitionerClm" prefWidth="75.0" text="City" />
+                                    <TableColumn fx:id="statePractitionerClm" prefWidth="75.0" text="State" />
+                                </columns>
+                              </TableView>
                            </children></Pane>
-                        <Pane fx:id="exstEncounterPane" disable="true" prefHeight="685.0" prefWidth="1045.0" visible="false">
+                        <Pane fx:id="exstEncounterPane" prefHeight="685.0" prefWidth="1045.0" visible="false">
                            <children>
                               <Pane fx:id="encounterPane1" prefHeight="685.0" prefWidth="1045.0" visible="false">
                                  <children>
-                                    <ScrollPane layoutX="14.0" layoutY="25.0" prefHeight="269.0" prefWidth="1014.0">
-                                      <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="662.0" prefWidth="1017.0">
-                                             <children>
-                                                <TableView fx:id="encounterTable" onMouseClicked="#encounterTableClick" prefHeight="662.0" prefWidth="1474.0">
+
+                                                <TableView fx:id="encounterTable" layoutX="14.0" layoutY="12.0" onMouseClicked="#encounterTableClick" prefHeight="662.0" prefWidth="1022.0">
                                                   <columns>
-                                                    <TableColumn prefWidth="118.0" text="Encounter Code" />
-                                                    <TableColumn prefWidth="101.0" text="Class" />
-                                                      <TableColumn prefWidth="102.0" text="Description" />
-                                                      <TableColumn prefWidth="110.0" text="Start Date" />
-                                                      <TableColumn prefWidth="121.0" text="Stop Date" />
-                                                      <TableColumn prefWidth="125.0" text="Patient" />
-                                                      <TableColumn prefWidth="157.0" text="Organization" />
-                                                      <TableColumn prefWidth="168.0" text="Practitioner" />
-                                                      <TableColumn prefWidth="130.0" text="Payer" />
-                                                      <TableColumn prefWidth="141.0" text="Cost" />
-                                                      <TableColumn prefWidth="200.0" text="Payer Coverage" />
+                                                    <TableColumn fx:id="codeEncounterClm" prefWidth="118.0" text="Encounter Code" />
+                                                    <TableColumn fx:id="classEncounterClm" prefWidth="101.0" text="Class" />
+                                                      <TableColumn fx:id="descriptionEncounterClm" prefWidth="102.0" text="Description" />
+                                                      <TableColumn fx:id="startDateEncounterClm" prefWidth="110.0" text="Start Date" />
+                                                      <TableColumn fx:id="stopDateEncounterClm" prefWidth="121.0" text="Stop Date" />
+                                                      <TableColumn fx:id="patientEncounterClm" prefWidth="125.0" text="Patient" />
+                                                      <TableColumn fx:id="organizationEncounterClm" prefWidth="157.0" text="Organization" />
+                                                      <TableColumn fx:id="practitionerEncounterClm" prefWidth="168.0" text="Practitioner" />
+                                                      <TableColumn fx:id="payerEncounterClm" prefWidth="130.0" text="Payer" />
+                                                      <TableColumn fx:id="costEncounterClm" prefWidth="141.0" text="Cost" />
+                                                      <TableColumn fx:id="coverageEncounterClm" prefWidth="200.0" text="Payer Coverage" />
                                                   </columns>
                                                 </TableView>
-                                             </children>
-                                          </AnchorPane>
-                                      </content>
-                                    </ScrollPane>
+
                                  </children>
                               </Pane>
-                              <Pane fx:id="encounterPane2" prefHeight="685.0" prefWidth="1045.0" visible="false">
+                              <Pane fx:id="encounterPane2" layoutX="-1.0" layoutY="1.0" prefHeight="685.0" prefWidth="1045.0" visible="false">
                                  <children>
-                                    <ScrollPane layoutX="14.0" layoutY="14.0" prefHeight="289.0" prefWidth="490.0">
-                                      <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="539.0" prefWidth="1045.0">
-                                             <children>
-                                                <TableView prefHeight="541.0" prefWidth="1045.0">
-                                                  <columns>
-                                                    <TableColumn prefWidth="205.0" text="Observation Code" />
-                                                    <TableColumn prefWidth="273.0" text="Description" />
-                                                      <TableColumn prefWidth="254.0" text="Value" />
-                                                      <TableColumn prefWidth="156.0" text="Date" />
-                                                      <TableColumn prefWidth="156.0" text="Patient" />
-                                                  </columns>
-                                                </TableView>
-                                             </children></AnchorPane>
-                                      </content>
-                                    </ScrollPane>
-                                    <ScrollPane layoutX="526.0" layoutY="13.0" prefHeight="289.0" prefWidth="516.0">
-                                      <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="521.0" prefWidth="1487.0">
-                                             <children>
-                                                <TableView prefHeight="521.0" prefWidth="1487.0">
-                                                  <columns>
-                                                    <TableColumn prefWidth="270.0" text="Medication Request Code" />
-                                                    <TableColumn minWidth="0.0" prefWidth="153.0" text="Description" />
-                                                      <TableColumn prefWidth="134.0" text="Base Cost" />
-                                                      <TableColumn prefWidth="128.0" text="Payer Coverage" />
-                                                      <TableColumn prefWidth="145.0" text="Dispenses" />
-                                                      <TableColumn prefWidth="120.0" text="Total Cost" />
-                                                      <TableColumn minWidth="0.0" prefWidth="110.0" text="Start Date" />
-                                                      <TableColumn prefWidth="122.0" text="Stop Date" />
-                                                      <TableColumn prefWidth="128.0" text="Patient" />
-                                                      <TableColumn prefWidth="176.0" text="Payer" />
-                                                  </columns>
-                                                </TableView>
-                                             </children></AnchorPane>
-                                      </content>
-                                    </ScrollPane>
-                                    <ScrollPane layoutX="14.0" layoutY="333.0" prefHeight="333.0" prefWidth="490.0">
-                                      <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="486.0" prefWidth="915.0">
-                                             <children>
-                                                <TableView prefHeight="419.0" prefWidth="918.0">
-                                                  <columns>
-                                                    <TableColumn prefWidth="224.0" text="Procedure Code" />
-                                                    <TableColumn minWidth="0.0" prefWidth="222.0" text="Description" />
-                                                      <TableColumn prefWidth="122.0" text="Date" />
-                                                      <TableColumn prefWidth="164.0" text="Cost" />
-                                                      <TableColumn prefWidth="185.0" text="Patient" />
-                                                  </columns>
-                                                </TableView>
-                                             </children>
-                                          </AnchorPane>
-                                      </content>
-                                    </ScrollPane>
-                                    <ScrollPane layoutX="523.0" layoutY="333.0" prefHeight="333.0" prefWidth="516.0">
-                                      <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="321.0" prefWidth="620.0">
-                                             <children>
-                                                <TableView prefHeight="321.0" prefWidth="620.0">
-                                                  <columns>
-                                                    <TableColumn prefWidth="151.0" text="Device Code" />
-                                                    <TableColumn prefWidth="116.0" text="Description" />
-                                                      <TableColumn prefWidth="110.0" text="Start Date" />
-                                                      <TableColumn prefWidth="113.0" text="Stop Date" />
-                                                      <TableColumn prefWidth="129.0" text="Patient" />
-                                                  </columns>
-                                                </TableView>
-                                             </children>
-                                          </AnchorPane>
-                                      </content>
-                                    </ScrollPane>
+                                    <TableView fx:id="observationTable" layoutX="583.0" layoutY="14.0" prefHeight="327.0" prefWidth="455.0">
+                                      <columns>
+                                        <TableColumn fx:id="observationEncounterClm2" prefWidth="205.0" text="Observation Code" />
+                                        <TableColumn fx:id="descriptionEncounterClm2" prefWidth="273.0" text="Description" />
+                                          <TableColumn fx:id="valueObservationClm" prefWidth="254.0" text="Value" />
+                                          <TableColumn fx:id="dateObservationClm" prefWidth="156.0" text="Date" />
+                                          <TableColumn fx:id="patientObservationClm" prefWidth="156.0" text="Patient" />
+                                      </columns>
+                                    </TableView>
+
+
+                                    <TableView fx:id="medReqTable" layoutX="14.0" layoutY="14.0" prefHeight="327.0" prefWidth="558.0">
+                                      <columns>
+                                        <TableColumn fx:id="codeMedReqClm" prefWidth="270.0" text="Medication Request Code" />
+                                        <TableColumn fx:id="descriptionMedReqClm" minWidth="0.0" prefWidth="153.0" text="Description" />
+                                          <TableColumn fx:id="baseCostMedReqClm" prefWidth="134.0" text="Base Cost" />
+                                          <TableColumn fx:id="coverageMedReqClm" prefWidth="128.0" text="Payer Coverage" />
+                                          <TableColumn fx:id="dispendesMedReqClm" prefWidth="145.0" text="Dispenses" />
+                                          <TableColumn fx:id="totCostMedReqClm" prefWidth="120.0" text="Total Cost" />
+                                          <TableColumn fx:id="startDateMedReqClm" minWidth="0.0" prefWidth="110.0" text="Start Date" />
+                                          <TableColumn fx:id="stopDateMedReqClm" prefWidth="122.0" text="Stop Date" />
+                                          <TableColumn fx:id="patientMedReqClm" prefWidth="128.0" text="Patient" />
+                                          <TableColumn fx:id="payerMedReqClm" prefWidth="176.0" text="Payer" />
+                                      </columns>
+                                    </TableView>
+
+
+                                    <TableView fx:id="procedureTable" layoutX="9.0" layoutY="354.0" prefHeight="317.0" prefWidth="565.0">
+                                      <columns>
+                                        <TableColumn fx:id="codeProcedureClm" prefWidth="224.0" text="Procedure Code" />
+                                        <TableColumn fx:id="descriptionProcedureClm" minWidth="0.0" prefWidth="222.0" text="Description" />
+                                          <TableColumn fx:id="dateProcedureClm" prefWidth="122.0" text="Date" />
+                                          <TableColumn fx:id="costProcedureClm" prefWidth="164.0" text="Cost" />
+                                          <TableColumn fx:id="patientProcedureClm" prefWidth="180.0" text="Patient" />
+                                      </columns>
+                                    </TableView>
+
+                                    <TableView fx:id="deviceTable" layoutX="583.0" layoutY="354.0" prefHeight="317.0" prefWidth="455.0">
+                                      <columns>
+                                        <TableColumn fx:id="codeDeviceClm" prefWidth="151.0" text="Device Code" />
+                                        <TableColumn fx:id="descriptionDeviceClm" prefWidth="116.0" text="Description" />
+                                          <TableColumn fx:id="startDateDeviceClm" prefWidth="110.0" text="Start Date" />
+                                          <TableColumn fx:id="stopDateDeviceClm" prefWidth="113.0" text="Stop Date" />
+                                          <TableColumn fx:id="patientDeviceClm" prefWidth="129.0" text="Patient" />
+                                      </columns>
+                                    </TableView>
+
                                  </children>
                               </Pane>
                            </children></Pane>
-                        <Pane fx:id="imagingPane" disable="true" prefHeight="685.0" prefWidth="1045.0" visible="false">
+                        <Pane fx:id="imagingPane" prefHeight="685.0" prefWidth="1045.0" visible="false">
                            <children>
-                              <ScrollPane layoutX="16.0" layoutY="24.0" prefHeight="269.0" prefWidth="1014.0">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="557.0" prefWidth="1228.0">
-                                       <children>
-                                          <TableView prefHeight="557.0" prefWidth="1228.0">
-                                            <columns>
-                                              <TableColumn prefWidth="117.0" text="Body Site Code" />
-                                              <TableColumn prefWidth="166.0" text="Body Site Description" />
-                                                <TableColumn prefWidth="148.0" text="Modality Code" />
-                                                <TableColumn prefWidth="168.0" text="Modality Description" />
-                                                <TableColumn prefWidth="107.0" text="SOP Code" />
-                                                <TableColumn prefWidth="154.0" text="SOP Description" />
-                                                <TableColumn prefWidth="111.0" text="Date" />
-                                                <TableColumn prefWidth="125.0" text="Patient" />
-                                                <TableColumn prefWidth="131.0" text="Encounter" />
-                                            </columns>
-                                          </TableView>
-                                       </children>
-                                    </AnchorPane>
-                                </content>
-                              </ScrollPane>
+                              <TableView fx:id="imageTable" layoutX="14.0" layoutY="14.0" prefHeight="662.0" prefWidth="1022.0">
+                                <columns>
+                                  <TableColumn fx:id="bodyCodeClm" prefWidth="117.0" text="Body Site Code" />
+                                  <TableColumn fx:id="bodyDescrClm" prefWidth="166.0" text="Body Site Description" />
+                                    <TableColumn fx:id="modeCodeClm" prefWidth="148.0" text="Modality Code" />
+                                    <TableColumn fx:id="modeDescrClm" prefWidth="168.0" text="Modality Description" />
+                                    <TableColumn fx:id="sopCodeClm" prefWidth="107.0" text="SOP Code" />
+                                    <TableColumn fx:id="sopDescrClm" prefWidth="154.0" text="SOP Description" />
+                                    <TableColumn fx:id="dateImageClm" prefWidth="111.0" text="Date" />
+                                    <TableColumn fx:id="patientImageClm" prefWidth="125.0" text="Patient" />
+                                    <TableColumn fx:id="encounterImageClm" prefWidth="131.0" text="Encounter" />
+                                </columns>
+                              </TableView>
                            </children>
                         </Pane>
                      </children></AnchorPane>
