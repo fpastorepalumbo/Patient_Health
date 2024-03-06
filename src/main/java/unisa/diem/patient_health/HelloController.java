@@ -121,6 +121,8 @@ public class HelloController implements Initializable {
 
     public DatasetService datasetUtility = new DatasetService();
 
+    public PatientConverter.PatientClass personElement = null;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -130,6 +132,9 @@ public class HelloController implements Initializable {
         imagingPane.setVisible(false);
         encounterPane1.setVisible(false);
         encounterPane2.setVisible(false);
+
+        
+        
         // Associazione delle colonne ai campi del modello di dati
         nameClmPersona.setCellValueFactory(new PropertyValueFactory<>("name"));
         surnameClmPersona.setCellValueFactory(new PropertyValueFactory<>("surname"));
@@ -238,14 +243,17 @@ public class HelloController implements Initializable {
         conditionTable.getItems().clear();
         immunizationTable.getItems().clear();
         carePlanTable.getItems().clear();
-        personTable.getSelectionModel().getSelectedItem();
-        allergyTable.setVisible(true);
-        conditionTable.setVisible(true);
-        immunizationTable.setVisible(true);
-        carePlanTable.setVisible(false);
+        personElement = personTable.getSelectionModel().getSelectedItem();
+         
+        if(personElement != null) {
+            allergyTable.setVisible(true);
+            conditionTable.setVisible(true);
+            immunizationTable.setVisible(true);
+            carePlanTable.setVisible(false);
+        }
 
-        System.out.println("\n"+personTable.getSelectionModel().getSelectedItem().getName() + "\n " + personTable.getSelectionModel().getSelectedItem().getSurname() + "\n " + personTable.getSelectionModel().getSelectedItem().getId() + "\n");
-        AllergyDownload allergyDownload = new AllergyDownload(personTable.getSelectionModel().getSelectedItem().getId());
+        System.out.println("\n"+personElement.getName() + "\n " + personElement.getSurname() + "\n " + personElement.getId() + "\n");
+        AllergyDownload allergyDownload = new AllergyDownload(personElement.getId());
         allergyDownload.download();
         List<AllergyIntolerance> allergies = allergyDownload.getAllergies();
         AllergyConverter allergyConverter = new AllergyConverter(allergies);
@@ -254,7 +262,7 @@ public class HelloController implements Initializable {
             allergyTable.getItems().add(allergie);
         }
 
-        ImmunizationDownload immunizationDownload = new ImmunizationDownload(personTable.getSelectionModel().getSelectedItem().getId());
+        ImmunizationDownload immunizationDownload = new ImmunizationDownload(personElement.getId());
         immunizationDownload.download();
         List<Immunization> immunizations = immunizationDownload.getImmunizations();
         ImmunizationConverter immunizationConverter = new ImmunizationConverter(immunizations);
@@ -263,7 +271,7 @@ public class HelloController implements Initializable {
             immunizationTable.getItems().add(immunization);
         }
 
-        ConditionDownload conditionDownload = new ConditionDownload(personTable.getSelectionModel().getSelectedItem().getId());
+        ConditionDownload conditionDownload = new ConditionDownload(personElement.getId());
         conditionDownload.download();
         List<Condition> conditions = conditionDownload.getConditions();
         ConditionConverter conditionConverter = new ConditionConverter(conditions);
@@ -272,15 +280,19 @@ public class HelloController implements Initializable {
             conditionTable.getItems().add(condition);
         }
 
-
     }
+//sul metodo di scroll richiamo la downloadPatient e gli dico di aggiornare il valore di count
+
 
     public void clickConditionTable(MouseEvent mouseEvent) {
-        conditionTable.getSelectionModel().getSelectedItem();
-        carePlanTable.getItems().clear();
-        carePlanTable.setVisible(true);
+        ConditionConverter.ConditionClass conditionElement = conditionTable.getSelectionModel().getSelectedItem();
 
-        CarePlanDownload carePlanDownload = new CarePlanDownload(personTable.getSelectionModel().getSelectedItem().getId());
+        if (conditionElement != null) {
+            carePlanTable.setVisible(true);
+        }
+        carePlanTable.getItems().clear();
+
+        CarePlanDownload carePlanDownload = new CarePlanDownload(personElement.getId());
         carePlanDownload.download();
         List<CarePlan> carePlans = carePlanDownload.getCarePlans();
         CarePlanConverter carePlanConverter = new CarePlanConverter(carePlans);
