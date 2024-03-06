@@ -28,7 +28,13 @@ public class AllergyConverter extends BaseConverter{
             ac.setCode(allergyIntolerance.getCode().getCoding().get(0).getCode());
             ac.setDescription(allergyIntolerance.getCode().getCoding().get(0).getDisplay());
             ac.setStartDate(allergyIntolerance.getOnsetDateTimeType().getValueAsString());
-            ac.setStopDate(allergyIntolerance.getOnsetDateTimeType().getValueAsString());
+            if (allergyIntolerance.hasLastOccurrence()) {
+                String stop = allergyIntolerance.getLastOccurrence().toString();
+                String[] parts = stop.split(" ");
+                ac.setStopDate(parts[5] + "-" + parts[1] + "-" + parts[2]);
+            }
+            else
+                ac.setStopDate("---");
             String code = allergyIntolerance.getEncounter().getReference();
             String[] parts = code.split("/");
             String encounter = parts[1];

@@ -25,9 +25,11 @@ public class CarePlanConverter extends BaseConverter{
             CarePlanClass cpc = new CarePlanClass();
 
             cpc.setCode(carePlan.getIdentifier().get(0).getValue());
-            cpc.setDescription(carePlan.getDescription());
-            cpc.setReasonCode(carePlan.getAddresses().get(0).getReference());
-            cpc.setReasonDescription(carePlan.getAddresses().get(0).getDisplay());
+            cpc.setDescription(carePlan.getCategory().get(0).getCoding().get(0).getDisplay());
+            for (CarePlan.CarePlanActivityComponent activity : carePlan.getActivity()) {
+                cpc.setReasonCode(activity.getDetail().getReasonCode().get(0).getCoding().get(0).getCode());
+                cpc.setReasonDescription(activity.getDetail().getReasonCode().get(0).getCoding().get(0).getDisplay());
+            }
 
             listaCampiCarePlan.add(cpc);
         }

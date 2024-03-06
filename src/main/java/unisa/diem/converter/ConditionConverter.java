@@ -25,11 +25,18 @@ public class ConditionConverter extends BaseConverter{
         for (Condition condition : boundleConditions) {
             ConditionClass cc = new ConditionClass();
 
-            cc.setCode(condition.getCode().getText());
+            cc.setCode(condition.getCode().getCoding().get(0).getCode());
             cc.setDescription(condition.getCode().getCoding().get(0).getDisplay());
             cc.setStartDate(condition.getOnsetDateTimeType().getValueAsString());
-            cc.setStopDate(condition.getRecordedDate().toString());
-            cc.setEncounter(condition.getEncounter().getReference());
+            if (condition.hasAbatementDateTimeType()) {
+                cc.setStopDate(condition.getAbatementDateTimeType().getValueAsString());
+            }
+            else
+                cc.setStopDate("---");
+            String code = condition.getEncounter().getReference();
+            String[] parts1 = code.split("/");
+            String encounter = parts1[1];
+            cc.setEncounter(encounter);
 
             listaCampiCondition.add(cc);
         }

@@ -28,10 +28,12 @@ public class ImmunizationConverter extends BaseConverter{
             ImmunizationClass ic = new ImmunizationClass();
             ic.setCode(immunization.getVaccineCode().getCoding().get(0).getCode());
             ic.setDescription(immunization.getVaccineCode().getCoding().get(0).getDisplay());
-            ic.setDate(immunization.getRecorded().toString());
+            String date = immunization.getRecorded().toString();
+            String[] parts = date.split(" ");
+            ic.setDate(parts[5] + "-" + parts[1] + "-" + parts[2]);
             String code = immunization.getEncounter().getReference();
-            String[] parts = code.split("/");
-            String encounter = parts[1];
+            String[] parts1 = code.split("/");
+            String encounter = parts1[1];
             ic.setEncounter(encounter);
 
             listaCampiImmunization.add(ic);
