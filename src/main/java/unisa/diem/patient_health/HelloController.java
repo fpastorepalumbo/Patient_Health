@@ -192,7 +192,11 @@ public class HelloController implements Initializable {
             personTable.getItems().add(patient);
             // personTable.setItems(patient);
         }
-
+        //nascondi le altre tabelle
+        allergyTable.setVisible(false);
+        conditionTable.setVisible(false);
+        immunizationTable.setVisible(false);
+        carePlanTable.setVisible(false);
 
     }
     @FXML
@@ -220,13 +224,6 @@ public class HelloController implements Initializable {
         exstEncounterPane.setVisible(false);
         encounterPane1.setVisible(false);
         encounterPane2.setVisible(false);
-        /*
-        try {
-            datasetUtility.loadDataset();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-         */
     }
 
 
@@ -237,10 +234,17 @@ public class HelloController implements Initializable {
     }
 
     public void clickPatientTable(MouseEvent mouseEvent) {
+        allergyTable.getItems().clear();
+        conditionTable.getItems().clear();
+        immunizationTable.getItems().clear();
+        carePlanTable.getItems().clear();
         personTable.getSelectionModel().getSelectedItem();
+        allergyTable.setVisible(true);
+        conditionTable.setVisible(true);
+        immunizationTable.setVisible(true);
+        carePlanTable.setVisible(false);
+
         System.out.println("\n"+personTable.getSelectionModel().getSelectedItem().getName() + "\n " + personTable.getSelectionModel().getSelectedItem().getSurname() + "\n " + personTable.getSelectionModel().getSelectedItem().getId() + "\n");
-        // carico allergie, immunization e condition
-        // carico le relative tabelle
         AllergyDownload allergyDownload = new AllergyDownload(personTable.getSelectionModel().getSelectedItem().getId());
         allergyDownload.download();
         List<AllergyIntolerance> allergies = allergyDownload.getAllergies();
@@ -248,7 +252,6 @@ public class HelloController implements Initializable {
         allergyConverter.convert();
         for (AllergyConverter.AllergyClass allergie : allergyConverter.getListaCampiAllergie()) {
             allergyTable.getItems().add(allergie);
-            // personTable.setItems(patient);
         }
 
         ImmunizationDownload immunizationDownload = new ImmunizationDownload(personTable.getSelectionModel().getSelectedItem().getId());
@@ -258,7 +261,6 @@ public class HelloController implements Initializable {
         immunizationConverter.convert();
         for (ImmunizationConverter.ImmunizationClass immunization : immunizationConverter.getListaCampiImmunization()) {
             immunizationTable.getItems().add(immunization);
-            // personTable.setItems(patient);
         }
 
         ConditionDownload conditionDownload = new ConditionDownload(personTable.getSelectionModel().getSelectedItem().getId());
@@ -268,15 +270,16 @@ public class HelloController implements Initializable {
         conditionConverter.convert();
         for (ConditionConverter.ConditionClass condition : conditionConverter.getListaCampiCondition()) {
             conditionTable.getItems().add(condition);
-            // personTable.setItems(patient);
         }
 
 
     }
 
     public void clickConditionTable(MouseEvent mouseEvent) {
-
         conditionTable.getSelectionModel().getSelectedItem();
+        carePlanTable.getItems().clear();
+        carePlanTable.setVisible(true);
+
         CarePlanDownload carePlanDownload = new CarePlanDownload(personTable.getSelectionModel().getSelectedItem().getId());
         carePlanDownload.download();
         List<CarePlan> carePlans = carePlanDownload.getCarePlans();
@@ -284,18 +287,14 @@ public class HelloController implements Initializable {
         carePlanConverter.convert();
         for (CarePlanConverter.CarePlanClass carePlan : carePlanConverter.getListaCampiCarePlan()) {
             carePlanTable.getItems().add(carePlan);
-            // personTable.setItems(patient);
         }
     }
 
     public void loadDataset(ActionEvent actionEvent) {
-
         try {
             datasetUtility.loadDataset();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
     }
 }
