@@ -43,7 +43,7 @@
                      <children>
                         <Pane fx:id="patientPane" prefHeight="695.0" prefWidth="1045.0">
                            <children>
-                                  <TableView fx:id="personTable" layoutX="14.0" layoutY="28.0" onMouseClicked="#clickPatientTable" prefHeight="200.0" prefWidth="1022.0">
+                                  <TableView fx:id="personTable" layoutX="14.0" layoutY="28.0" onMouseClicked="#clickPatientTable" onScroll="#onScroll1" prefHeight="200.0" prefWidth="1022.0">
                                     <columns>
                                       <TableColumn fx:id="nameClmPersona" prefWidth="75.0" text="Name" />
                                       <TableColumn fx:id="surnameClmPersona" prefWidth="75.0" text="Surname" />

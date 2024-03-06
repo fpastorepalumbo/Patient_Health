@@ -16,9 +16,19 @@ public class PatientDownload extends BaseDownloader{
     IGenericClient client = ctx.newRestfulGenericClient(serverBaseUrl);
 
     List <Patient> patients;
+    int count;
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
 
     public PatientDownload() {
         this.patients = new ArrayList<>();
+        count = 0;
     }
 
     public List<Patient> getPatients() { return patients; }
@@ -29,8 +39,9 @@ public class PatientDownload extends BaseDownloader{
         Bundle bundle = null;
 
         try {
-            bundle = (Bundle) client.search().forResource(Patient.class).count(100)
+            bundle = (Bundle) client.search().forResource(Patient.class).offset(count).count(20)
                     .encodedXml().execute();
+            count=count+20;
         }
         catch (Exception e) {
            new RuntimeException("Error during the download of the patient");
@@ -47,14 +58,4 @@ public class PatientDownload extends BaseDownloader{
             throw new RuntimeException("No patient found");
         }
     }
-
-
-
-
-
-
-
-
-    // GET http://localhost:8080/fhir/Patient/a58de3fd-f026-902b-55c1-872dc042e0c5/_history/1?_format=json&_pretty=true
-    // "id": "a58de3fd-f026-902b-55c1-872dc042e0c5",
 }

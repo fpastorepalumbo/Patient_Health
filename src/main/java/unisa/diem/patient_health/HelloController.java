@@ -1,19 +1,21 @@
 package unisa.diem.patient_health;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import org.hl7.fhir.r4.model.*;
 import unisa.diem.converter.*;
 import unisa.diem.downloader.*;
 import unisa.diem.parser.DatasetService;
 
+import javax.swing.event.ChangeEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -123,6 +125,7 @@ public class HelloController implements Initializable {
 
     public PatientConverter.PatientClass personElement = null;
 
+    public boolean firstClickPatient;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -133,8 +136,7 @@ public class HelloController implements Initializable {
         encounterPane1.setVisible(false);
         encounterPane2.setVisible(false);
 
-        
-        
+
         // Associazione delle colonne ai campi del modello di dati
         nameClmPersona.setCellValueFactory(new PropertyValueFactory<>("name"));
         surnameClmPersona.setCellValueFactory(new PropertyValueFactory<>("surname"));
@@ -170,39 +172,57 @@ public class HelloController implements Initializable {
         reasonCodeClmCarePlan.setCellValueFactory(new PropertyValueFactory<>("reasonCode"));
         reasonDescriptionClmCarePlan.setCellValueFactory(new PropertyValueFactory<>("reasonDescription"));
 
+        //pulisci tutte le tabelle
+        personTable.getItems().clear();
+        allergyTable.getItems().clear();
+        conditionTable.getItems().clear();
+        immunizationTable.getItems().clear();
+        carePlanTable.getItems().clear();
+
+        //dichiara una variabile bool false
+        firstClickPatient = true;
+
+
+
     }
+
     @FXML
     public void patientLabelClick(MouseEvent mouseEvent) {
-
+        //se il pane è visibile non fare nulla
+        if (patientPane.isVisible()) {
+            return;
+        }
         patientPane.setVisible(true);
         organizationPane.setVisible(false);
         exstEncounterPane.setVisible(false);
         imagingPane.setVisible(false);
         encounterPane1.setVisible(false);
         encounterPane2.setVisible(false);
-
-        patientDownload.download();
-
-        List<Patient> patients = patientDownload.getPatients();
-
-        PatientConverter patientConverter = new PatientConverter(patients);
-
-        patientConverter.convert();
-
-        if (patientConverter.getListaCampiPatient().isEmpty()) {
-        throw new RuntimeException("PAR O CAZZ FRAAAAA!!!");
-        }
-
-        for (PatientConverter.PatientClass patient : patientConverter.getListaCampiPatient()) {
-            personTable.getItems().add(patient);
-            // personTable.setItems(patient);
-        }
         //nascondi le altre tabelle
         allergyTable.setVisible(false);
         conditionTable.setVisible(false);
         immunizationTable.setVisible(false);
         carePlanTable.setVisible(false);
 
+        if (firstClickPatient) {
+            firstClickPatient = false;
+            personTable.getItems().clear();
+            patientDownload.download();
+
+            List<Patient> patients = patientDownload.getPatients();
+
+            PatientConverter patientConverter = new PatientConverter(patients);
+
+            patientConverter.convert();
+
+            if (patientConverter.getListaCampiPatient().isEmpty()) {
+                throw new RuntimeException("PAR O CAZZ FRAAAAA!!!");
+            }
+
+            for (PatientConverter.PatientClass patient : patientConverter.getListaCampiPatient()) {
+                personTable.getItems().add(patient);
+            }
+        }
     }
     @FXML
     public void organizzationLabelClick(MouseEvent mouseEvent) {
@@ -233,7 +253,6 @@ public class HelloController implements Initializable {
 
 
     public void encounterTableClick(MouseEvent mouseEvent) {
-        // encounterTable.getSelectionModel().getSelectedItem();
         encounterPane1.setVisible(false);
         encounterPane2.setVisible(true);
     }
@@ -250,39 +269,37 @@ public class HelloController implements Initializable {
             conditionTable.setVisible(true);
             immunizationTable.setVisible(true);
             carePlanTable.setVisible(false);
-        }
+            System.out.println("\n" + personElement.getName() + "\n " + personElement.getSurname() + "\n " + personElement.getId() + "\n");
 
-        System.out.println("\n"+personElement.getName() + "\n " + personElement.getSurname() + "\n " + personElement.getId() + "\n");
-        AllergyDownload allergyDownload = new AllergyDownload(personElement.getId());
-        allergyDownload.download();
-        List<AllergyIntolerance> allergies = allergyDownload.getAllergies();
-        AllergyConverter allergyConverter = new AllergyConverter(allergies);
-        allergyConverter.convert();
-        for (AllergyConverter.AllergyClass allergie : allergyConverter.getListaCampiAllergie()) {
-            allergyTable.getItems().add(allergie);
-        }
+            AllergyDownload allergyDownload = new AllergyDownload(personElement.getId());
+            allergyDownload.download();
+            List<AllergyIntolerance> allergies = allergyDownload.getAllergies();
+            AllergyConverter allergyConverter = new AllergyConverter(allergies);
+            allergyConverter.convert();
+            for (AllergyConverter.AllergyClass allergie : allergyConverter.getListaCampiAllergie()) {
+                allergyTable.getItems().add(allergie);
+            }
 
-        ImmunizationDownload immunizationDownload = new ImmunizationDownload(personElement.getId());
-        immunizationDownload.download();
-        List<Immunization> immunizations = immunizationDownload.getImmunizations();
-        ImmunizationConverter immunizationConverter = new ImmunizationConverter(immunizations);
-        immunizationConverter.convert();
-        for (ImmunizationConverter.ImmunizationClass immunization : immunizationConverter.getListaCampiImmunization()) {
-            immunizationTable.getItems().add(immunization);
-        }
+            ImmunizationDownload immunizationDownload = new ImmunizationDownload(personElement.getId());
+            immunizationDownload.download();
+            List<Immunization> immunizations = immunizationDownload.getImmunizations();
+            ImmunizationConverter immunizationConverter = new ImmunizationConverter(immunizations);
+            immunizationConverter.convert();
+            for (ImmunizationConverter.ImmunizationClass immunization : immunizationConverter.getListaCampiImmunization()) {
+                immunizationTable.getItems().add(immunization);
+            }
 
-        ConditionDownload conditionDownload = new ConditionDownload(personElement.getId());
-        conditionDownload.download();
-        List<Condition> conditions = conditionDownload.getConditions();
-        ConditionConverter conditionConverter = new ConditionConverter(conditions);
-        conditionConverter.convert();
-        for (ConditionConverter.ConditionClass condition : conditionConverter.getListaCampiCondition()) {
-            conditionTable.getItems().add(condition);
+            ConditionDownload conditionDownload = new ConditionDownload(personElement.getId());
+            conditionDownload.download();
+            List<Condition> conditions = conditionDownload.getConditions();
+            ConditionConverter conditionConverter = new ConditionConverter(conditions);
+            conditionConverter.convert();
+            for (ConditionConverter.ConditionClass condition : conditionConverter.getListaCampiCondition()) {
+                conditionTable.getItems().add(condition);
+            }
         }
 
     }
-//sul metodo di scroll richiamo la downloadPatient e gli dico di aggiornare il valore di count
-
 
     public void clickConditionTable(MouseEvent mouseEvent) {
         ConditionConverter.ConditionClass conditionElement = conditionTable.getSelectionModel().getSelectedItem();
@@ -307,6 +324,22 @@ public class HelloController implements Initializable {
             datasetUtility.loadDataset();
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void onScroll1(ScrollEvent scrollEvent) {
+        if (scrollEvent.getDeltaY() < 0) {
+            personTable.getItems().clear();
+            patientDownload.download();
+            List<Patient> patients = patientDownload.getPatients();
+            PatientConverter patientConverter = new PatientConverter(patients);
+            patientConverter.convert();
+            if (patientConverter.getListaCampiPatient().isEmpty()) {
+                throw new RuntimeException("PAR O CAZZ FRAAAAA!!!");
+            }
+            for (PatientConverter.PatientClass patient : patientConverter.getListaCampiPatient()) {
+                personTable.getItems().add(patient);
+            }
         }
     }
 }
