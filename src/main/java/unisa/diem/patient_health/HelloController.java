@@ -34,11 +34,14 @@ public class HelloController implements Initializable {
     public TableView<CarePlanConverter.CarePlanClass> carePlanTable;
 
     @FXML
-    public TableView organizationTable;
+    public TableView<OrganizationConverter.OrganizationClass> organizationTable;
+
     @FXML
-    public TableView payerTable;
+    public TableView<PayersConverter.PayersClass> payerTable;
     @FXML
-    public TableView practitionerTable;
+    public TableView<PractitionersConverter.PractitionerClass> practitionerTable;
+
+
     @FXML
     public TableView encounterTable;
     @FXML
@@ -51,13 +54,9 @@ public class HelloController implements Initializable {
     public TableView deviceTable;
     @FXML
     public TableView imageTable;
+
+
     /*
-    @FXML
-    public TableView<OrganizationConverter.OrganizationClass> organizationTable;
-    @FXML
-    public TableView<PayerConverter.PayerClass> payerTable;
-    @FXML
-    public TableView<PractitionerConverter.PractitionerClass> practitionerTable;
     @FXML
     public TableView<EncounterConverter.EncounterClass> encounterTable;
     @FXML
@@ -388,7 +387,7 @@ public class HelloController implements Initializable {
         statePractitionerClm.setCellValueFactory(new PropertyValueFactory<>("state"));
 
         codeEncounterClm.setCellValueFactory(new PropertyValueFactory<>("code"));
-        classEncounterClm.setCellValueFactory(new PropertyValueFactory<>("class"));
+        classEncounterClm.setCellValueFactory(new PropertyValueFactory<>("classe"));
         descriptionEncounterClm.setCellValueFactory(new PropertyValueFactory<>("description"));
         startDateEncounterClm.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         stopDateEncounterClm.setCellValueFactory(new PropertyValueFactory<>("stopDate"));
@@ -398,6 +397,8 @@ public class HelloController implements Initializable {
         payerEncounterClm.setCellValueFactory(new PropertyValueFactory<>("payer"));
         costEncounterClm.setCellValueFactory(new PropertyValueFactory<>("cost"));
         coverageEncounterClm.setCellValueFactory(new PropertyValueFactory<>("coverage"));
+
+        // MA STI DUE NON CI STANNO?
         observationEncounterClm2.setCellValueFactory(new PropertyValueFactory<>("observation"));
         descriptionEncounterClm2.setCellValueFactory(new PropertyValueFactory<>("description"));
 
@@ -520,9 +521,33 @@ public class HelloController implements Initializable {
             organizationTable.getItems().clear();
             payerTable.getItems().clear();
             practitionerTable.getItems().clear();
-            /*
-            RICHIAMA I METODI DI DOWNLOAD E CONVERSIONE
-            */
+
+            OrganizationDownload organizationDownload = new OrganizationDownload();
+            organizationDownload.download();
+            List<Organization> organizations = organizationDownload.getOrganizations();
+            OrganizationConverter organizationConverter = new OrganizationConverter(organizations);
+            organizationConverter.convert();
+            for (OrganizationConverter.OrganizationClass organization : organizationConverter.getListaCampiOrganization()) {
+                organizationTable.getItems().add(organization);
+            }
+
+            PayersDownload payersDownload = new PayersDownload();
+            payersDownload.download();
+            List<Organization> payers = payersDownload.getPayers();
+            PayersConverter payersConverter = new PayersConverter(payers);
+            payersConverter.convert();
+            for (PayersConverter.PayersClass payer : payersConverter.getListaCampiPayer()) {
+                payerTable.getItems().add(payer);
+            }
+
+            PractitionersDownload practitionersDownload = new PractitionersDownload();
+            practitionersDownload.download();
+            List<Practitioner> practitioners = practitionersDownload.getPractitioners();
+            PractitionersConverter practitionersConverter = new PractitionersConverter(practitioners);
+            practitionersConverter.convert();
+            for (PractitionersConverter.PractitionerClass practitioner : practitionersConverter.getListaCampiPractition()) {
+                practitionerTable.getItems().add(practitioner);
+            }
         }
     }
     @FXML
