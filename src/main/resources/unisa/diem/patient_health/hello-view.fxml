@@ -10,17 +10,6 @@
           <Menu mnemonicParsing="false" text="File">
             <items>
                   <MenuItem mnemonicParsing="false" onAction="#loadDataset" text="Load Dataset" />
-              <MenuItem mnemonicParsing="false" text="Altro" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
             </items>
           </Menu>
         </menus>
@@ -43,7 +32,7 @@
                      <children>
                         <Pane fx:id="patientPane" prefHeight="695.0" prefWidth="1045.0" visible="false">
                            <children>
-                                  <TableView fx:id="personTable" layoutX="14.0" layoutY="28.0" onMouseClicked="#clickPatientTable" onScroll="#onScroll1" prefHeight="200.0" prefWidth="1022.0">
+                                  <TableView fx:id="personTable" layoutX="14.0" layoutY="28.0" onMouseClicked="#clickPatientTable" onScroll="#patientScrollTable" prefHeight="200.0" prefWidth="1022.0">
                                     <columns>
                                       <TableColumn fx:id="nameClmPersona" prefWidth="89.0" text="Name" />
                                       <TableColumn fx:id="surnameClmPersona" prefWidth="85.0" text="Surname" />
@@ -98,9 +87,9 @@
                               </TableView>
                            </children>
                         </Pane>
-                        <Pane fx:id="organizationPane" layoutX="-4.0" layoutY="-1.0" prefHeight="695.0" prefWidth="1053.0">
+                        <Pane fx:id="organizationPane" layoutX="-4.0" layoutY="-1.0" prefHeight="695.0" prefWidth="1053.0" visible="false">
                            <children>
-                              <TableView fx:id="organizationTable" layoutX="14.0" layoutY="14.0" prefHeight="249.0" prefWidth="772.0">
+                              <TableView fx:id="organizationTable" layoutX="14.0" layoutY="14.0" onScroll="#organizationScrollTable" prefHeight="249.0" prefWidth="772.0">
                                 <columns>
                                   <TableColumn fx:id="organizationNameClm" prefWidth="151.0" text="Organization Name" />
                                   <TableColumn fx:id="addressOrganizationClm" minWidth="0.0" prefWidth="116.0" text="Address" />
@@ -111,7 +100,7 @@
                                 </columns>
                               </TableView>
 
-                              <TableView fx:id="payerTable" layoutX="14.0" layoutY="271.0" prefHeight="234.0" prefWidth="772.0">
+                              <TableView fx:id="payerTable" layoutX="14.0" layoutY="271.0" onScroll="#payerScrollTable" prefHeight="234.0" prefWidth="772.0">
                                 <columns>
                                   <TableColumn fx:id="payerNameClm" prefWidth="157.0" text="Payer Name" />
                                   <TableColumn fx:id="addressPayerClm" prefWidth="107.0" text="Address" />
@@ -122,24 +111,24 @@
                                 </columns>
                               </TableView>
 
-                              <TableView fx:id="practitionerTable" layoutX="14.0" layoutY="516.0" prefHeight="165.0" prefWidth="610.0">
+                              <TableView fx:id="practitionerTable" layoutX="14.0" layoutY="516.0" onScroll="#practitionerScrollTable" prefHeight="165.0" prefWidth="772.0">
                                 <columns>
-                                  <TableColumn fx:id="namePractitionerClm" prefWidth="75.0" text="Name" />
-                                  <TableColumn fx:id="genderPractitionerClm" prefWidth="86.0" text="Gender" />
-                                    <TableColumn fx:id="specialityPractitionerClm" prefWidth="75.0" text="Speciality" />
-                                    <TableColumn fx:id="organizationPractitionerClm" prefWidth="120.0" text="Organizzation" />
-                                    <TableColumn fx:id="addressPractitionerClm" prefWidth="107.0" text="Address" />
-                                    <TableColumn fx:id="cityPractitionerClm" prefWidth="75.0" text="City" />
-                                    <TableColumn fx:id="statePractitionerClm" prefWidth="75.0" text="State" />
+                                  <TableColumn fx:id="namePractitionerClm" prefWidth="110.0" text="Practitioner Name" />
+                                  <TableColumn fx:id="genderPractitionerClm" prefWidth="94.0" text="Gender" />
+                                    <TableColumn fx:id="specialityPractitionerClm" prefWidth="117.0" text="Speciality" />
+                                    <TableColumn fx:id="organizationPractitionerClm" prefWidth="124.0" text="Organizzation" />
+                                    <TableColumn fx:id="addressPractitionerClm" prefWidth="116.0" text="Address" />
+                                    <TableColumn fx:id="cityPractitionerClm" prefWidth="100.0" text="City" />
+                                    <TableColumn fx:id="statePractitionerClm" prefWidth="110.0" text="State" />
                                 </columns>
                               </TableView>
                            </children></Pane>
-                        <Pane fx:id="exstEncounterPane" prefHeight="685.0" prefWidth="1045.0" visible="false">
+                        <Pane fx:id="exstEncounterPane" prefHeight="685.0" prefWidth="1045.0">
                            <children>
-                              <Pane fx:id="encounterPane1" prefHeight="685.0" prefWidth="1045.0">
+                              <Pane fx:id="encounterPane1" prefHeight="685.0" prefWidth="1045.0" visible="false">
                                  <children>
 
-                                                <TableView fx:id="encounterTable" layoutX="14.0" layoutY="12.0" onMouseClicked="#encounterTableClick" prefHeight="662.0" prefWidth="1022.0">
+                                                <TableView fx:id="encounterTable" layoutX="14.0" layoutY="12.0" onMouseClicked="#clickEncounterTable" onScroll="#encounterScrollTable" prefHeight="662.0" prefWidth="1022.0">
                                                   <columns>
                                                     <TableColumn fx:id="codeEncounterClm" prefWidth="118.0" text="Encounter Code" />
                                                     <TableColumn fx:id="classEncounterClm" prefWidth="101.0" text="Class" />
@@ -157,7 +146,7 @@
 
                                  </children>
                               </Pane>
-                              <Pane fx:id="encounterPane2" layoutX="-1.0" layoutY="1.0" prefHeight="685.0" prefWidth="1045.0" visible="false">
+                              <Pane fx:id="encounterPane2" layoutX="-1.0" layoutY="1.0" prefHeight="685.0" prefWidth="1045.0">
                                  <children>
                                     <TableView fx:id="observationTable" layoutX="583.0" layoutY="14.0" prefHeight="327.0" prefWidth="455.0">
                                       <columns>

@@ -3,17 +3,13 @@ package unisa.diem.converter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import org.hl7.fhir.r4.model.AllergyIntolerance;
-import org.hl7.fhir.r4.model.DateType;
 import org.hl7.fhir.r4.model.Immunization;
 
-import java.util.Date;
 import java.util.List;
 
 public class ImmunizationConverter extends BaseConverter{
 
     private List<Immunization> boundleImmunizations;
-    int i = 0;
     @FXML
     private ObservableList<ImmunizationClass> listaCampiImmunization;
 
@@ -40,7 +36,7 @@ public class ImmunizationConverter extends BaseConverter{
         }
 
         if (listaCampiImmunization.isEmpty()) {
-            System.out.println("No Immunization found in ImmunizationConverter");
+            throw new RuntimeException("listaCampiImmunization is empty");
         }
 
     }

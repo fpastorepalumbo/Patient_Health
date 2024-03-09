@@ -3,7 +3,6 @@ package unisa.diem.converter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import org.hl7.fhir.r4.model.AllergyIntolerance;
 import org.hl7.fhir.r4.model.CarePlan;
 
 import java.util.List;
@@ -11,7 +10,6 @@ import java.util.List;
 public class CarePlanConverter extends BaseConverter{
 
     private List<CarePlan> boundleCarePlans;
-    int i = 0;
     @FXML
     private ObservableList<CarePlanClass> listaCampiCarePlan;
 
@@ -35,7 +33,7 @@ public class CarePlanConverter extends BaseConverter{
         }
 
         if (listaCampiCarePlan.isEmpty()) {
-            System.out.println("No CarePlan found in CarePlanConverter");
+            throw new RuntimeException("listaCampiCarePlan is empty");
         }
 
     }

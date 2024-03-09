@@ -3,7 +3,6 @@ package unisa.diem.converter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import org.hl7.fhir.r4.model.Organization;
 import org.hl7.fhir.r4.model.Practitioner;
 
 import java.util.List;
@@ -11,13 +10,12 @@ import java.util.List;
 public class PractitionersConverter extends BaseConverter {
 
     private List<Practitioner> boundlePractitioners;
-    int i = 0;
     @FXML
-    private ObservableList<PractitionerClass> listaCampiPractition;
+    private ObservableList<PractitionerClass> listaCampiPractitioner;
 
     public PractitionersConverter(List<Practitioner> boundlePractitioners) {
         this.boundlePractitioners = boundlePractitioners;
-        this.listaCampiPractition = FXCollections.observableArrayList();
+        this.listaCampiPractitioner = FXCollections.observableArrayList();
     }
 
     @Override
@@ -34,18 +32,16 @@ public class PractitionersConverter extends BaseConverter {
             pr.setCity(practitioner.getAddress().get(0).getCity());
             pr.setState(practitioner.getAddress().get(0).getState());
 
-            listaCampiPractition.add(pr);
-            System.out.println("Organization:"+ i + "\n");
-            i++;
+            listaCampiPractitioner.add(pr);
         }
 
-        if (listaCampiPractition.isEmpty()) {
-            throw new RuntimeException("listaCampiOrganization is empty");
+        if (listaCampiPractitioner.isEmpty()) {
+            throw new RuntimeException("listaCampiPractitioner is empty");
         }
     }
 
-    public ObservableList<PractitionerClass> getListaCampiPractition() {
-        return listaCampiPractition;
+    public ObservableList<PractitionerClass> getListaCampiPractitioner() {
+        return listaCampiPractitioner;
     }
 
     public class PractitionerClass {

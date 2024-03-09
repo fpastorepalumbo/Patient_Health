@@ -4,14 +4,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import org.hl7.fhir.r4.model.Condition;
-import org.hl7.fhir.r4.model.Patient;
 
 import java.util.List;
 
 public class ConditionConverter extends BaseConverter{
 
     private List<Condition> boundleConditions;
-    int i = 0;
     @FXML
     private ObservableList<ConditionClass> listaCampiCondition;
 
@@ -42,7 +40,7 @@ public class ConditionConverter extends BaseConverter{
         }
 
         if (listaCampiCondition.isEmpty()) {
-            System.out.println("No Condition found in ConditionConverter");
+            throw new RuntimeException("listaCampiCondition is empty");
         }
 
     }
@@ -103,6 +101,17 @@ public class ConditionConverter extends BaseConverter{
 
         public void setEncounter(String encounter) {
             this.encounter = encounter;
+        }
+
+        @Override
+        public String toString() {
+            return "ConditionClass{" +
+                    "code='" + code + '\'' +
+                    ", description='" + description + '\'' +
+                    ", startDate='" + startDate + '\'' +
+                    ", stopDate='" + stopDate + '\'' +
+                    ", encounter='" + encounter + '\'' +
+                    '}';
         }
     }
 }

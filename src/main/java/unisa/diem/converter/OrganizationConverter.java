@@ -10,7 +10,6 @@ import java.util.List;
 public class OrganizationConverter extends BaseConverter {
 
     private List<Organization> boundleOrganizations;
-    int i = 0;
     @FXML
     private ObservableList<OrganizationClass> listaCampiOrganization;
 
@@ -33,8 +32,6 @@ public class OrganizationConverter extends BaseConverter {
             oc.setRevenue(organization.getExtension().get(0).getValue().toString());
 
             listaCampiOrganization.add(oc);
-            System.out.println("Organization:"+ i + "\n");
-            i++;
         }
 
         if (listaCampiOrganization.isEmpty()) {

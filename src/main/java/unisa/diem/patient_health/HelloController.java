@@ -1,7 +1,5 @@
 package unisa.diem.patient_health;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,7 +13,6 @@ import unisa.diem.converter.*;
 import unisa.diem.downloader.*;
 import unisa.diem.parser.DatasetService;
 
-import javax.swing.event.ChangeEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -40,37 +37,24 @@ public class HelloController implements Initializable {
     public TableView<PayersConverter.PayersClass> payerTable;
     @FXML
     public TableView<PractitionersConverter.PractitionerClass> practitionerTable;
-
-
-    @FXML
-    public TableView encounterTable;
-    @FXML
-    public TableView observationTable;
-    @FXML
-    public TableView medReqTable;
-    @FXML
-    public TableView procedureTable;
-    @FXML
-    public TableView deviceTable;
-    @FXML
-    public TableView imageTable;
-
-
-    /*
     @FXML
     public TableView<EncounterConverter.EncounterClass> encounterTable;
     @FXML
-    public TableView<ObservationConverter.ObservationClass> observationTable;
+    public TableView<ObservationsConverter.ObservationClass> observationTable;
     @FXML
-    public TableView<ObservationConverter.MedReqClass> medReqTable;
+    public TableView<MedicationRequestsConverter.MedicationRequestsClass> medReqTable;
     @FXML
-    public TableView<ProcedureConverter.ProcedureClass> procedureTable;
+    public TableView<ProceduresConverter.ProcedureClass> procedureTable;
     @FXML
-    public TableView<DeviceConverter.DeviceClass> deviceTable;
+    public TableView<DevicesConverter.DeviceClass> deviceTable;
+
+    @FXML
+    public TableView imageTable;
+
+    /*
     @FXML
     public TableView<ImagingStudyConverter.ImagingStudyClass> imageTable;
     */
-
 
     @FXML
     public TableColumn nameClmPersona;
@@ -130,7 +114,6 @@ public class HelloController implements Initializable {
     public TableColumn reasonCodeClmCarePlan;
     @FXML
     public TableColumn reasonDescriptionClmCarePlan;
-
     @FXML
     public TableColumn organizationNameClm;
     @FXML
@@ -143,8 +126,6 @@ public class HelloController implements Initializable {
     public TableColumn phoneOrganizationClm;
     @FXML
     public TableColumn revenueOrganizationClm;
-
-    //declare columns for payerTable
     @FXML
     public TableColumn payerNameClm;
     @FXML
@@ -157,8 +138,6 @@ public class HelloController implements Initializable {
     public TableColumn phonePayerClm;
     @FXML
     public TableColumn revenuePayerClm;
-
-    //declare columns for practitionerTable
     @FXML
     public TableColumn namePractitionerClm;
     @FXML
@@ -173,8 +152,6 @@ public class HelloController implements Initializable {
     public TableColumn cityPractitionerClm;
     @FXML
     public TableColumn statePractitionerClm;
-
-    //declare columns for encounterTable
     @FXML
     public TableColumn codeEncounterClm;
     @FXML
@@ -256,7 +233,6 @@ public class HelloController implements Initializable {
     public TableColumn stopDateDeviceClm;
     @FXML
     public TableColumn patientDeviceClm;
-
     @FXML
     public TableColumn bodyCodeClm;
     @FXML
@@ -300,13 +276,16 @@ public class HelloController implements Initializable {
     @FXML
     private Pane imagingPane;
 
-
     public PatientDownload patientDownload = new PatientDownload();
-
-
+    public EncountersDownload encounterDownload = new EncountersDownload();
+    public OrganizationDownload organizationDownload = new OrganizationDownload();
+    public PayersDownload payersDownload = new PayersDownload();
+    public PractitionersDownload practitionersDownload = new PractitionersDownload();
     public DatasetService datasetUtility = new DatasetService();
 
     public PatientConverter.PatientClass personElement = null;
+    public EncounterConverter.EncounterClass encounterElement = null;
+    public PatientConverter.PatientClass patientElement = null;
 
     public boolean firstClickPatient;
     public boolean firstClickOrganization;
@@ -322,7 +301,6 @@ public class HelloController implements Initializable {
         encounterPane2.setVisible(false);
         imagingPane.setVisible(false);
 
-        // Associazione delle colonne ai campi del modello di dati
         nameClmPersona.setCellValueFactory(new PropertyValueFactory<>("name"));
         surnameClmPersona.setCellValueFactory(new PropertyValueFactory<>("surname"));
         birthdateClmPersona.setCellValueFactory(new PropertyValueFactory<>("birthdate"));
@@ -398,7 +376,6 @@ public class HelloController implements Initializable {
         costEncounterClm.setCellValueFactory(new PropertyValueFactory<>("cost"));
         coverageEncounterClm.setCellValueFactory(new PropertyValueFactory<>("coverage"));
 
-        // MA STI DUE NON CI STANNO?
         observationEncounterClm2.setCellValueFactory(new PropertyValueFactory<>("observation"));
         descriptionEncounterClm2.setCellValueFactory(new PropertyValueFactory<>("description"));
 
@@ -439,7 +416,6 @@ public class HelloController implements Initializable {
         patientImageClm.setCellValueFactory(new PropertyValueFactory<>("patient"));
         encounterImageClm.setCellValueFactory(new PropertyValueFactory<>("encounter"));
 
-        //pulisci tutte le tabelle
         personTable.getItems().clear();
         allergyTable.getItems().clear();
         conditionTable.getItems().clear();
@@ -455,7 +431,6 @@ public class HelloController implements Initializable {
         deviceTable.getItems().clear();
         imageTable.getItems().clear();
 
-        //dichiara una variabile bool false
         firstClickPatient = true;
         firstClickOrganization = true;
         firstClickEncounter = true;
@@ -476,7 +451,7 @@ public class HelloController implements Initializable {
         imagingPane.setVisible(false);
         encounterPane1.setVisible(false);
         encounterPane2.setVisible(false);
-        //nascondi le altre tabelle
+
         allergyTable.setVisible(false);
         conditionTable.setVisible(false);
         immunizationTable.setVisible(false);
@@ -485,18 +460,15 @@ public class HelloController implements Initializable {
         if (firstClickPatient) {
             firstClickPatient = false;
             personTable.getItems().clear();
+
             patientDownload.download();
-
             List<Patient> patients = patientDownload.getPatients();
-
             PatientConverter patientConverter = new PatientConverter(patients);
-
             patientConverter.convert();
 
             if (patientConverter.getListaCampiPatient().isEmpty()) {
-                throw new RuntimeException("ERRORE CONVERSIONE DATI PATIENT");
+                throw new RuntimeException("Patient Data Conversion Error");
             }
-
             for (PatientConverter.PatientClass patient : patientConverter.getListaCampiPatient()) {
                 personTable.getItems().add(patient);
             }
@@ -522,30 +494,39 @@ public class HelloController implements Initializable {
             payerTable.getItems().clear();
             practitionerTable.getItems().clear();
 
-            OrganizationDownload organizationDownload = new OrganizationDownload();
             organizationDownload.download();
             List<Organization> organizations = organizationDownload.getOrganizations();
             OrganizationConverter organizationConverter = new OrganizationConverter(organizations);
             organizationConverter.convert();
+
+            if (organizationConverter.getListaCampiOrganization().isEmpty()) {
+                throw new RuntimeException("Organization Data Conversion Error");
+            }
             for (OrganizationConverter.OrganizationClass organization : organizationConverter.getListaCampiOrganization()) {
                 organizationTable.getItems().add(organization);
             }
 
-            PayersDownload payersDownload = new PayersDownload();
             payersDownload.download();
             List<Organization> payers = payersDownload.getPayers();
             PayersConverter payersConverter = new PayersConverter(payers);
             payersConverter.convert();
+
+            if (payersConverter.getListaCampiPayer().isEmpty()) {
+                throw new RuntimeException("Payers Data Conversion Error");
+            }
             for (PayersConverter.PayersClass payer : payersConverter.getListaCampiPayer()) {
                 payerTable.getItems().add(payer);
             }
 
-            PractitionersDownload practitionersDownload = new PractitionersDownload();
             practitionersDownload.download();
             List<Practitioner> practitioners = practitionersDownload.getPractitioners();
             PractitionersConverter practitionersConverter = new PractitionersConverter(practitioners);
             practitionersConverter.convert();
-            for (PractitionersConverter.PractitionerClass practitioner : practitionersConverter.getListaCampiPractition()) {
+
+            if (practitionersConverter.getListaCampiPractitioner().isEmpty()) {
+                throw new RuntimeException("Practitioners Data Conversion Error");
+            }
+            for (PractitionersConverter.PractitionerClass practitioner : practitionersConverter.getListaCampiPractitioner()) {
                 practitionerTable.getItems().add(practitioner);
             }
         }
@@ -559,6 +540,7 @@ public class HelloController implements Initializable {
 
         exstEncounterPane.setVisible(true);
         encounterPane1.setVisible(true);
+        encounterPane2.setVisible(false);
         patientPane.setVisible(false);
         organizationPane.setVisible(false);
         imagingPane.setVisible(false);
@@ -566,9 +548,18 @@ public class HelloController implements Initializable {
         if (firstClickEncounter) {
             firstClickEncounter = false;
             encounterTable.getItems().clear();
-            /*
-            RICHIAMA I METODI DI DOWNLOAD E CONVERSIONE
-            */
+            encounterDownload.download();
+            List<Encounter> encounters = encounterDownload.getEncounters();
+            EncounterConverter encounterConverter = new EncounterConverter(encounters);
+            encounterConverter.convert();
+
+            if (encounterConverter.getListaCampiEncounter().isEmpty()) {
+                throw new RuntimeException("Encounter Data Conversion Error");
+            }
+            for (EncounterConverter.EncounterClass encounter : encounterConverter.getListaCampiEncounter()) {
+                encounterTable.getItems().add(encounter);
+            }
+
         }
     }
     @FXML
@@ -593,12 +584,6 @@ public class HelloController implements Initializable {
         }
     }
 
-    public void encounterTableClick(MouseEvent mouseEvent) {
-        //encounterPane1.setVisible(false);
-        //encounterPane2.setVisible(true);
-
-    }
-
     public void clickPatientTable(MouseEvent mouseEvent) {
         allergyTable.getItems().clear();
         conditionTable.getItems().clear();
@@ -618,6 +603,10 @@ public class HelloController implements Initializable {
             List<AllergyIntolerance> allergies = allergyDownload.getAllergies();
             AllergyConverter allergyConverter = new AllergyConverter(allergies);
             allergyConverter.convert();
+
+            if (allergyConverter.getListaCampiAllergie().isEmpty()) {
+                throw new RuntimeException("Allergy Data Conversion Error");
+            }
             for (AllergyConverter.AllergyClass allergie : allergyConverter.getListaCampiAllergie()) {
                 allergyTable.getItems().add(allergie);
             }
@@ -627,6 +616,10 @@ public class HelloController implements Initializable {
             List<Immunization> immunizations = immunizationDownload.getImmunizations();
             ImmunizationConverter immunizationConverter = new ImmunizationConverter(immunizations);
             immunizationConverter.convert();
+
+            if (immunizationConverter.getListaCampiImmunization().isEmpty()) {
+                throw new RuntimeException("Immunization Data Conversion Error");
+            }
             for (ImmunizationConverter.ImmunizationClass immunization : immunizationConverter.getListaCampiImmunization()) {
                 immunizationTable.getItems().add(immunization);
             }
@@ -636,11 +629,92 @@ public class HelloController implements Initializable {
             List<Condition> conditions = conditionDownload.getConditions();
             ConditionConverter conditionConverter = new ConditionConverter(conditions);
             conditionConverter.convert();
+
+            if (conditionConverter.getListaCampiCondition().isEmpty()) {
+                throw new RuntimeException("Condition Data Conversion Error");
+            }
             for (ConditionConverter.ConditionClass condition : conditionConverter.getListaCampiCondition()) {
                 conditionTable.getItems().add(condition);
             }
         }
+    }
 
+    public void clickEncounterTable(MouseEvent mouseEvent) {
+        exstEncounterPane.setVisible(true);
+        encounterPane1.setVisible(false);
+        encounterPane2.setVisible(true);
+        patientPane.setVisible(false);
+        organizationPane.setVisible(false);
+        imagingPane.setVisible(false);
+
+        observationTable.getItems().clear();
+        medReqTable.getItems().clear();
+        procedureTable.getItems().clear();
+        deviceTable.getItems().clear();
+
+        encounterElement = encounterTable.getSelectionModel().getSelectedItem();
+        patientElement = personTable.getSelectionModel().getSelectedItem();
+
+
+        if (encounterElement != null) {
+            medReqTable.setVisible(true);
+            observationTable.setVisible(true);
+            procedureTable.setVisible(true);
+            deviceTable.setVisible(true);
+
+            ObservationsDownload observationDownload = new ObservationsDownload(encounterElement.getId());
+            observationDownload.download();
+            List<Observation> observations = observationDownload.getObservations();
+            ObservationsConverter observationsConverter = new ObservationsConverter(observations);
+            observationsConverter.convert();
+
+            if (observationsConverter.getListaCampiObservation().isEmpty()) {
+                throw new RuntimeException("Observation Data Conversion Error");
+            }
+            for (ObservationsConverter.ObservationClass observation : observationsConverter.getListaCampiObservation()) {
+                observationTable.getItems().add(observation);
+            }
+
+            MedicationRequestDownload medReqDownload = new MedicationRequestDownload(encounterElement.getId());
+            medReqDownload.download();
+            List<MedicationRequest> medReqs = medReqDownload.getMedicationRequests();
+            MedicationRequestsConverter medReqConverter = new MedicationRequestsConverter(medReqs);
+            medReqConverter.convert();
+
+            if (medReqConverter.getListaCampiMedRequest().isEmpty()) {
+                throw new RuntimeException("Medication Request Data Conversion Error");
+            }
+            for (MedicationRequestsConverter.MedicationRequestsClass medReq : medReqConverter.getListaCampiMedRequest()) {
+                medReqTable.getItems().add(medReq);
+            }
+
+            ProceduresDownload procedureDownload = new ProceduresDownload(encounterElement.getId());
+            procedureDownload.download();
+            List<Procedure> procedures = procedureDownload.getProcedures();
+            ProceduresConverter procedureConverter = new ProceduresConverter(procedures);
+            procedureConverter.convert();
+
+            if (procedureConverter.getListaCampiProcedure().isEmpty()) {
+                throw new RuntimeException("Procedure Data Conversion Error");
+            }
+            for (ProceduresConverter.ProcedureClass procedure : procedureConverter.getListaCampiProcedure()) {
+                procedureTable.getItems().add(procedure);
+            }
+
+
+            DevicesDownload deviceDownload = new DevicesDownload(encounterElement.getId(), patientElement.getId());
+            deviceDownload.download();
+            List<Device> devices = deviceDownload.getDevices();
+            DevicesConverter deviceConverter = new DevicesConverter(devices);
+            deviceConverter.convert();
+
+            if (deviceConverter.getListaCampiDevices().isEmpty()) {
+                throw new RuntimeException("Device Data Conversion Error");
+            }
+            for (DevicesConverter.DeviceClass device : deviceConverter.getListaCampiDevices()) {
+                deviceTable.getItems().add(device);
+            }
+        }
     }
 
     public void clickConditionTable(MouseEvent mouseEvent) {
@@ -669,13 +743,14 @@ public class HelloController implements Initializable {
         }
     }
 
-    public void onScroll1(ScrollEvent scrollEvent) {
+    public void patientScrollTable(ScrollEvent scrollEvent) {
         if (scrollEvent.getDeltaY() < 0) {
             personTable.getItems().clear();
             patientDownload.download();
             List<Patient> patients = patientDownload.getPatients();
             PatientConverter patientConverter = new PatientConverter(patients);
             patientConverter.convert();
+
             if (patientConverter.getListaCampiPatient().isEmpty()) {
                 throw new RuntimeException("ERROR DURING THE SCROLL OF PATIENT");
             }
@@ -684,4 +759,75 @@ public class HelloController implements Initializable {
             }
         }
     }
+
+    public void organizationScrollTable(ScrollEvent scrollEvent) {
+        if (scrollEvent.getDeltaY() < 0) {
+            organizationTable.getItems().clear();
+            organizationDownload.download();
+            List<Organization> organizations = organizationDownload.getOrganizations();
+            OrganizationConverter organizationConverter = new OrganizationConverter(organizations);
+            organizationConverter.convert();
+
+            if (organizationConverter.getListaCampiOrganization().isEmpty()) {
+                throw new RuntimeException("ERROR DURING THE SCROLL OF ORGANIZATIONS");
+            }
+            for (OrganizationConverter.OrganizationClass organization : organizationConverter.getListaCampiOrganization()) {
+                organizationTable.getItems().add(organization);
+            }
+        }
+    }
+
+    public void payerScrollTable(ScrollEvent scrollEvent) {
+        if (scrollEvent.getDeltaY() < 0) {
+            payerTable.getItems().clear();
+            payersDownload.download();
+            List<Organization> payers = payersDownload.getPayers();
+            PayersConverter payersConverter = new PayersConverter(payers);
+            payersConverter.convert();
+
+            if (payersConverter.getListaCampiPayer().isEmpty()) {
+                throw new RuntimeException("ERROR DURING THE SCROLL OF PAYERS");
+            }
+            for (PayersConverter.PayersClass payer : payersConverter.getListaCampiPayer()) {
+                payerTable.getItems().add(payer);
+            }
+        }
+    }
+
+    public void practitionerScrollTable(ScrollEvent scrollEvent) {
+        if (scrollEvent.getDeltaY() < 0) {
+            practitionerTable.getItems().clear();
+            practitionersDownload.download();
+            List<Practitioner> practitioners = practitionersDownload.getPractitioners();
+            PractitionersConverter practitionersConverter = new PractitionersConverter(practitioners);
+            practitionersConverter.convert();
+
+            if (practitionersConverter.getListaCampiPractitioner().isEmpty()) {
+                throw new RuntimeException("ERROR DURING THE SCROLL OF PRACTITIONERS");
+            }
+            for (PractitionersConverter.PractitionerClass practitioner : practitionersConverter.getListaCampiPractitioner()) {
+                practitionerTable.getItems().add(practitioner);
+            }
+        }
+    }
+
+    public void encounterScrollTable(ScrollEvent scrollEvent) {
+        if (scrollEvent.getDeltaY() < 0) {
+            encounterTable.getItems().clear();
+            encounterDownload.download();
+            List<Encounter> encounters = encounterDownload.getEncounters();
+            EncounterConverter encounterConverter = new EncounterConverter(encounters);
+            encounterConverter.convert();
+
+            if (encounterConverter.getListaCampiEncounter().isEmpty()) {
+                throw new RuntimeException("ERROR DURING THE SCROLL OF ENCOUNTERS");
+            }
+            for (EncounterConverter.EncounterClass encounter : encounterConverter.getListaCampiEncounter()) {
+                encounterTable.getItems().add(encounter);
+            }
+        }
+    }
+
+    //Metodo Scrol immagini
+
 }

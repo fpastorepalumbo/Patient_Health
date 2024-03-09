@@ -10,7 +10,6 @@ import java.util.List;
 public class PayersConverter extends BaseConverter {
 
     private List<Organization> boundlePayers;
-    int i = 0;
     @FXML
     private ObservableList<PayersClass> listaCampiPayer;
 
@@ -33,8 +32,6 @@ public class PayersConverter extends BaseConverter {
             py.setRevenue(payer.getExtension().get(0).getValue().toString());
 
             listaCampiPayer.add(py);
-            System.out.println("Payer:"+ i + "\n");
-            i++;
         }
 
         if (listaCampiPayer.isEmpty()) {

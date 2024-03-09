@@ -35,7 +35,7 @@ public class DevicesDownload extends BaseDownloader{
 
         try {
             bundle = (Bundle) client.search().forResource(Device.class)
-            .where(Device.PATIENT.hasId(patientId)).where(DeviceRequest.ENCOUNTER.hasId(encounterId))  // vedi DeviceLoader per vedere come fare la query
+            .where(Device.PATIENT.hasId(patientId)).where(DeviceRequest.ENCOUNTER.hasId(encounterId))  // ho un dubbio, vedi DeviceLoader per vedere come fare la query
             .encodedXml().execute();
         }
         catch (Exception e) {

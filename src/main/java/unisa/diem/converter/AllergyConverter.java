@@ -10,7 +10,6 @@ import java.util.List;
 public class AllergyConverter extends BaseConverter{
 
     private List<AllergyIntolerance> boundleAllergies;
-    int i = 0;
     @FXML
     private ObservableList<AllergyClass> listaCampiAllergie;
 
@@ -44,7 +43,7 @@ public class AllergyConverter extends BaseConverter{
         }
 
         if (listaCampiAllergie.isEmpty()) {
-            System.out.println("No Allergy found in AllergyConverter");
+            throw new RuntimeException("listaCampiAllergie is empty");
         }
     }
 

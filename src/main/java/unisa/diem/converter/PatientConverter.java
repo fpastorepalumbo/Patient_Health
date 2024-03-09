@@ -9,7 +9,6 @@ import java.util.List;
 public class PatientConverter extends BaseConverter {
 
     private List<Patient> boundlePatients;
-    int i = 0;
     @FXML
     private ObservableList<PatientClass> listaCampiPatient;
 
@@ -43,33 +42,6 @@ public class PatientConverter extends BaseConverter {
                 pc.setMarital(patient.getMaritalStatus().getCodingFirstRep().getCode());
             else
                 pc.setMarital("Unknown");
-            /*
-            if (patient.getMaritalStatus().fhirType() == "M") {
-                pc.setMarital("Married");
-            } else if (patient.getMaritalStatus().getText() == "S") {
-                pc.setMarital("Never Married");
-            } else if (patient.getMaritalStatus().getText() == "W") {
-                pc.setMarital("Widowed");
-            } else if (patient.getMaritalStatus().getText() == "U") {
-                pc.setMarital("Unmarried");
-            } else if (patient.getMaritalStatus().getText() == "T") {
-                pc.setMarital("Domestic partner");
-            } else if (patient.getMaritalStatus().getText() == "P") {
-                pc.setMarital("Polygamus");
-            } else if (patient.getMaritalStatus().getText() == "C") {
-                pc.setMarital("Common law");
-            } else if (patient.getMaritalStatus().getText() == "L") {
-                pc.setMarital("Legally Separated");
-            } else if (patient.getMaritalStatus().getText() == "I") {
-                pc.setMarital("Interlocutory");
-            } else if (patient.getMaritalStatus().getText() == "D") {
-                pc.setMarital("Divorced");
-            } else if (patient.getMaritalStatus().getText() == "A") {
-                pc.setMarital("Annulled");
-            } else {
-                pc.setMarital("Unknown");
-            }
-             */
 
             pc.setGender(patient.getGender().toString());
             String place = "";
@@ -85,19 +57,9 @@ public class PatientConverter extends BaseConverter {
             pc.setState(patient.getAddress().get(0).getState());
 
             listaCampiPatient.add(pc);
-            System.out.println( i + "\n");
-            // System.out.println(listaCampiPatient.toString() +"\n"+ i + "\n\n");
-            i++;
         }
-        /*
-        int k=0;
-        for(Patient patient : Boundlepatients) {
-            System.out.println(listaCampiPatient.toString() + "\n" + "i= "+ i +" k= "+ k + "\n");
-            k++;
-        }
-        */
         if (listaCampiPatient.isEmpty()) {
-            throw new RuntimeException("MANNAGG O CAZZ MANNAGG");
+            throw new RuntimeException("listaCampiPatient is empty");
         }
     }
 
