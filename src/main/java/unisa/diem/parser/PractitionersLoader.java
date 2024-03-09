@@ -10,10 +10,10 @@ import org.hl7.fhir.r4.model.Enumerations.AdministrativeGender;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProvidersLoader extends BaseLoader {
+public class PractitionersLoader extends BaseLoader {
 
-    ProvidersLoader(DatasetService datasetService) {
-        super(datasetService, "providers");
+    PractitionersLoader(DatasetService datasetService) {
+        super(datasetService, "practitioners");
     }
 
     @Override
@@ -24,9 +24,9 @@ public class ProvidersLoader extends BaseLoader {
         for (CSVRecord rec : records) {
             Reference org = new Reference("Organization/" + rec.get("ORGANIZATION"));
 
-            Practitioner provider = new Practitioner();
-            provider.setId(rec.get("Id"));
-            provider.addIdentifier()
+            Practitioner practitioner = new Practitioner();
+            practitioner.setId(rec.get("Id"));
+            practitioner.addIdentifier()
                     .setType(new CodeableConcept()
                             .addCoding(new Coding()
                                     .setSystem("http://terminology.hl7.org/CodeSystem/v2-0203")
@@ -37,20 +37,20 @@ public class ProvidersLoader extends BaseLoader {
                     .setSystem("urn:ietf:rfc:3986")
                     .setValue(rec.get("Id"));
 
-            provider.addName()
+            practitioner.addName()
                     .setText(rec.get("NAME"));
 
-            provider.addAddress()
+            practitioner.addAddress()
                     .addLine(rec.get("ADDRESS"))
                     .setCity(rec.get("CITY"))
                     .setState(rec.get("STATE"))
                     .setPostalCode(rec.get("ZIP"));
 
-            provider.setGender(
+            practitioner.setGender(
                     rec.get("GENDER").equals("M") ? AdministrativeGender.MALE : AdministrativeGender.FEMALE
             );
 
-            provider.addQualification()
+            practitioner.addQualification()
                     .setIssuer(org)
                     .setCode(new CodeableConcept()
                             .addCoding(new Coding()
@@ -59,7 +59,7 @@ public class ProvidersLoader extends BaseLoader {
                             )
                     );
 
-            provider.addExtension()
+            practitioner.addExtension()
                     .setUrl("http://hl7.org/fhir/StructureDefinition/geolocation")
                     .setValue(new Address()
                             .addExtension()
@@ -71,7 +71,7 @@ public class ProvidersLoader extends BaseLoader {
                     );
 
             count++;
-            buffer.add(provider);
+            buffer.add(practitioner);
 
             if (count % 100 == 0 || count == records.size()) {
                 BundleBuilder bb = new BundleBuilder(FhirWrapper.getContext());
