@@ -3,48 +3,55 @@ package unisa.diem.converter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import lombok.Getter;
+import lombok.Setter;
 import org.hl7.fhir.r4.model.*;
 
 import java.util.List;
 public class PatientConverter extends BaseConverter {
 
-    private List<Patient> boundlePatients;
+    private final List<Patient> bundlePatients;
+    @Getter
     @FXML
-    private ObservableList<PatientClass> listaCampiPatient;
+    private final ObservableList<PatientClass> fieldListPatient;
 
-    public PatientConverter(List<Patient> boundlePatients) {
-        this.boundlePatients = boundlePatients;
-        this.listaCampiPatient = FXCollections.observableArrayList();
+    public PatientConverter(List<Patient> bundlePatients) {
+        this.bundlePatients = bundlePatients;
+        this.fieldListPatient = FXCollections.observableArrayList();
     }
 
     @Override
     public void convert() {
-
-        for(Patient patient : boundlePatients) {
+        for(Patient patient : bundlePatients) {
             PatientClass pc = new PatientClass();
+            String place = "";
+            String[] parts;
 
             pc.setId(patient.getIdentifier().get(0).getValue());
+
             pc.setName(patient.getNameFirstRep().getGivenAsSingleString());
+
             pc.setSurname(patient.getNameFirstRep().getFamily());
-            DateType birthdate = patient.getBirthDateElement();
-            String date = birthdate.getDay() + "/" + birthdate.getMonth() + "/" + birthdate.getYear();
-            pc.setBirthdate(date);
-            String temp ="";
-            if ( !patient.hasDeceasedDateTimeType()){
-                temp = "---";
-            }else {
-                DateTimeType d = patient.getDeceasedDateTimeType();
-                temp = d.getDay() + "/" + d.getMonth() + "/" + d.getYear();
+
+            parts = patient.getBirthDate().toString().split(" ");
+            pc.setBirthdate(parts[5] + "-" + parts[1] + "-" + parts[2]);
+
+            if (patient.hasDeceasedDateTimeType()){
+                parts = patient.getDeceasedDateTimeType().getValueAsString().split("T");
+                pc.setDeathdate(parts[0]);
             }
-            pc.setDeathdate(temp);
+            else
+                pc.setDeathdate("---");
+
             pc.setSsn(patient.getIdentifier().get(1).getValue());
+
             if (patient.hasMaritalStatus())
                 pc.setMarital(patient.getMaritalStatus().getCodingFirstRep().getCode());
             else
                 pc.setMarital("Unknown");
 
             pc.setGender(patient.getGender().toString());
-            String place = "";
+
             for (Extension ext : patient.getExtension()) {
                 if (ext.getUrl().equals("http://hl7.org/fhir/StructureDefinition/patient-birthPlace")) {
                     Address value = (Address) ext.getValue();
@@ -52,13 +59,16 @@ public class PatientConverter extends BaseConverter {
                 }
                 pc.setBirthplace(place);
             }
+
             pc.setAddress(patient.getAddress().get(0).getLine().get(0).toString());
+
             pc.setCity(patient.getAddress().get(0).getCity());
+
             pc.setState(patient.getAddress().get(0).getState());
 
-            listaCampiPatient.add(pc);
+            fieldListPatient.add(pc);
         }
-        if (listaCampiPatient.isEmpty()) {
+        if (fieldListPatient.isEmpty()) {
             PatientClass pc = new PatientClass();
             pc.setId("N/A");
             pc.setName("N/A");
@@ -72,15 +82,13 @@ public class PatientConverter extends BaseConverter {
             pc.setAddress("N/A");
             pc.setCity("N/A");
             pc.setState("N/A");
-            listaCampiPatient.add(pc);
+            fieldListPatient.add(pc);
         }
     }
 
-    public ObservableList<PatientClass> getListaCampiPatient() {
-        return listaCampiPatient;
-    }
-
-    public class PatientClass {
+    @Setter
+    @Getter
+    public static class PatientClass {
         private String name;
         private String surname;
         private String birthdate;
@@ -93,7 +101,6 @@ public class PatientConverter extends BaseConverter {
         private String city;
         private String state;
         private String id;
-
 
         public PatientClass() {
             this.name = "";
@@ -108,102 +115,6 @@ public class PatientConverter extends BaseConverter {
             this.city = "";
             this.state = "";
             this.id = "";
-        }
-
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getSurname() {
-            return surname;
-        }
-
-        public void setSurname(String surname) {
-            this.surname = surname;
-        }
-
-        public String getBirthdate() {
-            return birthdate;
-        }
-        public void setBirthdate(String birthdate) {
-            this.birthdate = birthdate;
-        }
-
-        public String getDeathdate() {
-            return deathdate;
-        }
-
-        public void setDeathdate(String deathdate) {
-            this.deathdate = deathdate;
-        }
-
-        public String getSsn() {
-            return ssn;
-        }
-
-        public void setSsn(String ssn) {
-            this.ssn = ssn;
-        }
-
-        public String getMarital() {
-            return marital;
-        }
-
-        public void setMarital(String marital) {
-            this.marital = marital;
-        }
-
-        public String getGender() {
-            return gender;
-        }
-
-        public void setGender(String gender) {
-            this.gender = gender;
-        }
-
-        public String getBirthplace() {
-            return birthplace;
-        }
-
-        public void setBirthplace(String birthplace) {
-            this.birthplace = birthplace;
-        }
-
-        public String getAddress() {
-            return address;
-        }
-
-        public void setAddress(String address) {
-            this.address = address;
-        }
-
-        public String getCity() {
-            return city;
-        }
-
-        public void setCity(String city) {
-            this.city = city;
-        }
-
-        public String getState() {
-            return state;
-        }
-
-        public void setState(String state) {
-            this.state = state;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
         }
 
         @Override

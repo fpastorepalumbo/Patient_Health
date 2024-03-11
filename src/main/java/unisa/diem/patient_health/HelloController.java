@@ -152,6 +152,7 @@ public class HelloController implements Initializable {
     public TableColumn cityPractitionerClm;
     @FXML
     public TableColumn statePractitionerClm;
+
     @FXML
     public TableColumn codeEncounterClm;
     @FXML
@@ -168,12 +169,13 @@ public class HelloController implements Initializable {
     public TableColumn organizationEncounterClm;
     @FXML
     public TableColumn practitionerEncounterClm;
-    @FXML
-    public TableColumn payerEncounterClm;
-    @FXML
-    public TableColumn costEncounterClm;
-    @FXML
-    public TableColumn coverageEncounterClm;
+    // @FXML
+    // public TableColumn payerEncounterClm;
+    // @FXML
+    // public TableColumn costEncounterClm;
+    // @FXML
+    // public TableColumn coverageEncounterClm;
+
     @FXML
     public TableColumn observationEncounterClm2;
     @FXML
@@ -372,9 +374,9 @@ public class HelloController implements Initializable {
         patientEncounterClm.setCellValueFactory(new PropertyValueFactory<>("patient"));
         organizationEncounterClm.setCellValueFactory(new PropertyValueFactory<>("organization"));
         practitionerEncounterClm.setCellValueFactory(new PropertyValueFactory<>("practitioner"));
-        payerEncounterClm.setCellValueFactory(new PropertyValueFactory<>("payer"));
-        costEncounterClm.setCellValueFactory(new PropertyValueFactory<>("cost"));
-        coverageEncounterClm.setCellValueFactory(new PropertyValueFactory<>("coverage"));
+        // payerEncounterClm.setCellValueFactory(new PropertyValueFactory<>("payer"));
+        // costEncounterClm.setCellValueFactory(new PropertyValueFactory<>("cost"));
+        // coverageEncounterClm.setCellValueFactory(new PropertyValueFactory<>("coverage"));
 
         observationEncounterClm2.setCellValueFactory(new PropertyValueFactory<>("code"));
         descriptionEncounterClm2.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -465,10 +467,10 @@ public class HelloController implements Initializable {
             PatientConverter patientConverter = new PatientConverter(patients);
             patientConverter.convert();
 
-            if (patientConverter.getListaCampiPatient().isEmpty()) {
+            if (patientConverter.getFieldListPatient().isEmpty()) {
                 throw new RuntimeException("Patient Data Conversion Error");
             }
-            for (PatientConverter.PatientClass patient : patientConverter.getListaCampiPatient()) {
+            for (PatientConverter.PatientClass patient : patientConverter.getFieldListPatient()) {
                 personTable.getItems().add(patient);
             }
         }
@@ -552,10 +554,10 @@ public class HelloController implements Initializable {
             EncounterConverter encounterConverter = new EncounterConverter(encounters);
             encounterConverter.convert();
 
-            if (encounterConverter.getListaCampiEncounter().isEmpty()) {
+            if (encounterConverter.getFieldListEncounter().isEmpty()) {
                 throw new RuntimeException("Encounter Data Conversion Error");
             }
-            for (EncounterConverter.EncounterClass encounter : encounterConverter.getListaCampiEncounter()) {
+            for (EncounterConverter.EncounterClass encounter : encounterConverter.getFieldListEncounter()) {
                 encounterTable.getItems().add(encounter);
             }
 
@@ -602,10 +604,10 @@ public class HelloController implements Initializable {
             AllergyConverter allergyConverter = new AllergyConverter(allergies);
             allergyConverter.convert();
 
-            if (allergyConverter.getListaCampiAllergie().isEmpty()) {
+            if (allergyConverter.getFieldListAllergy().isEmpty()) {
                 throw new RuntimeException("Allergy Data Conversion Error");
             }
-            for (AllergyConverter.AllergyClass allergie : allergyConverter.getListaCampiAllergie()) {
+            for (AllergyConverter.AllergyClass allergie : allergyConverter.getFieldListAllergy()) {
                 allergyTable.getItems().add(allergie);
             }
 
@@ -615,10 +617,10 @@ public class HelloController implements Initializable {
             ImmunizationConverter immunizationConverter = new ImmunizationConverter(immunizations);
             immunizationConverter.convert();
 
-            if (immunizationConverter.getListaCampiImmunization().isEmpty()) {
+            if (immunizationConverter.getFieldListImmunization().isEmpty()) {
                 throw new RuntimeException("Immunization Data Conversion Error");
             }
-            for (ImmunizationConverter.ImmunizationClass immunization : immunizationConverter.getListaCampiImmunization()) {
+            for (ImmunizationConverter.ImmunizationClass immunization : immunizationConverter.getFieldListImmunization()) {
                 immunizationTable.getItems().add(immunization);
             }
 
@@ -628,10 +630,10 @@ public class HelloController implements Initializable {
             ConditionConverter conditionConverter = new ConditionConverter(conditions);
             conditionConverter.convert();
 
-            if (conditionConverter.getListaCampiCondition().isEmpty()) {
+            if (conditionConverter.getFieldListCondition().isEmpty()) {
                 throw new RuntimeException("Condition Data Conversion Error");
             }
-            for (ConditionConverter.ConditionClass condition : conditionConverter.getListaCampiCondition()) {
+            for (ConditionConverter.ConditionClass condition : conditionConverter.getFieldListCondition()) {
                 conditionTable.getItems().add(condition);
             }
         }
@@ -658,15 +660,8 @@ public class HelloController implements Initializable {
             observationTable.setVisible(true);
             procedureTable.setVisible(true);
             deviceTable.setVisible(true);
-            String[] parts = encounterElement.getId().split("/");
-            String encID = parts[5];
-            System.out.println(encID + "\n");
-
-            //System.out.println(encounterElement.getPatient() + "\n");
-            //get patient id from element
-            String[] parts2 = encounterElement.getPatient().split("/");
-            String patID = parts2[1];
-            System.out.println(patID + "\n");
+            String encID = encounterElement.getCode();
+            String patID = encounterElement.getPatient();
 
             ObservationsDownload observationDownload = new ObservationsDownload(encID);
             observationDownload.download();
@@ -720,8 +715,6 @@ public class HelloController implements Initializable {
             for (DevicesConverter.DeviceClass device : deviceConverter.getListaCampiDevices()) {
                 deviceTable.getItems().add(device);
             }
-
-
         }
     }
 
@@ -738,7 +731,7 @@ public class HelloController implements Initializable {
         List<CarePlan> carePlans = carePlanDownload.getCarePlans();
         CarePlanConverter carePlanConverter = new CarePlanConverter(carePlans);
         carePlanConverter.convert();
-        for (CarePlanConverter.CarePlanClass carePlan : carePlanConverter.getListaCampiCarePlan()) {
+        for (CarePlanConverter.CarePlanClass carePlan : carePlanConverter.getFieldListCarePlan()) {
             carePlanTable.getItems().add(carePlan);
         }
     }
@@ -759,10 +752,10 @@ public class HelloController implements Initializable {
             PatientConverter patientConverter = new PatientConverter(patients);
             patientConverter.convert();
 
-            if (patientConverter.getListaCampiPatient().isEmpty()) {
+            if (patientConverter.getFieldListPatient().isEmpty()) {
                 throw new RuntimeException("ERROR DURING THE SCROLL OF PATIENT");
             }
-            for (PatientConverter.PatientClass patient : patientConverter.getListaCampiPatient()) {
+            for (PatientConverter.PatientClass patient : patientConverter.getFieldListPatient()) {
                 personTable.getItems().add(patient);
             }
         }
@@ -827,10 +820,10 @@ public class HelloController implements Initializable {
             EncounterConverter encounterConverter = new EncounterConverter(encounters);
             encounterConverter.convert();
 
-            if (encounterConverter.getListaCampiEncounter().isEmpty()) {
+            if (encounterConverter.getFieldListEncounter().isEmpty()) {
                 throw new RuntimeException("ERROR DURING THE SCROLL OF ENCOUNTERS");
             }
-            for (EncounterConverter.EncounterClass encounter : encounterConverter.getListaCampiEncounter()) {
+            for (EncounterConverter.EncounterClass encounter : encounterConverter.getFieldListEncounter()) {
                 encounterTable.getItems().add(encounter);
             }
         }

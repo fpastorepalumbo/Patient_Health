@@ -3,44 +3,63 @@ package unisa.diem.converter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import lombok.Getter;
+import lombok.Setter;
 import org.hl7.fhir.r4.model.Encounter;
 
 import java.util.List;
 
+// TODO: Rinominare code in id e classe in code, eliminare payer, cost e coverage, non vengono mai caricati
+
 public class EncounterConverter extends BaseConverter {
 
-    private List<Encounter> boundleEncounters;
+    private final List<Encounter> bundleEncounters;
+    @Getter
     @FXML
-    private ObservableList<EncounterClass> listaCampiEncounter;
+    private final ObservableList<EncounterClass> fieldListEncounter;
 
-    public EncounterConverter(List<Encounter> boundleEncounters) {
-        this.boundleEncounters = boundleEncounters;
-        this.listaCampiEncounter = FXCollections.observableArrayList();
+    public EncounterConverter(List<Encounter> bundleEncounters) {
+        this.bundleEncounters = bundleEncounters;
+        this.fieldListEncounter = FXCollections.observableArrayList();
     }
 
     @Override
     public void convert() {
 
-        for(Encounter encounter : boundleEncounters) {
+        for(Encounter encounter : bundleEncounters) {
             EncounterClass ec = new EncounterClass();
+            String[] parts;
 
-            ec.setId(encounter.getId());
-            ec.setCode(encounter.getId());
-            ec.setClasse(encounter.getClass_().getDisplay());
-            ec.setDescription(encounter.getType().get(0).getText());
-            ec.setStartDate(encounter.getPeriod().getStart().toString());
-            ec.setStopDate(encounter.getPeriod().getEnd().toString());
-            ec.setPatient(encounter.getSubject().getReference());
-            ec.setOrganization(encounter.getServiceProvider().getReference());
-            ec.setPractitioner(encounter.getParticipant().get(0).getIndividual().getReference());
-            //ec.setPayer(encounter.getInsurer().getReference());  //CAPISCI COME é SALVATO IL PAYER
-            //ec.setCost(encounter.getHospitalization().getAccomodation().get(0).getCost().toString());
-            //ec.setCoverage(encounter.getHospitalization().getAccomodation().get(0).getPrecedence().toString());
+            parts = encounter.getId().split("/");
+            ec.setCode(parts[5]);
 
-            listaCampiEncounter.add(ec);
+            ec.setClasse(encounter.getType().get(0).getCoding().get(0).getCode());
+
+            ec.setDescription(encounter.getType().get(0).getCoding().get(0).getDisplay());
+
+            parts = encounter.getPeriod().getStart().toString().split(" ");
+            ec.setStartDate(parts[5] + "-" + parts[1] + "-" + parts[2]);
+
+            parts = encounter.getPeriod().getEnd().toString().split(" ");
+            ec.setStopDate(parts[5] + "-" + parts[1] + "-" + parts[2]);
+
+            parts = encounter.getSubject().getReference().split("/");
+            ec.setPatient(parts[1]);
+
+            parts = encounter.getServiceProvider().getReference().split("/");
+            ec.setOrganization(parts[1]);
+
+            parts = encounter.getParticipant().get(0).getIndividual().getReference().split("/");
+            ec.setPractitioner(parts[1]);
+
+            // ec.setPayer(encounter.getInsurer().getReference());
+            // ec.setCost(encounter.getHospitalization().getAccomodation().get(0).getCost().toString());
+            // ec.setCoverage(encounter.getHospitalization().getAccomodation().get(0).getPrecedence().toString());
+
+            fieldListEncounter.add(ec);
         }
 
-        if (listaCampiEncounter.isEmpty()) {
+        if (fieldListEncounter.isEmpty()) {
             EncounterClass ec = new EncounterClass();
             ec.setCode("N/A");
             ec.setClasse("N/A");
@@ -50,18 +69,16 @@ public class EncounterConverter extends BaseConverter {
             ec.setPatient("N/A");
             ec.setOrganization("N/A");
             ec.setPractitioner("N/A");
-            ec.setPayer("N/A");
-            ec.setCost("N/A");
-            ec.setCoverage("N/A");
-            listaCampiEncounter.add(ec);
+            // ec.setPayer("N/A");
+            // ec.setCost("N/A");
+            // ec.setCoverage("N/A");
+            fieldListEncounter.add(ec);
         }
     }
 
-    public ObservableList<EncounterClass> getListaCampiEncounter() {
-        return listaCampiEncounter;
-    }
-
-    public class EncounterClass {
+    @Setter
+    @Getter
+    public static class EncounterClass {
         private String code;
         private String classe;
         private String description;
@@ -70,11 +87,9 @@ public class EncounterConverter extends BaseConverter {
         private String patient;
         private String organization;
         private String practitioner;
-        private String payer;
-        private String cost;
-        private String coverage;
-
-        private String id;
+        // private String payer;
+        // private String cost;
+        // private String coverage;
 
         public EncounterClass() {
             this.code = "";
@@ -85,105 +100,9 @@ public class EncounterConverter extends BaseConverter {
             this.patient = "";
             this.organization = "";
             this.practitioner = "";
-            this.payer = "";
-            this.cost = "";
-            this.coverage = "";
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getCode() {
-            return code;
-        }
-
-        public void setCode(String code) {
-            this.code = code;
-        }
-
-        public String getClasse() {
-            return classe;
-        }
-
-        public void setClasse(String classe) {
-            this.classe = classe;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
-        public String getStartDate() {
-            return startDate;
-        }
-
-        public void setStartDate(String startDate) {
-            this.startDate = startDate;
-        }
-
-        public String getStopDate() {
-            return stopDate;
-        }
-
-        public void setStopDate(String stopDate) {
-            this.stopDate = stopDate;
-        }
-
-        public String getPatient() {
-            return patient;
-        }
-
-        public void setPatient(String patient) {
-            this.patient = patient;
-        }
-
-        public String getOrganization() {
-            return organization;
-        }
-
-        public void setOrganization(String organization) {
-            this.organization = organization;
-        }
-
-        public String getPractitioner() {
-            return practitioner;
-        }
-
-        public void setPractitioner(String practitioner) {
-            this.practitioner = practitioner;
-        }
-
-        public String getPayer() {
-            return payer;
-        }
-
-        public void setPayer(String payer) {
-            this.payer = payer;
-        }
-
-        public String getCost() {
-            return cost;
-        }
-
-        public void setCost(String cost) {
-            this.cost = cost;
-        }
-
-        public String getCoverage() {
-            return coverage;
-        }
-
-        public void setCoverage(String coverage) {
-            this.coverage = coverage;
+            // this.payer = "";
+            // this.cost = "";
+            // this.coverage = "";
         }
 
         @Override
@@ -197,9 +116,6 @@ public class EncounterConverter extends BaseConverter {
                     ", patient='" + patient + '\'' +
                     ", organization='" + organization + '\'' +
                     ", practitioner='" + practitioner + '\'' +
-                    ", payer='" + payer + '\'' +
-                    ", cost='" + cost + '\'' +
-                    ", coverage='" + coverage + '\'' +
                     '}';
         }
     }

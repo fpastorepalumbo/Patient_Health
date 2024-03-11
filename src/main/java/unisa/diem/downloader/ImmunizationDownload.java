@@ -40,15 +40,11 @@ public class ImmunizationDownload extends BaseDownloader{
         }
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
-            // Check if the entry contains a patient resource
-            //if (entry.getResource() instanceof Patient) {
             immunizations.add((Immunization) entry.getResource());
-            //}
         }
 
         if (immunizations.isEmpty()) {
             System.out.println("No Immunization found in the patient with id: " + patientId);
         }
-
     }
 }

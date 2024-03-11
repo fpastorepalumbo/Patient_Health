@@ -3,50 +3,54 @@ package unisa.diem.converter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import lombok.Getter;
+import lombok.Setter;
 import org.hl7.fhir.r4.model.CarePlan;
 
 import java.util.List;
 
 public class CarePlanConverter extends BaseConverter{
 
-    private List<CarePlan> boundleCarePlans;
+    private final List<CarePlan> bundleCarePlans;
+    @Getter
     @FXML
-    private ObservableList<CarePlanClass> listaCampiCarePlan;
+    private final ObservableList<CarePlanClass> fieldListCarePlan;
 
-    public CarePlanConverter(List<CarePlan> boundleCarePlans) {
-        this.boundleCarePlans = boundleCarePlans;
-        this.listaCampiCarePlan = FXCollections.observableArrayList();
+    public CarePlanConverter(List<CarePlan> bundleCarePlans) {
+        this.bundleCarePlans = bundleCarePlans;
+        this.fieldListCarePlan = FXCollections.observableArrayList();
     }
     @Override
     public void convert() {
-        for (CarePlan carePlan : boundleCarePlans) {
+        for (CarePlan carePlan : bundleCarePlans) {
             CarePlanClass cpc = new CarePlanClass();
 
             cpc.setCode(carePlan.getIdentifier().get(0).getValue());
+
             cpc.setDescription(carePlan.getCategory().get(0).getCoding().get(0).getDisplay());
+
             for (CarePlan.CarePlanActivityComponent activity : carePlan.getActivity()) {
                 cpc.setReasonCode(activity.getDetail().getReasonCode().get(0).getCoding().get(0).getCode());
                 cpc.setReasonDescription(activity.getDetail().getReasonCode().get(0).getCoding().get(0).getDisplay());
             }
 
-            listaCampiCarePlan.add(cpc);
+            fieldListCarePlan.add(cpc);
         }
 
-        if (listaCampiCarePlan.isEmpty()) {
+        if (fieldListCarePlan.isEmpty()) {
             CarePlanClass cpc = new CarePlanClass();
             cpc.setCode("N/A");
             cpc.setDescription("N/A");
             cpc.setReasonCode("N/A");
             cpc.setReasonDescription("N/A");
-            listaCampiCarePlan.add(cpc);
+            fieldListCarePlan.add(cpc);
         }
 
     }
 
-    public ObservableList<CarePlanClass> getListaCampiCarePlan() {
-        return listaCampiCarePlan;
-    }
-    public class CarePlanClass {
+    @Setter
+    @Getter
+    public static class CarePlanClass {
         private String code;
         private String description;
         private String reasonCode;
@@ -57,38 +61,6 @@ public class CarePlanConverter extends BaseConverter{
             this.description = "";
             this.reasonCode = "";
             this.reasonDescription = "";
-        }
-
-        public String getCode() {
-            return code;
-        }
-
-        public void setCode(String code) {
-            this.code = code;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
-        public String getReasonCode() {
-            return reasonCode;
-        }
-
-        public void setReasonCode(String reasonCode) {
-            this.reasonCode = reasonCode;
-        }
-
-        public String getReasonDescription() {
-            return reasonDescription;
-        }
-
-        public void setReasonDescription(String reasonDescription) {
-            this.reasonDescription = reasonDescription;
         }
     }
 }
