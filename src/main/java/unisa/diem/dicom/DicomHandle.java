@@ -81,7 +81,7 @@ public class DicomHandle {
     /**
      * Returns a string representation of the attribute list in the form
      * <pre>KEY NAME: [VR, VL] STRING_VALUE</pre>
-     * If a string representation for a value cannot provided (i.e. binary values), the value field is left blank
+     * If a string representation for a value cannot be provided (i.e. binary values), the value field is left blank
      *
      * @return string representation of the attribute list
      */

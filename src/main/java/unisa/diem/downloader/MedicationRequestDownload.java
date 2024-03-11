@@ -35,11 +35,15 @@ public class MedicationRequestDownload extends BaseDownloader{
     @Override
     public void download() {
         Bundle bundle;
+        Bundle bundle2;
+        Bundle bundle3;
 
         try {
-            /*bundle = (Bundle) client.search().forResource(MedicationRequest.class)
+            /*
+            bundle = (Bundle) client.search().forResource(MedicationRequest.class)
             .where(MedicationRequest.ENCOUNTER.hasId(encounterId))
-            .encodedXml().execute();*/
+            .encodedXml().execute();
+            */
             bundle = (Bundle) client.search().forResource(MedicationRequest.class)
                     .where(new ReferenceClientParam("encounter").hasId("155aa73b-46da-5808-c218-80a5ed671009"))
                     .encodedXml()
@@ -55,7 +59,7 @@ public class MedicationRequestDownload extends BaseDownloader{
             System.out.println("No medication request found in the encounter with id: " + encounterId);
 
         try {
-            bundle = (Bundle) client.search().forResource(Claim.class)
+            bundle2 = (Bundle) client.search().forResource(Claim.class)
                     .where(new ReferenceClientParam("encounter").hasId("155aa73b-46da-5808-c218-80a5ed671009"))
                     .encodedXml()
                     .execute();
@@ -63,7 +67,7 @@ public class MedicationRequestDownload extends BaseDownloader{
             throw new RuntimeException("Error during the download of the Claim");
         }
 
-        for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
+        for (Bundle.BundleEntryComponent entry : bundle2.getEntry()) {
             if (((Claim) entry.getResource()).hasPrescription())
                 claims.add((Claim) entry.getResource());
         }
@@ -72,7 +76,7 @@ public class MedicationRequestDownload extends BaseDownloader{
             System.out.println("No claim found in the encounter with id: " + encounterId);
 
         try {
-            bundle = (Bundle) client.search().forResource(ExplanationOfBenefit.class)
+            bundle3 = (Bundle) client.search().forResource(ExplanationOfBenefit.class)
                     .where(new ReferenceClientParam("encounter").hasId("155aa73b-46da-5808-c218-80a5ed671009"))
                     .encodedXml()
                     .execute();
@@ -80,7 +84,7 @@ public class MedicationRequestDownload extends BaseDownloader{
             throw new RuntimeException("Error during the download of the ExplanationOfBenefit");
         }
 
-        for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
+        for (Bundle.BundleEntryComponent entry : bundle3.getEntry()) {
             if (((ExplanationOfBenefit) entry.getResource()).hasClaim())
                 eobs.add((ExplanationOfBenefit) entry.getResource());
         }

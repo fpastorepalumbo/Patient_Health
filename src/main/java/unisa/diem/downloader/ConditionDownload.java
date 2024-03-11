@@ -2,33 +2,30 @@ package unisa.diem.downloader;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import lombok.Getter;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Condition;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConditionDownload extends BaseDownloader{
+public class ConditionDownload extends BaseDownloader {
 
     FhirContext ctx = FhirContext.forR4();
     String serverBaseUrl = "http://localhost:8080/fhir";
     IGenericClient client = ctx.newRestfulGenericClient(serverBaseUrl);
-
+    @Getter
     List<Condition> conditions;
-
-    String patientId = "";
+    String patientId;
 
     public ConditionDownload(String patientId) {
         this.conditions = new ArrayList<>();
         this.patientId = patientId;
     }
 
-    public List<Condition> getConditions() {
-        return conditions;
-    }
     @Override
     public void download() {
-        Bundle bundle = null;
+        Bundle bundle;
 
         try {
             bundle = (Bundle) client.search().forResource(Condition.class)
@@ -36,19 +33,13 @@ public class ConditionDownload extends BaseDownloader{
                     .encodedXml().execute();
         }
         catch (Exception e) {
-            new RuntimeException("Error during the download of the conditions");
+            throw new RuntimeException("Error during the download of the conditions");
         }
 
-        for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
-            // Check if the entry contains a patient resource
-            //if (entry.getResource() instanceof Patient) {
+        for (Bundle.BundleEntryComponent entry : bundle.getEntry())
             conditions.add((Condition) entry.getResource());
-            //}
-        }
 
-        if (conditions.isEmpty()) {
+        if (conditions.isEmpty())
             System.out.println("No conditions found in the patient with id: " + patientId);
-        }
-
     }
 }

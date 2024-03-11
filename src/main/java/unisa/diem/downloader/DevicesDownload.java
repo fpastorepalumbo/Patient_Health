@@ -3,6 +3,7 @@ package unisa.diem.downloader;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
+import lombok.Getter;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Device;
 import org.hl7.fhir.r4.model.DeviceRequest;
@@ -17,6 +18,7 @@ public class DevicesDownload extends BaseDownloader{
     String serverBaseUrl = "http://localhost:8080/fhir";
     IGenericClient client = ctx.newRestfulGenericClient(serverBaseUrl);
 
+    @Getter
     List<Device> devices;
 
     String encounterId = "";
@@ -28,34 +30,29 @@ public class DevicesDownload extends BaseDownloader{
         this.patientId = patientId;
     }
 
-    public List<Device> getDevices() { return devices; }
     @Override
     public void download() {
-
-        Bundle bundle = null;
+        Bundle bundle;
 
         try {
-           /* bundle = (Bundle) client.search().forResource(Device.class)
+           /*
+           bundle = (Bundle) client.search().forResource(Device.class)
             .where(Device.PATIENT.hasId(patientId)).where(DeviceRequest.ENCOUNTER.hasId(encounterId))  // ho un dubbio, vedi DeviceLoader per vedere come fare la query
             .encodedXml().execute();
-*/
-
+            */
             bundle = (Bundle) client.search().forResource(Device.class)
                     .where(new ReferenceClientParam("patient").hasId("6f4d77e9-2203-03a3-8966-92a22a21000a"))
                     .encodedXml()
                     .execute();
         }
         catch (Exception e) {
-            new RuntimeException("Error during the download of the Devices");
+            throw new RuntimeException("Error during the download of the Devices");
         }
 
-        for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
+        for (Bundle.BundleEntryComponent entry : bundle.getEntry())
             devices.add((Device) entry.getResource());
-        }
 
-        if (devices.isEmpty()) {
+        if (devices.isEmpty())
             System.out.println("No devices found in the patient with id: " + encounterId);
-        }
-
     }
 }
