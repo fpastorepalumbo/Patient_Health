@@ -28,7 +28,7 @@ public class PatientDownload extends BaseDownloader {
     }
 
     public void download() {
-        Bundle bundle = null;
+        Bundle bundle;
 
         try {
             bundle = (Bundle) client.search().forResource(Patient.class).offset(count).count(20)

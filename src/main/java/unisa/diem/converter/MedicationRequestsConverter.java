@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Claim;
+import org.hl7.fhir.r4.model.ExplanationOfBenefit;
 import org.hl7.fhir.r4.model.MedicationRequest;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class MedicationRequestsConverter extends BaseConverter{
     String serverBaseUrl = "http://localhost:8080/fhir";
     IGenericClient client = ctx.newRestfulGenericClient(serverBaseUrl);
     List<Claim> claims;
+    List<ExplanationOfBenefit> eobs;
     private final List<MedicationRequest> bundleMedRequests;
     @Getter
     @FXML
@@ -30,6 +32,7 @@ public class MedicationRequestsConverter extends BaseConverter{
         this.bundleMedRequests = bundleMedRequests;
         this.fieldsListMedRequest = FXCollections.observableArrayList();
         this.claims = new ArrayList<>();
+        this.eobs = new ArrayList<>();
     }
 
     @Override
@@ -38,6 +41,7 @@ public class MedicationRequestsConverter extends BaseConverter{
             MedicationRequestsClass mr = new MedicationRequestsClass();
             String[] parts;
             Claim claim = getClaim(medReq);
+            ExplanationOfBenefit eob = getExplanationofBenefit(medReq);
 
             mr.setCode(medReq.getMedicationCodeableConcept().getCoding().get(0).getCode());
 
@@ -45,11 +49,11 @@ public class MedicationRequestsConverter extends BaseConverter{
 
             mr.setBaseCost(claim.getItem().get(0).getUnitPrice().getValue().toString());
 
-            // mr.setCoverage(medReq.getInsurance().get(0).getCoverage().getReference());
+            mr.setCoverage(eob.getItem().get(0).getAdjudication().get(0).getAmount().getValue().toString());
 
-            // mr.setDispenses(claim.getItem().get(0).getQuantity().getValue().toString());
+            mr.setDispenses(claim.getItem().get(0).getQuantity().getValue().toString());
 
-            // mr.setTotCost(claim.getItem().get(0).getNet().getValue().toString());
+            mr.setTotCost(claim.getItem().get(0).getNet().getValue().toString());
 
             parts = medReq.getDispenseRequest().getValidityPeriod().getStart().toString().split(" ");
             mr.setStartDate(parts[5] + "-" + parts[1] + "-" + parts[2]);
@@ -86,10 +90,11 @@ public class MedicationRequestsConverter extends BaseConverter{
 
     public Claim getClaim(MedicationRequest medReq) {
         Bundle bundle;
+        String encID = medReq.getEncounter().getReference().split("/")[1];
 
         try {
             bundle = (Bundle) client.search().forResource(Claim.class)
-                    .where(new ReferenceClientParam("encounter").hasId(medReq.getEncounter().getReference().split("/")[1]))
+                    .where(new ReferenceClientParam("encounter").hasId(encID))
                     .encodedXml()
                     .execute();
         } catch (Exception e) {
@@ -102,13 +107,41 @@ public class MedicationRequestsConverter extends BaseConverter{
         }
 
         if (claims.isEmpty())
-            System.out.println("No claim found in the encounter with id: " + medReq.getEncounter().getReference().split("/")[1]);
+            System.out.println("No claim found in the encounter with id: " + encID);
 
         for (Claim claim : claims) {
             if (claim.hasPrescription())
                 return claim;
         }
         return new Claim();
+    }
+
+    public ExplanationOfBenefit getExplanationofBenefit(MedicationRequest medReq) {
+        Bundle bundle;
+        String encID = medReq.getEncounter().getReference().split("/")[1];
+
+        try {
+            bundle = (Bundle) client.search().forResource(ExplanationOfBenefit.class)
+                    .where(new ReferenceClientParam("encounter").hasId(encID))
+                    .encodedXml()
+                    .execute();
+        } catch (Exception e) {
+            throw new RuntimeException("Error during the download of the ExplanationOfBenefit");
+        }
+
+        for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
+            if (((ExplanationOfBenefit) entry.getResource()).hasClaim())
+                eobs.add((ExplanationOfBenefit) entry.getResource());
+        }
+
+        if (eobs.isEmpty())
+            System.out.println("No ExplanationOfBenefit found in the encounter with id: " + encID);
+
+        for (ExplanationOfBenefit eob : eobs) {
+            if (eob.hasClaim())
+                return eob;
+        }
+        return new ExplanationOfBenefit();
     }
 
     @Setter
