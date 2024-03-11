@@ -67,7 +67,8 @@ public class MedicationRequestsConverter extends BaseConverter{
             parts = medReq.getSubject().getReference().split("/");
             mr.setPatient(parts[1]);
 
-            // mr.setPayer(medReq.getInsurance().get(0).getCoverage().getReference());
+            parts = eob.getInsurer().getReference().split("/");
+            mr.setPayer(parts[1]);
 
             fieldsListMedRequest.add(mr);
         }
