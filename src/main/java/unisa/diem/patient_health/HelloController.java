@@ -29,10 +29,8 @@ public class HelloController implements Initializable {
     public TableView<ImmunizationConverter.ImmunizationClass> immunizationTable;
     @FXML
     public TableView<CarePlanConverter.CarePlanClass> carePlanTable;
-
     @FXML
     public TableView<OrganizationConverter.OrganizationClass> organizationTable;
-
     @FXML
     public TableView<PayersConverter.PayersClass> payerTable;
     @FXML
@@ -56,6 +54,7 @@ public class HelloController implements Initializable {
     public TableView<ImagingStudyConverter.ImagingStudyClass> imageTable;
     */
 
+    //  personTable
     @FXML
     public TableColumn nameClmPersona;
     @FXML
@@ -78,6 +77,8 @@ public class HelloController implements Initializable {
     public TableColumn cityClmPersona;
     @FXML
     public TableColumn stateClmPersona;
+
+    //  allergyTable
     @FXML
     public TableColumn codeClmAllergy;
     @FXML
@@ -88,6 +89,8 @@ public class HelloController implements Initializable {
     public TableColumn stopDateClmAllergy;
     @FXML
     public TableColumn encounterClmAllergy;
+
+    //  immunizationTable
     @FXML
     public TableColumn codeClmImmunization;
     @FXML
@@ -96,6 +99,8 @@ public class HelloController implements Initializable {
     public TableColumn dateClmImmunization;
     @FXML
     public TableColumn encounterClmImmunization;
+
+    // conditionTable
     @FXML
     public TableColumn codeClmCondition;
     @FXML
@@ -106,6 +111,8 @@ public class HelloController implements Initializable {
     public TableColumn stopDateClmCondition;
     @FXML
     public TableColumn encounterClmCondition;
+
+    // carePlanTable
     @FXML
     public TableColumn codeClmCarePlan;
     @FXML
@@ -114,6 +121,8 @@ public class HelloController implements Initializable {
     public TableColumn reasonCodeClmCarePlan;
     @FXML
     public TableColumn reasonDescriptionClmCarePlan;
+
+    // organizationTable
     @FXML
     public TableColumn organizationNameClm;
     // @FXML
@@ -126,6 +135,8 @@ public class HelloController implements Initializable {
     public TableColumn phoneOrganizationClm;
     // @FXML
     // public TableColumn revenueOrganizationClm;
+
+    // payerTable
     @FXML
     public TableColumn payerNameClm;
     @FXML
@@ -138,6 +149,8 @@ public class HelloController implements Initializable {
     public TableColumn phonePayerClm;
     @FXML
     public TableColumn revenuePayerClm;
+
+    // practitionerTable
     @FXML
     public TableColumn namePractitionerClm;
     @FXML
@@ -153,6 +166,7 @@ public class HelloController implements Initializable {
     @FXML
     public TableColumn statePractitionerClm;
 
+    // encounterTable
     @FXML
     public TableColumn codeEncounterClm;
     @FXML
@@ -169,13 +183,14 @@ public class HelloController implements Initializable {
     public TableColumn organizationEncounterClm;
     @FXML
     public TableColumn practitionerEncounterClm;
-    // @FXML
-    // public TableColumn payerEncounterClm;
-    // @FXML
-    // public TableColumn costEncounterClm;
-    // @FXML
-    // public TableColumn coverageEncounterClm;
+    @FXML
+    public TableColumn payerEncounterClm;
+    @FXML
+    public TableColumn costEncounterClm;
+    @FXML
+    public TableColumn coverageEncounterClm;
 
+    // observationTable
     @FXML
     public TableColumn observationEncounterClm2;
     @FXML
@@ -184,37 +199,33 @@ public class HelloController implements Initializable {
     public TableColumn valueObservationClm;
     @FXML
     public TableColumn dateObservationClm;
-
     @FXML
     public TableColumn patientObservationClm;
 
+    // medReqTable
     @FXML
     public TableColumn codeMedReqClm;
-
     @FXML
     public TableColumn descriptionMedReqClm;
-
     @FXML
     public TableColumn baseCostMedReqClm;
-
     @FXML
     public TableColumn coverageMedReqClm;
-
+    // TODO: corregger disendes con dispenses
     @FXML
     public TableColumn dispendesMedReqClm;
-
     @FXML
     public TableColumn totCostMedReqClm;
-
     @FXML
     public TableColumn startDateMedReqClm;
-
     @FXML
     public TableColumn stopDateMedReqClm;
     @FXML
     public TableColumn patientMedReqClm;
     @FXML
     public TableColumn payerMedReqClm;
+
+    // procedureTable
     @FXML
     public TableColumn codeProcedureClm;
     @FXML
@@ -225,6 +236,8 @@ public class HelloController implements Initializable {
     public TableColumn costProcedureClm;
     @FXML
     public TableColumn patientProcedureClm;
+
+    // deviceTable
     @FXML
     public TableColumn codeDeviceClm;
     @FXML
@@ -235,6 +248,8 @@ public class HelloController implements Initializable {
     public TableColumn stopDateDeviceClm;
     @FXML
     public TableColumn patientDeviceClm;
+
+    // imageTable
     @FXML
     public TableColumn bodyCodeClm;
     @FXML
@@ -268,7 +283,6 @@ public class HelloController implements Initializable {
     private Pane patientPane;
     @FXML
     private Pane organizationPane;
-
     @FXML
     private Pane exstEncounterPane;
     @FXML
@@ -278,21 +292,29 @@ public class HelloController implements Initializable {
     @FXML
     private Pane imagingPane;
 
-    public PatientDownload patientDownload = new PatientDownload();
-    public EncountersDownload encounterDownload = new EncountersDownload();
-    public OrganizationDownload organizationDownload = new OrganizationDownload();
-    public PayersDownload payersDownload = new PayersDownload();
-    public PractitionersDownload practitionersDownload = new PractitionersDownload();
-    public DatasetService datasetUtility = new DatasetService();
-
-    public PatientConverter.PatientClass personElement = null;
-    public EncounterConverter.EncounterClass encounterElement = null;
-    public PatientConverter.PatientClass patientElement = null;
-
+    public PatientDownload patientDownload;
+    public EncountersDownload encounterDownload;
+    public OrganizationDownload organizationDownload;
+    public PayersDownload payersDownload;
+    public PractitionersDownload practitionersDownload;
+    public DatasetService datasetUtility;
+    public PatientConverter.PatientClass personElement;
+    public EncounterConverter.EncounterClass encounterElement;
     public boolean firstClickPatient;
     public boolean firstClickOrganization;
     public boolean firstClickEncounter;
     public boolean firstClickImaging;
+
+    public HelloController() {
+        patientDownload = new PatientDownload();
+        encounterDownload = new EncountersDownload();
+        organizationDownload = new OrganizationDownload();
+        payersDownload = new PayersDownload();
+        practitionersDownload = new PractitionersDownload();
+        datasetUtility = new DatasetService();
+        personElement = null;
+        encounterElement = null;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -374,9 +396,9 @@ public class HelloController implements Initializable {
         patientEncounterClm.setCellValueFactory(new PropertyValueFactory<>("patient"));
         organizationEncounterClm.setCellValueFactory(new PropertyValueFactory<>("organization"));
         practitionerEncounterClm.setCellValueFactory(new PropertyValueFactory<>("practitioner"));
-        // payerEncounterClm.setCellValueFactory(new PropertyValueFactory<>("payer"));
-        // costEncounterClm.setCellValueFactory(new PropertyValueFactory<>("cost"));
-        // coverageEncounterClm.setCellValueFactory(new PropertyValueFactory<>("coverage"));
+        payerEncounterClm.setCellValueFactory(new PropertyValueFactory<>("payer"));
+        costEncounterClm.setCellValueFactory(new PropertyValueFactory<>("cost"));
+        coverageEncounterClm.setCellValueFactory(new PropertyValueFactory<>("coverage"));
 
         observationEncounterClm2.setCellValueFactory(new PropertyValueFactory<>("code"));
         descriptionEncounterClm2.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -441,10 +463,8 @@ public class HelloController implements Initializable {
 
     @FXML
     public void patientLabelClick(MouseEvent mouseEvent) {
-
-        if (patientPane.isVisible()) {
+        if (patientPane.isVisible())
             return;
-        }
 
         patientPane.setVisible(true);
         organizationPane.setVisible(false);
@@ -467,20 +487,17 @@ public class HelloController implements Initializable {
             PatientConverter patientConverter = new PatientConverter(patients);
             patientConverter.convert();
 
-            if (patientConverter.getFieldsListPatient().isEmpty()) {
+            if (patientConverter.getFieldsListPatient().isEmpty())
                 throw new RuntimeException("Patient Data Conversion Error");
-            }
-            for (PatientConverter.PatientClass patient : patientConverter.getFieldsListPatient()) {
+            for (PatientConverter.PatientClass patient : patientConverter.getFieldsListPatient())
                 personTable.getItems().add(patient);
-            }
         }
     }
-    @FXML
-    public void organizzationLabelClick(MouseEvent mouseEvent) {
 
-        if (organizationPane.isVisible()) {
+    @FXML
+    public void organizationLabelClick(MouseEvent mouseEvent) {
+        if (organizationPane.isVisible())
             return;
-        }
 
         organizationPane.setVisible(true);
         patientPane.setVisible(false);
@@ -500,24 +517,20 @@ public class HelloController implements Initializable {
             OrganizationConverter organizationConverter = new OrganizationConverter(organizations);
             organizationConverter.convert();
 
-            if (organizationConverter.getListaCampiOrganization().isEmpty()) {
+            if (organizationConverter.getListaCampiOrganization().isEmpty())
                 throw new RuntimeException("Organization Data Conversion Error");
-            }
-            for (OrganizationConverter.OrganizationClass organization : organizationConverter.getListaCampiOrganization()) {
+            for (OrganizationConverter.OrganizationClass organization : organizationConverter.getListaCampiOrganization())
                 organizationTable.getItems().add(organization);
-            }
 
             payersDownload.download();
             List<Organization> payers = payersDownload.getPayers();
             PayersConverter payersConverter = new PayersConverter(payers);
             payersConverter.convert();
 
-            if (payersConverter.getListaCampiPayer().isEmpty()) {
+            if (payersConverter.getListaCampiPayer().isEmpty())
                 throw new RuntimeException("Payers Data Conversion Error");
-            }
-            for (PayersConverter.PayersClass payer : payersConverter.getListaCampiPayer()) {
+            for (PayersConverter.PayersClass payer : payersConverter.getListaCampiPayer())
                 payerTable.getItems().add(payer);
-            }
 
             practitionersDownload.download();
             List<Practitioner> practitioners = practitionersDownload.getPractitioners();
@@ -532,12 +545,11 @@ public class HelloController implements Initializable {
             }
         }
     }
-    @FXML
-    public void encounterLabelClick(MouseEvent mouseEvent) {
 
-        if (exstEncounterPane.isVisible()) {
+    @FXML
+    public void encounterLabelClick() {
+        if (exstEncounterPane.isVisible())
             return;
-        }
 
         exstEncounterPane.setVisible(true);
         encounterPane1.setVisible(true);
@@ -554,21 +566,17 @@ public class HelloController implements Initializable {
             EncounterConverter encounterConverter = new EncounterConverter(encounters);
             encounterConverter.convert();
 
-            if (encounterConverter.getFieldsListEncounter().isEmpty()) {
+            if (encounterConverter.getFieldsListEncounter().isEmpty())
                 throw new RuntimeException("Encounter Data Conversion Error");
-            }
-            for (EncounterConverter.EncounterClass encounter : encounterConverter.getFieldsListEncounter()) {
+            for (EncounterConverter.EncounterClass encounter : encounterConverter.getFieldsListEncounter())
                 encounterTable.getItems().add(encounter);
-            }
-
         }
     }
     @FXML
-    public void imagineLabelClick(MouseEvent mouseEvent) {
-
-        if (imagingPane.isVisible()) {
+    public void imagineLabelClick() {
+        if (imagingPane.isVisible())
             return;
-        }
+
         imagingPane.setVisible(true);
         patientPane.setVisible(false);
         organizationPane.setVisible(false);
@@ -580,12 +588,12 @@ public class HelloController implements Initializable {
             firstClickEncounter = false;
             imageTable.getItems().clear();
             /*
-            RICHIAMA I METODI DI DOWNLOAD E CONVERSIONE
-            */
+            * TODO: RICHIAMA I METODI DI DOWNLOAD E CONVERSIONE
+            **/
         }
     }
 
-    public void clickPatientTable(MouseEvent mouseEvent) {
+    public void clickPatientTable() {
         allergyTable.getItems().clear();
         conditionTable.getItems().clear();
         immunizationTable.getItems().clear();
@@ -603,43 +611,34 @@ public class HelloController implements Initializable {
             List<AllergyIntolerance> allergies = allergyDownload.getAllergies();
             AllergyConverter allergyConverter = new AllergyConverter(allergies);
             allergyConverter.convert();
-
-            if (allergyConverter.getFieldsListAllergy().isEmpty()) {
+            if (allergyConverter.getFieldsListAllergy().isEmpty())
                 throw new RuntimeException("Allergy Data Conversion Error");
-            }
-            for (AllergyConverter.AllergyClass allergie : allergyConverter.getFieldsListAllergy()) {
-                allergyTable.getItems().add(allergie);
-            }
+            for (AllergyConverter.AllergyClass allergy : allergyConverter.getFieldsListAllergy())
+                allergyTable.getItems().add(allergy);
 
             ImmunizationDownload immunizationDownload = new ImmunizationDownload(personElement.getId());
             immunizationDownload.download();
             List<Immunization> immunizations = immunizationDownload.getImmunizations();
             ImmunizationConverter immunizationConverter = new ImmunizationConverter(immunizations);
             immunizationConverter.convert();
-
-            if (immunizationConverter.getFieldsListImmunization().isEmpty()) {
+            if (immunizationConverter.getFieldsListImmunization().isEmpty())
                 throw new RuntimeException("Immunization Data Conversion Error");
-            }
-            for (ImmunizationConverter.ImmunizationClass immunization : immunizationConverter.getFieldsListImmunization()) {
+            for (ImmunizationConverter.ImmunizationClass immunization : immunizationConverter.getFieldsListImmunization())
                 immunizationTable.getItems().add(immunization);
-            }
 
             ConditionDownload conditionDownload = new ConditionDownload(personElement.getId());
             conditionDownload.download();
             List<Condition> conditions = conditionDownload.getConditions();
             ConditionConverter conditionConverter = new ConditionConverter(conditions);
             conditionConverter.convert();
-
-            if (conditionConverter.getFieldsListCondition().isEmpty()) {
+            if (conditionConverter.getFieldsListCondition().isEmpty())
                 throw new RuntimeException("Condition Data Conversion Error");
-            }
-            for (ConditionConverter.ConditionClass condition : conditionConverter.getFieldsListCondition()) {
+            for (ConditionConverter.ConditionClass condition : conditionConverter.getFieldsListCondition())
                 conditionTable.getItems().add(condition);
-            }
         }
     }
 
-    public void clickEncounterTable(MouseEvent mouseEvent) {
+    public void clickEncounterTable() {
         exstEncounterPane.setVisible(true);
         encounterPane1.setVisible(false);
         encounterPane2.setVisible(true);
@@ -654,7 +653,6 @@ public class HelloController implements Initializable {
 
         encounterElement = encounterTable.getSelectionModel().getSelectedItem();
 
-
         if (encounterElement != null) {
             medReqTable.setVisible(true);
             observationTable.setVisible(true);
@@ -668,62 +666,48 @@ public class HelloController implements Initializable {
             List<Observation> observations = observationDownload.getObservations();
             ObservationsConverter observationsConverter = new ObservationsConverter(observations);
             observationsConverter.convert();
-
-            if (observationsConverter.getListaCampiObservation().isEmpty()) {
+            if (observationsConverter.getListaCampiObservation().isEmpty())
                 throw new RuntimeException("Observation Data Conversion Error");
-            }
-            for (ObservationsConverter.ObservationClass observation : observationsConverter.getListaCampiObservation()) {
+            for (ObservationsConverter.ObservationClass observation : observationsConverter.getListaCampiObservation())
                 observationTable.getItems().add(observation);
-            }
 
             MedicationRequestDownload medReqDownload = new MedicationRequestDownload(encID);
             medReqDownload.download();
             List<MedicationRequest> medReqs = medReqDownload.getMedicationRequests();
             MedicationRequestsConverter medReqConverter = new MedicationRequestsConverter(medReqs);
             medReqConverter.convert();
-
-            if (medReqConverter.getFieldsListMedRequest().isEmpty()) {
+            if (medReqConverter.getFieldsListMedRequest().isEmpty())
                 throw new RuntimeException("Medication Request Data Conversion Error");
-            }
-            for (MedicationRequestsConverter.MedicationRequestsClass medReq : medReqConverter.getFieldsListMedRequest()) {
+            for (MedicationRequestsConverter.MedicationRequestsClass medReq : medReqConverter.getFieldsListMedRequest())
                 medReqTable.getItems().add(medReq);
-            }
-
 
             ProceduresDownload procedureDownload = new ProceduresDownload(encID);
             procedureDownload.download();
             List<Procedure> procedures = procedureDownload.getProcedures();
             ProceduresConverter procedureConverter = new ProceduresConverter(procedures);
             procedureConverter.convert();
-
-            if (procedureConverter.getListaCampiProcedure().isEmpty()) {
+            if (procedureConverter.getListaCampiProcedure().isEmpty())
                 throw new RuntimeException("Procedure Data Conversion Error");
-            }
-            for (ProceduresConverter.ProcedureClass procedure : procedureConverter.getListaCampiProcedure()) {
+            for (ProceduresConverter.ProcedureClass procedure : procedureConverter.getListaCampiProcedure())
                 procedureTable.getItems().add(procedure);
-            }
 
             DevicesDownload deviceDownload = new DevicesDownload(encID, patID);
             deviceDownload.download();
             List<Device> devices = deviceDownload.getDevices();
             DevicesConverter deviceConverter = new DevicesConverter(devices);
             deviceConverter.convert();
-
-            if (deviceConverter.getListaCampiDevices().isEmpty()) {
+            if (deviceConverter.getListaCampiDevices().isEmpty())
                 throw new RuntimeException("Device Data Conversion Error");
-            }
-            for (DevicesConverter.DeviceClass device : deviceConverter.getListaCampiDevices()) {
+            for (DevicesConverter.DeviceClass device : deviceConverter.getListaCampiDevices())
                 deviceTable.getItems().add(device);
-            }
         }
     }
 
-    public void clickConditionTable(MouseEvent mouseEvent) {
+    public void clickConditionTable() {
         ConditionConverter.ConditionClass conditionElement = conditionTable.getSelectionModel().getSelectedItem();
 
-        if (conditionElement != null) {
+        if (conditionElement != null)
             carePlanTable.setVisible(true);
-        }
         carePlanTable.getItems().clear();
 
         CarePlanDownload carePlanDownload = new CarePlanDownload(personElement.getId());
@@ -731,12 +715,11 @@ public class HelloController implements Initializable {
         List<CarePlan> carePlans = carePlanDownload.getCarePlans();
         CarePlanConverter carePlanConverter = new CarePlanConverter(carePlans);
         carePlanConverter.convert();
-        for (CarePlanConverter.CarePlanClass carePlan : carePlanConverter.getFieldsListCarePlan()) {
+        for (CarePlanConverter.CarePlanClass carePlan : carePlanConverter.getFieldsListCarePlan())
             carePlanTable.getItems().add(carePlan);
-        }
     }
 
-    public void loadDataset(ActionEvent actionEvent) {
+    public void loadDataset() {
         try {
             datasetUtility.loadDataset();
         } catch (IOException e) {
@@ -751,13 +734,10 @@ public class HelloController implements Initializable {
             List<Patient> patients = patientDownload.getPatients();
             PatientConverter patientConverter = new PatientConverter(patients);
             patientConverter.convert();
-
-            if (patientConverter.getFieldsListPatient().isEmpty()) {
+            if (patientConverter.getFieldsListPatient().isEmpty())
                 throw new RuntimeException("ERROR DURING THE SCROLL OF PATIENT");
-            }
-            for (PatientConverter.PatientClass patient : patientConverter.getFieldsListPatient()) {
+            for (PatientConverter.PatientClass patient : patientConverter.getFieldsListPatient())
                 personTable.getItems().add(patient);
-            }
         }
     }
 
@@ -768,13 +748,10 @@ public class HelloController implements Initializable {
             List<Organization> organizations = organizationDownload.getOrganizations();
             OrganizationConverter organizationConverter = new OrganizationConverter(organizations);
             organizationConverter.convert();
-
-            if (organizationConverter.getListaCampiOrganization().isEmpty()) {
+            if (organizationConverter.getListaCampiOrganization().isEmpty())
                 throw new RuntimeException("ERROR DURING THE SCROLL OF ORGANIZATIONS");
-            }
-            for (OrganizationConverter.OrganizationClass organization : organizationConverter.getListaCampiOrganization()) {
+            for (OrganizationConverter.OrganizationClass organization : organizationConverter.getListaCampiOrganization())
                 organizationTable.getItems().add(organization);
-            }
         }
     }
 
@@ -785,13 +762,10 @@ public class HelloController implements Initializable {
             List<Organization> payers = payersDownload.getPayers();
             PayersConverter payersConverter = new PayersConverter(payers);
             payersConverter.convert();
-
-            if (payersConverter.getListaCampiPayer().isEmpty()) {
+            if (payersConverter.getListaCampiPayer().isEmpty())
                 throw new RuntimeException("ERROR DURING THE SCROLL OF PAYERS");
-            }
-            for (PayersConverter.PayersClass payer : payersConverter.getListaCampiPayer()) {
+            for (PayersConverter.PayersClass payer : payersConverter.getListaCampiPayer())
                 payerTable.getItems().add(payer);
-            }
         }
     }
 
@@ -802,13 +776,10 @@ public class HelloController implements Initializable {
             List<Practitioner> practitioners = practitionersDownload.getPractitioners();
             PractitionersConverter practitionersConverter = new PractitionersConverter(practitioners);
             practitionersConverter.convert();
-
-            if (practitionersConverter.getListaCampiPractitioner().isEmpty()) {
+            if (practitionersConverter.getListaCampiPractitioner().isEmpty())
                 throw new RuntimeException("ERROR DURING THE SCROLL OF PRACTITIONERS");
-            }
-            for (PractitionersConverter.PractitionerClass practitioner : practitionersConverter.getListaCampiPractitioner()) {
+            for (PractitionersConverter.PractitionerClass practitioner : practitionersConverter.getListaCampiPractitioner())
                 practitionerTable.getItems().add(practitioner);
-            }
         }
     }
 
@@ -819,16 +790,12 @@ public class HelloController implements Initializable {
             List<Encounter> encounters = encounterDownload.getEncounters();
             EncounterConverter encounterConverter = new EncounterConverter(encounters);
             encounterConverter.convert();
-
-            if (encounterConverter.getFieldsListEncounter().isEmpty()) {
+            if (encounterConverter.getFieldsListEncounter().isEmpty())
                 throw new RuntimeException("ERROR DURING THE SCROLL OF ENCOUNTERS");
-            }
-            for (EncounterConverter.EncounterClass encounter : encounterConverter.getFieldsListEncounter()) {
+            for (EncounterConverter.EncounterClass encounter : encounterConverter.getFieldsListEncounter())
                 encounterTable.getItems().add(encounter);
-            }
         }
     }
 
-    //Metodo Scrol immagini
-
+    // TODO: Metodo Scroll immagini
 }

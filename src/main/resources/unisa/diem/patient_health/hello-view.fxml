@@ -23,7 +23,7 @@
                         <TextField layoutX="14.0" layoutY="27.0" prefHeight="25.0" prefWidth="140.0" />
                         <Button layoutX="161.0" layoutY="27.0" mnemonicParsing="false" text="Search" />
                         <Label fx:id="patientLabel" alignment="CENTER" layoutX="14.0" layoutY="83.0" onMouseClicked="#patientLabelClick" prefHeight="39.0" prefWidth="182.0" text="Patient" />
-                        <Label fx:id="organizationLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="122.0" onMouseClicked="#organizzationLabelClick" prefHeight="49.0" prefWidth="182.0" text="Organization" />
+                        <Label fx:id="organizationLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="122.0" onMouseClicked="#organizationLabelClick" prefHeight="49.0" prefWidth="182.0" text="Organization" />
                         <Label fx:id="encounterLabel" alignment="CENTER" layoutX="14.0" layoutY="171.0" onMouseClicked="#encounterLabelClick" prefHeight="49.0" prefWidth="182.0" text="Encounter" />
                         <Label fx:id="imagingLabel" alignment="CENTER" layoutX="14.0" layoutY="220.0" onMouseClicked="#imagineLabelClick" prefHeight="39.0" prefWidth="182.0" text="Imaging Study" />
                      </children>

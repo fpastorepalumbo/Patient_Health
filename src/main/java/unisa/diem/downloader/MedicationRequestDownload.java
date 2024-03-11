@@ -34,8 +34,8 @@ public class MedicationRequestDownload extends BaseDownloader{
 
     @Override
     public void download() {
-
         Bundle bundle;
+
         try {
             /*bundle = (Bundle) client.search().forResource(MedicationRequest.class)
             .where(MedicationRequest.ENCOUNTER.hasId(encounterId))
@@ -48,13 +48,11 @@ public class MedicationRequestDownload extends BaseDownloader{
             throw new RuntimeException("Error during the download of the MedicationRequest");
         }
 
-        for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
+        for (Bundle.BundleEntryComponent entry : bundle.getEntry())
             medicationRequests.add((MedicationRequest) entry.getResource());
-        }
 
-        if (medicationRequests.isEmpty()) {
+        if (medicationRequests.isEmpty())
             System.out.println("No medication request found in the encounter with id: " + encounterId);
-        }
 
         try {
             bundle = (Bundle) client.search().forResource(Claim.class)
@@ -66,12 +64,12 @@ public class MedicationRequestDownload extends BaseDownloader{
         }
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
-            claims.add((Claim) entry.getResource());
+            if (((Claim) entry.getResource()).hasPrescription())
+                claims.add((Claim) entry.getResource());
         }
 
-        if (claims.isEmpty()) {
+        if (claims.isEmpty())
             System.out.println("No claim found in the encounter with id: " + encounterId);
-        }
 
         try {
             bundle = (Bundle) client.search().forResource(ExplanationOfBenefit.class)
@@ -83,11 +81,11 @@ public class MedicationRequestDownload extends BaseDownloader{
         }
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
-            eobs.add((ExplanationOfBenefit) entry.getResource());
+            if (((ExplanationOfBenefit) entry.getResource()).hasClaim())
+                eobs.add((ExplanationOfBenefit) entry.getResource());
         }
 
-        if (eobs.isEmpty()) {
+        if (eobs.isEmpty())
             System.out.println("No explanation of benefit found in the encounter with id: " + encounterId);
-        }
     }
 }
