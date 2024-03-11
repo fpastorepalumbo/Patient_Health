@@ -1,19 +1,34 @@
 package unisa.diem.converter;
 
+import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.rest.client.api.IGenericClient;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import lombok.Getter;
 import lombok.Setter;
+import org.hl7.fhir.r4.model.Bundle;
+import org.hl7.fhir.r4.model.Claim;
 import org.hl7.fhir.r4.model.Encounter;
+import org.hl7.fhir.r4.model.ExplanationOfBenefit;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // TODO: Rinominare code in id e classe in code, prendere claim e eob per payer cost e coverage
 
 public class EncounterConverter extends BaseConverter {
 
+
+    FhirContext ctx = FhirContext.forR4();
+    String serverBaseUrl = "http://localhost:8080/fhir";
+    IGenericClient client = ctx.newRestfulGenericClient(serverBaseUrl);
+
     private final List<Encounter> bundleEncounters;
+
+   // List <Claim> claims; //costo
+    //List <ExplanationOfBenefit> eobs; //coverage
+
     @Getter
     @FXML
     private final ObservableList<EncounterClass> fieldsListEncounter;
@@ -53,8 +68,11 @@ public class EncounterConverter extends BaseConverter {
             ec.setPractitioner(parts[1]);
 
             // ec.setPayer(encounter.getInsurer().getReference());
-            // ec.setCost(encounter.getHospitalization().getAccomodation().get(0).getCost().toString());
-            // ec.setCoverage(encounter.getHospitalization().getAccomodation().get(0).getPrecedence().toString());
+            String cost = getClaimCost(encounter);
+            ec.setCost(cost);
+
+            String coverage = getCoverageExplanationOfBenefit(encounter);
+            ec.setCoverage(coverage);
 
             fieldsListEncounter.add(ec);
         }
@@ -70,10 +88,46 @@ public class EncounterConverter extends BaseConverter {
             ec.setOrganization("N/A");
             ec.setPractitioner("N/A");
             // ec.setPayer("N/A");
-            // ec.setCost("N/A");
-            // ec.setCoverage("N/A");
+            ec.setCost("N/A");
+            ec.setCoverage("N/A");
             fieldsListEncounter.add(ec);
         }
+    }
+
+    private String getCoverageExplanationOfBenefit(Encounter encounter) {
+        Bundle bundle;
+        ExplanationOfBenefit eob;
+        String coverage ="";
+
+        try {
+            bundle = (Bundle) client.search().forResource(ExplanationOfBenefit.class)
+                    .where(ExplanationOfBenefit.ENCOUNTER.hasId(encounter.getId()))
+                    .encodedXml()
+                    .execute();
+            eob = (ExplanationOfBenefit) bundle.getEntry().get(0).getResource();
+            coverage = eob.getInsurance().get(0).getCoverage().getReference();
+        } catch (Exception e) {
+            throw new RuntimeException("Error during the download of the ExplanationOfBenefit");
+        }
+        return coverage;
+    }
+
+    private String getClaimCost(Encounter encounter) { //del claim il costo, claim.getCost()
+        Bundle bundle;
+        Claim claim;
+        String costo="";
+
+        try {
+            bundle = (Bundle) client.search().forResource(Claim.class)
+                    .where(Claim.ENCOUNTER.hasId(encounter.getId()))
+                    .encodedXml()
+                    .execute();
+            claim = (Claim) bundle.getEntry().get(0).getResource();
+            costo = claim.getTotal().getValue().toString();
+        } catch (Exception e) {
+            throw new RuntimeException("Error during the download of the Claim");
+        }
+        return costo;
     }
 
     @Setter
@@ -88,8 +142,8 @@ public class EncounterConverter extends BaseConverter {
         private String organization;
         private String practitioner;
         // private String payer;
-        // private String cost;
-        // private String coverage;
+        private String cost;
+        private String coverage;
 
         public EncounterClass() {
             this.code = "";
@@ -101,8 +155,8 @@ public class EncounterConverter extends BaseConverter {
             this.organization = "";
             this.practitioner = "";
             // this.payer = "";
-            // this.cost = "";
-            // this.coverage = "";
+            this.cost = "";
+            this.coverage = "";
         }
 
         @Override
@@ -116,6 +170,9 @@ public class EncounterConverter extends BaseConverter {
                     ", patient='" + patient + '\'' +
                     ", organization='" + organization + '\'' +
                     ", practitioner='" + practitioner + '\'' +
+                    // ", payer='" + payer + '\'' +
+                    ", cost='" + cost + '\'' +
+                    ", coverage='" + coverage + '\'' +
                     '}';
         }
     }
