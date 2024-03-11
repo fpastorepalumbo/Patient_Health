@@ -26,9 +26,6 @@ public class EncounterConverter extends BaseConverter {
 
     private final List<Encounter> bundleEncounters;
 
-   // List <Claim> claims; //costo
-    //List <ExplanationOfBenefit> eobs; //coverage
-
     @Getter
     @FXML
     private final ObservableList<EncounterClass> fieldsListEncounter;
@@ -46,7 +43,12 @@ public class EncounterConverter extends BaseConverter {
             String[] parts;
 
             parts = encounter.getId().split("/");
-            ec.setCode(parts[5]);
+            String encID = parts[5];
+
+            ExplanationOfBenefit eob = getExplanationOfBenefit(encID);
+            Claim claim = getClaim(encID);
+
+            ec.setCode(encID);
 
             ec.setClasse(encounter.getType().get(0).getCoding().get(0).getCode());
 
@@ -67,13 +69,11 @@ public class EncounterConverter extends BaseConverter {
             parts = encounter.getParticipant().get(0).getIndividual().getReference().split("/");
             ec.setPractitioner(parts[1]);
 
-            String payer = getPayerExplanationOfBenefit(encounter);
-            ec.setPayer(payer);
-            String cost = getClaimCost(encounter);
-            ec.setCost(cost);
+            ec.setPayer(eob.getInsurer().getReference());
 
-            String coverage = getCoverageExplanationOfBenefit(encounter);
-            ec.setCoverage(coverage);
+            ec.setCost(claim.getInsurer().getReference());
+
+            ec.setCoverage(eob.getInsurance().get(0).getCoverage().getReference());
 
             fieldsListEncounter.add(ec);
         }
@@ -95,58 +95,46 @@ public class EncounterConverter extends BaseConverter {
         }
     }
 
-    private String getPayerExplanationOfBenefit(Encounter encounter) {
-        Bundle bundle;
-        ExplanationOfBenefit eob;
-        String payer ="";
-
-        try {
-            bundle = (Bundle) client.search().forResource(ExplanationOfBenefit.class)
-                    .where(ExplanationOfBenefit.ENCOUNTER.hasId(encounter.getId()))
-                    .encodedXml()
-                    .execute();
-            eob = (ExplanationOfBenefit) bundle.getEntry().get(0).getResource();
-            payer = eob.getInsurer().getReference();
-        } catch (Exception e) {
-            throw new RuntimeException("Error during the download of the ExplanationOfBenefit");
-        }
-        return payer;
-    }
-
-    private String getCoverageExplanationOfBenefit(Encounter encounter) {
-        Bundle bundle;
-        ExplanationOfBenefit eob;
-        String coverage ="";
-
-        try {
-            bundle = (Bundle) client.search().forResource(ExplanationOfBenefit.class)
-                    .where(ExplanationOfBenefit.ENCOUNTER.hasId(encounter.getId()))
-                    .encodedXml()
-                    .execute();
-            eob = (ExplanationOfBenefit) bundle.getEntry().get(0).getResource();
-            coverage = eob.getInsurance().get(0).getCoverage().getReference();
-        } catch (Exception e) {
-            throw new RuntimeException("Error during the download of the ExplanationOfBenefit");
-        }
-        return coverage;
-    }
-
-    private String getClaimCost(Encounter encounter) { //del claim il costo, claim.getCost()
+    private Claim getClaim(String encID) {
         Bundle bundle;
         Claim claim;
-        String costo="";
 
         try {
             bundle = (Bundle) client.search().forResource(Claim.class)
-                    .where(Claim.ENCOUNTER.hasId(encounter.getId()))
+                    .where(Claim.ENCOUNTER.hasId(encID))
                     .encodedXml()
                     .execute();
-            claim = (Claim) bundle.getEntry().get(0).getResource();
-            costo = claim.getTotal().getValue().toString();
+
         } catch (Exception e) {
             throw new RuntimeException("Error during the download of the Claim");
         }
-        return costo;
+
+        for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
+            if (!((Claim) entry.getResource()).hasPrescription())
+                return (Claim) entry.getResource();
+        }
+        return claim = new Claim();
+    }
+
+    private ExplanationOfBenefit getExplanationOfBenefit(String encID) {
+        Bundle bundle;
+        ExplanationOfBenefit eob;
+        //EE
+        try {
+            bundle = (Bundle) client.search().forResource(ExplanationOfBenefit.class)
+                    .where(ExplanationOfBenefit.ENCOUNTER.hasId(encID))
+                    .encodedXml()
+                    .execute();
+            eob = (ExplanationOfBenefit) bundle.getEntry().get(0).getResource();
+        } catch (Exception e) {
+            throw new RuntimeException("Error during the download of the ExplanationOfBenefit");
+        }
+
+        for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
+            if ( entry.getId().contains("EE"))
+                return (ExplanationOfBenefit) entry.getResource();
+        }
+        return eob;
     }
 
     @Setter
