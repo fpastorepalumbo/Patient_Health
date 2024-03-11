@@ -3,52 +3,60 @@ package unisa.diem.converter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import lombok.Getter;
+import lombok.Setter;
 import org.hl7.fhir.r4.model.Observation;
 
 import java.util.List;
 
 public class ObservationsConverter extends BaseConverter {
 
-    private List<Observation> boundleObservations;
+    private final List<Observation> bundleObservations;
+    @Getter
     @FXML
-    private ObservableList<ObservationClass> listaCampiObservation;
+    private final ObservableList<ObservationClass> fieldsListObservation;
 
-    public ObservationsConverter(List<Observation> boundleObservations) {
-        this.boundleObservations = boundleObservations;
-        this.listaCampiObservation = FXCollections.observableArrayList();
+    public ObservationsConverter(List<Observation> bundleObservations) {
+        this.bundleObservations = bundleObservations;
+        this.fieldsListObservation = FXCollections.observableArrayList();
     }
 
     @Override
     public void convert() {
 
-        for(Observation observation : boundleObservations) {
+        for(Observation observation : bundleObservations) {
             ObservationClass ob = new ObservationClass();
+            String[] parts;
 
             ob.setCode(observation.getCode().getCodingFirstRep().getCode());
-            ob.setDescription(observation.getCode().getCodingFirstRep().getDisplay());
-            ob.setValue(observation.getValue().toString());
-            //ob.setDate(observation.getIssued().toString());
-            ob.setPatient(observation.getSubject().getReference());
 
-            listaCampiObservation.add(ob);
+            ob.setDescription(observation.getCode().getCodingFirstRep().getDisplay());
+
+            ob.setValue(observation.getValue().toString());
+
+            parts = observation.getEffectiveDateTimeType().getValueAsString().split("T");
+            ob.setDate(parts[0]);
+
+            parts = observation.getSubject().getReference().split("/");
+            ob.setPatient(parts[1]);
+
+            fieldsListObservation.add(ob);
         }
 
-        if (listaCampiObservation.isEmpty()) {
+        if (fieldsListObservation.isEmpty()) {
             ObservationClass ob = new ObservationClass();
             ob.setCode("N/A");
             ob.setDescription("N/A");
             ob.setValue("N/A");
             ob.setDate("N/A");
             ob.setPatient("N/A");
-            listaCampiObservation.add(ob);
+            fieldsListObservation.add(ob);
         }
     }
 
-    public ObservableList<ObservationClass> getListaCampiObservation() {
-        return listaCampiObservation;
-    }
-
-    public class ObservationClass {
+    @Setter
+    @Getter
+    public static class ObservationClass {
         private String code;
         private String description;
         private String value;
@@ -61,46 +69,6 @@ public class ObservationsConverter extends BaseConverter {
             this.value = "";
             this.date = "";
             this.patient = "";
-        }
-
-        public String getCode() {
-            return code;
-        }
-
-        public void setCode(String code) {
-            this.code = code;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
-        public String getValue() {
-            return value;
-        }
-
-        public void setValue(String value) {
-            this.value = value;
-        }
-
-        public String getDate() {
-            return date;
-        }
-
-        public void setDate(String date) {
-            this.date = date;
-        }
-
-        public String getPatient() {
-            return patient;
-        }
-
-        public void setPatient(String patient) {
-            this.patient = patient;
         }
 
         @Override

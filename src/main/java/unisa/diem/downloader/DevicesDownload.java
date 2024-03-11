@@ -5,7 +5,7 @@ import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
 import lombok.Getter;
 import org.hl7.fhir.r4.model.Bundle;
-import org.hl7.fhir.r4.model.Device;
+import org.hl7.fhir.r4.model.DeviceRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,14 +16,12 @@ public class DevicesDownload extends BaseDownloader{
     String serverBaseUrl = "http://localhost:8080/fhir";
     IGenericClient client = ctx.newRestfulGenericClient(serverBaseUrl);
     @Getter
-    List<Device> devices;
+    List<DeviceRequest> devices;
     String encounterId;
-    String patientId;
 
-    public DevicesDownload(String encounterId, String patientId) {
+    public DevicesDownload(String encounterId) {
         this.devices = new ArrayList<>();
         this.encounterId = encounterId;
-        this.patientId = patientId;
     }
 
     @Override
@@ -33,11 +31,11 @@ public class DevicesDownload extends BaseDownloader{
         try {
            /*
            bundle = (Bundle) client.search().forResource(Device.class)
-            .where(Device.PATIENT.hasId(patientId)).where(DeviceRequest.ENCOUNTER.hasId(encounterId))  // ho un dubbio, vedi DeviceLoader per vedere come fare la query
+            .where(Device.PATIENT.hasId(patientId)).where(DeviceRequest.ENCOUNTER.hasId(encounterId))
             .encodedXml().execute();
             */
-            bundle = (Bundle) client.search().forResource(Device.class)
-                    .where(new ReferenceClientParam("patient").hasId("6f4d77e9-2203-03a3-8966-92a22a21000a"))
+            bundle = (Bundle) client.search().forResource(DeviceRequest.class)
+                    .where(new ReferenceClientParam("encounter").hasId("0c62aae4-c10b-4d30-0091-4cb1f3422b55"))
                     .encodedXml()
                     .execute();
         }
@@ -46,9 +44,9 @@ public class DevicesDownload extends BaseDownloader{
         }
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
-            devices.add((Device) entry.getResource());
+            devices.add((DeviceRequest) entry.getResource());
 
         if (devices.isEmpty())
-            System.out.println("No devices found in the patient with id: " + encounterId);
+            System.out.println("No devices found in the encounter with id: " + encounterId);
     }
 }

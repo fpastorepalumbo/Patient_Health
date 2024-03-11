@@ -210,7 +210,7 @@ public class HelloController implements Initializable {
     public TableColumn baseCostMedReqClm;
     @FXML
     public TableColumn coverageMedReqClm;
-    // TODO: corregger disendes con dispenses
+    // TODO: correggere disendes con dispenses
     @FXML
     public TableColumn dispendesMedReqClm;
     @FXML
@@ -231,8 +231,9 @@ public class HelloController implements Initializable {
     public TableColumn descriptionProcedureClm;
     @FXML
     public TableColumn dateProcedureClm;
-    @FXML
-    public TableColumn costProcedureClm;
+    // TODO: rimuovere colonna cost
+    // @FXML
+    // public TableColumn costProcedureClm;
     @FXML
     public TableColumn patientProcedureClm;
 
@@ -419,7 +420,7 @@ public class HelloController implements Initializable {
         codeProcedureClm.setCellValueFactory(new PropertyValueFactory<>("code"));
         descriptionProcedureClm.setCellValueFactory(new PropertyValueFactory<>("description"));
         dateProcedureClm.setCellValueFactory(new PropertyValueFactory<>("date"));
-        costProcedureClm.setCellValueFactory(new PropertyValueFactory<>("cost"));
+        // costProcedureClm.setCellValueFactory(new PropertyValueFactory<>("cost"));
         patientProcedureClm.setCellValueFactory(new PropertyValueFactory<>("patient"));
 
         codeDeviceClm.setCellValueFactory(new PropertyValueFactory<>("code"));
@@ -665,9 +666,9 @@ public class HelloController implements Initializable {
             List<Observation> observations = observationDownload.getObservations();
             ObservationsConverter observationsConverter = new ObservationsConverter(observations);
             observationsConverter.convert();
-            if (observationsConverter.getListaCampiObservation().isEmpty())
+            if (observationsConverter.getFieldsListObservation().isEmpty())
                 throw new RuntimeException("Observation Data Conversion Error");
-            for (ObservationsConverter.ObservationClass observation : observationsConverter.getListaCampiObservation())
+            for (ObservationsConverter.ObservationClass observation : observationsConverter.getFieldsListObservation())
                 observationTable.getItems().add(observation);
 
             MedicationRequestDownload medReqDownload = new MedicationRequestDownload(encID);
@@ -685,19 +686,19 @@ public class HelloController implements Initializable {
             List<Procedure> procedures = procedureDownload.getProcedures();
             ProceduresConverter procedureConverter = new ProceduresConverter(procedures);
             procedureConverter.convert();
-            if (procedureConverter.getListaCampiProcedure().isEmpty())
+            if (procedureConverter.getFieldsListProcedure().isEmpty())
                 throw new RuntimeException("Procedure Data Conversion Error");
-            for (ProceduresConverter.ProcedureClass procedure : procedureConverter.getListaCampiProcedure())
+            for (ProceduresConverter.ProcedureClass procedure : procedureConverter.getFieldsListProcedure())
                 procedureTable.getItems().add(procedure);
 
-            DevicesDownload deviceDownload = new DevicesDownload(encID, patID);
+            DevicesDownload deviceDownload = new DevicesDownload(encID);
             deviceDownload.download();
-            List<Device> devices = deviceDownload.getDevices();
+            List<DeviceRequest> devices = deviceDownload.getDevices();
             DevicesConverter deviceConverter = new DevicesConverter(devices);
             deviceConverter.convert();
-            if (deviceConverter.getListaCampiDevices().isEmpty())
+            if (deviceConverter.getFieldsListDevices().isEmpty())
                 throw new RuntimeException("Device Data Conversion Error");
-            for (DevicesConverter.DeviceClass device : deviceConverter.getListaCampiDevices())
+            for (DevicesConverter.DeviceClass device : deviceConverter.getFieldsListDevices())
                 deviceTable.getItems().add(device);
         }
     }

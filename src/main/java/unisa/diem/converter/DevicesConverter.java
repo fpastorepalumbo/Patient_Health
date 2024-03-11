@@ -1,105 +1,103 @@
 package unisa.diem.converter;
 
+import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import lombok.Getter;
+import lombok.Setter;
+import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Device;
+import org.hl7.fhir.r4.model.DeviceRequest;
 
 import java.util.List;
 
 public class DevicesConverter extends BaseConverter {
 
-    private List<Device> boundleDevices;
+    FhirContext ctx = FhirContext.forR4();
+    String serverBaseUrl = "http://localhost:8080/fhir";
+    IGenericClient client = ctx.newRestfulGenericClient(serverBaseUrl);
+    private final List<DeviceRequest> bundleDevices;
+    @Getter
     @FXML
-    private ObservableList<DeviceClass> listaCampiDevices;
+    private final ObservableList<DeviceClass> fieldsListDevices;
 
-    public DevicesConverter(List<Device> boundleDevices) {
-        this.boundleDevices = boundleDevices;
-        this.listaCampiDevices = FXCollections.observableArrayList();
+    public DevicesConverter(List<DeviceRequest> bundleDevices) {
+        this.bundleDevices = bundleDevices;
+        this.fieldsListDevices = FXCollections.observableArrayList();
     }
 
     @Override
     public void convert() {
-
-        for(Device device : boundleDevices) {
+        for(DeviceRequest deviceRequest : bundleDevices) {
             DeviceClass dv = new DeviceClass();
+            Device dev = getDevice(deviceRequest.getSubject().getReference().split("/")[1]);
+            String[] parts;
 
-            dv.setCode(device.getIdentifier().get(0).getValue());
-            dv.setDescription(device.getType().getText());
-            //dv.setDate(device.getExpirationDate().toString());
-            //dv.setCost(device.getDeviceName().get(0).getName());
-            dv.setPatient(device.getPatient().getReference());
+            dv.setCode(dev.getIdentifier().get(0).getValue());
 
-            listaCampiDevices.add(dv);
+            dv.setDescription(dev.getType().getCoding().get(0).getDisplay());
+
+            parts = deviceRequest.getOccurrencePeriod().getStart().toString().split(" ");
+            dv.setStartDate(parts[5] + "-" + parts[1] + "-" + parts[2]);
+
+            if (deviceRequest.getOccurrencePeriod().hasEnd()) {
+                parts = deviceRequest.getOccurrencePeriod().getEnd().toString().split(" ");
+                dv.setStopDate(parts[5] + "-" + parts[1] + "-" + parts[2]);
+            }
+            else
+                dv.setStopDate("---");
+
+            parts = dev.getPatient().getReference().split("/");
+            dv.setPatient(parts[1]);
+
+            fieldsListDevices.add(dv);
         }
 
-        if (listaCampiDevices.isEmpty()) {
+        if (fieldsListDevices.isEmpty()) {
             DeviceClass dv = new DeviceClass();
             dv.setCode("N/A");
             dv.setDescription("N/A");
-            dv.setDate("N/A");
-            dv.setCost("N/A");
+            dv.setStartDate("N/A");
+            dv.setStopDate("N/A");
             dv.setPatient("N/A");
-            listaCampiDevices.add(dv);
+            fieldsListDevices.add(dv);
         }
     }
 
-    public ObservableList<DeviceClass> getListaCampiDevices() {
-        return listaCampiDevices;
+    private Device getDevice(String patId) {
+        Bundle bundle;
+
+        try {
+            bundle = (Bundle) client.search().forResource(Device.class)
+                    .where(new ReferenceClientParam("patient").hasId(patId))
+                    .encodedXml()
+                    .execute();
+        } catch (Exception e) {
+            throw new RuntimeException("Error during the download of the Devices");
+        }
+        for (Bundle.BundleEntryComponent entry : bundle.getEntry())
+            return (Device) entry.getResource();
+        return new Device();
     }
 
-    public class DeviceClass {
+    @Setter
+    @Getter
+    public static class DeviceClass {
         private String code;
         private String description;
-        private String date;
-        private String cost;
+        private String startDate;
+        private String stopDate;
         private String patient;
+
         public DeviceClass() {
             this.code = "";
             this.description = "";
-            this.date = "";
-            this.cost = "";
+            this.startDate = "";
+            this.stopDate = "";
             this.patient = "";
-        }
-
-        public String getCode() {
-            return code;
-        }
-
-        public void setCode(String code) {
-            this.code = code;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
-        public String getDate() {
-            return date;
-        }
-
-        public void setDate(String date) {
-            this.date = date;
-        }
-
-        public String getCost() {
-            return cost;
-        }
-
-        public void setCost(String cost) {
-            this.cost = cost;
-        }
-
-        public String getPatient() {
-            return patient;
-        }
-
-        public void setPatient(String patient) {
-            this.patient = patient;
         }
 
         @Override
@@ -107,8 +105,8 @@ public class DevicesConverter extends BaseConverter {
             return "DeviceClass{" +
                     "code='" + code + '\'' +
                     ", description='" + description + '\'' +
-                    ", date='" + date + '\'' +
-                    ", cost='" + cost + '\'' +
+                    ", startDate='" + startDate + '\'' +
+                    ", stopDate='" + stopDate + '\'' +
                     ", patient='" + patient + '\'' +
                     '}';
         }

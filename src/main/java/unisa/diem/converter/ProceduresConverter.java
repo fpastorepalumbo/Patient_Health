@@ -3,104 +3,74 @@ package unisa.diem.converter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import lombok.Getter;
+import lombok.Setter;
 import org.hl7.fhir.r4.model.Procedure;
 
 import java.util.List;
 
+// TODO: Cancellare cost dalla tabella
+
 public class ProceduresConverter extends BaseConverter {
 
-    private List<Procedure> boundleProcedures;
+    private final List<Procedure> bundleProcedures;
+    @Getter
     @FXML
-    private ObservableList<ProcedureClass> listaCampiProcedure;
+    private final ObservableList<ProcedureClass> fieldsListProcedure;
 
-    public ProceduresConverter(List<Procedure> boundleProcedures) {
-        this.boundleProcedures = boundleProcedures;
-        this.listaCampiProcedure = FXCollections.observableArrayList();
+    public ProceduresConverter(List<Procedure> bundleProcedures) {
+        this.bundleProcedures = bundleProcedures;
+        this.fieldsListProcedure = FXCollections.observableArrayList();
     }
 
     @Override
     public void convert() {
 
-        for(Procedure procedure : boundleProcedures) {
+        for(Procedure procedure : bundleProcedures) {
             ProcedureClass pr = new ProcedureClass();
+            String[] parts;
 
             pr.setCode(procedure.getCode().getCoding().get(0).getCode());
-            pr.setDescription(procedure.getCode().getCoding().get(0).getDisplay());
-            pr.setDate(procedure.getPerformedDateTimeType().getValueAsString());
-            //pr.setCost(procedure.getCost().getValue().toString());
-            pr.setPatient(procedure.getSubject().getReference());
 
-            listaCampiProcedure.add(pr);
+            pr.setDescription(procedure.getCode().getCoding().get(0).getDisplay());
+
+            parts = procedure.getPerformedDateTimeType().getValueAsString().split("T");
+            pr.setDate(parts[0]);
+
+            // pr.setCost(claim.getItem().get(0).getNet().getValue().toString());
+
+            parts = procedure.getSubject().getReference().split("/");
+            pr.setPatient(parts[1]);
+
+            fieldsListProcedure.add(pr);
         }
 
-        if (listaCampiProcedure.isEmpty()) {
+        if (fieldsListProcedure.isEmpty()) {
             ProcedureClass pr = new ProcedureClass();
             pr.setCode("N/A");
             pr.setDescription("N/A");
             pr.setDate("N/A");
-            pr.setCost("N/A");
+            // pr.setCost("N/A");
             pr.setPatient("N/A");
-            listaCampiProcedure.add(pr);
+            fieldsListProcedure.add(pr);
         }
     }
 
-    public ObservableList<ProcedureClass> getListaCampiProcedure() {
-        return listaCampiProcedure;
-    }
-
-    public class ProcedureClass {
+    @Setter
+    @Getter
+    public static class ProcedureClass {
         private String code;
         private String description;
         private String date;
-        private String cost;
+        // private String cost;
         private String patient;
 
         public ProcedureClass() {
             this.code = "";
             this.description = "";
             this.date = "";
-            this.cost = "";
+            // this.cost = "";
             this.patient = "";
-        }
-
-        public String getCode() {
-            return code;
-        }
-
-        public void setCode(String code) {
-            this.code = code;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
-        public String getDate() {
-            return date;
-        }
-
-        public void setDate(String date) {
-            this.date = date;
-        }
-
-        public String getCost() {
-            return cost;
-        }
-
-        public void setCost(String cost) {
-            this.cost = cost;
-        }
-
-        public String getPatient() {
-            return patient;
-        }
-
-        public void setPatient(String patient) {
-            this.patient = patient;
         }
 
         @Override
@@ -109,7 +79,6 @@ public class ProceduresConverter extends BaseConverter {
                     "code='" + code + '\'' +
                     ", description='" + description + '\'' +
                     ", date='" + date + '\'' +
-                    ", cost='" + cost + '\'' +
                     ", patient='" + patient + '\'' +
                     '}';
         }

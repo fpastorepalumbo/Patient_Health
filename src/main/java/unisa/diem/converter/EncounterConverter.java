@@ -12,7 +12,6 @@ import org.hl7.fhir.r4.model.Claim;
 import org.hl7.fhir.r4.model.Encounter;
 import org.hl7.fhir.r4.model.ExplanationOfBenefit;
 
-import java.util.ArrayList;
 import java.util.List;
 
 // TODO: Rinominare code in id e classe in code, prendere claim e eob per payer cost e coverage
@@ -69,11 +68,12 @@ public class EncounterConverter extends BaseConverter {
             parts = encounter.getParticipant().get(0).getIndividual().getReference().split("/");
             ec.setPractitioner(parts[1]);
 
-            ec.setPayer(eob.getInsurer().getReference());
+            parts = eob.getInsurer().getReference().split("/");
+            ec.setPayer(parts[1]);
 
-            ec.setCost(claim.getInsurer().getReference());
+            ec.setCost(claim.getItem().get(0).getNet().getValue().toString());
 
-            ec.setCoverage(eob.getInsurance().get(0).getCoverage().getReference());
+            ec.setCoverage(eob.getItem().get(0).getAdjudication().get(0).getAmount().getValue().toString());
 
             fieldsListEncounter.add(ec);
         }
@@ -97,14 +97,12 @@ public class EncounterConverter extends BaseConverter {
 
     private Claim getClaim(String encID) {
         Bundle bundle;
-        Claim claim;
 
         try {
             bundle = (Bundle) client.search().forResource(Claim.class)
                     .where(Claim.ENCOUNTER.hasId(encID))
                     .encodedXml()
                     .execute();
-
         } catch (Exception e) {
             throw new RuntimeException("Error during the download of the Claim");
         }
@@ -113,28 +111,26 @@ public class EncounterConverter extends BaseConverter {
             if (!((Claim) entry.getResource()).hasPrescription())
                 return (Claim) entry.getResource();
         }
-        return claim = new Claim();
+        return new Claim();
     }
 
     private ExplanationOfBenefit getExplanationOfBenefit(String encID) {
         Bundle bundle;
-        ExplanationOfBenefit eob;
-        //EE
+
         try {
             bundle = (Bundle) client.search().forResource(ExplanationOfBenefit.class)
                     .where(ExplanationOfBenefit.ENCOUNTER.hasId(encID))
                     .encodedXml()
                     .execute();
-            eob = (ExplanationOfBenefit) bundle.getEntry().get(0).getResource();
         } catch (Exception e) {
             throw new RuntimeException("Error during the download of the ExplanationOfBenefit");
         }
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
-            if ( entry.getId().contains("EE"))
+            if ((entry.getResource()).getId().contains("EE"))
                 return (ExplanationOfBenefit) entry.getResource();
         }
-        return eob;
+        return new ExplanationOfBenefit();
     }
 
     @Setter
@@ -161,7 +157,7 @@ public class EncounterConverter extends BaseConverter {
             this.patient = "";
             this.organization = "";
             this.practitioner = "";
-            // this.payer = "";
+            this.payer = "";
             this.cost = "";
             this.coverage = "";
         }
@@ -177,7 +173,7 @@ public class EncounterConverter extends BaseConverter {
                     ", patient='" + patient + '\'' +
                     ", organization='" + organization + '\'' +
                     ", practitioner='" + practitioner + '\'' +
-                    // ", payer='" + payer + '\'' +
+                    ", payer='" + payer + '\'' +
                     ", cost='" + cost + '\'' +
                     ", coverage='" + coverage + '\'' +
                     '}';

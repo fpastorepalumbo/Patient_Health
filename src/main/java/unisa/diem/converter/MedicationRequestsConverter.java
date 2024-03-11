@@ -21,8 +21,6 @@ public class MedicationRequestsConverter extends BaseConverter{
     FhirContext ctx = FhirContext.forR4();
     String serverBaseUrl = "http://localhost:8080/fhir";
     IGenericClient client = ctx.newRestfulGenericClient(serverBaseUrl);
-    List<Claim> claims;
-    List<ExplanationOfBenefit> eobs;
     private final List<MedicationRequest> bundleMedRequests;
     @Getter
     @FXML
@@ -31,8 +29,6 @@ public class MedicationRequestsConverter extends BaseConverter{
     public MedicationRequestsConverter(List<MedicationRequest> bundleMedRequests) {
         this.bundleMedRequests = bundleMedRequests;
         this.fieldsListMedRequest = FXCollections.observableArrayList();
-        this.claims = new ArrayList<>();
-        this.eobs = new ArrayList<>();
     }
 
     @Override
@@ -40,8 +36,9 @@ public class MedicationRequestsConverter extends BaseConverter{
         for (MedicationRequest medReq : bundleMedRequests) {
             MedicationRequestsClass mr = new MedicationRequestsClass();
             String[] parts;
-            Claim claim = getClaim(medReq);
-            ExplanationOfBenefit eob = getExplanationofBenefit(medReq);
+            String encID = medReq.getEncounter().getReference().split("/")[1];
+            Claim claim = getClaim(encID);
+            ExplanationOfBenefit eob = getExplanationofBenefit(encID);
 
             mr.setCode(medReq.getMedicationCodeableConcept().getCoding().get(0).getCode());
 
@@ -89,9 +86,8 @@ public class MedicationRequestsConverter extends BaseConverter{
         }
     }
 
-    public Claim getClaim(MedicationRequest medReq) {
+    public Claim getClaim(String encID) {
         Bundle bundle;
-        String encID = medReq.getEncounter().getReference().split("/")[1];
 
         try {
             bundle = (Bundle) client.search().forResource(Claim.class)
@@ -104,22 +100,13 @@ public class MedicationRequestsConverter extends BaseConverter{
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
             if (((Claim) entry.getResource()).hasPrescription())
-                claims.add((Claim) entry.getResource());
-        }
-
-        if (claims.isEmpty())
-            System.out.println("No claim found in the encounter with id: " + encID);
-
-        for (Claim claim : claims) {
-            if (claim.hasPrescription())
-                return claim;
+                return (Claim) entry.getResource();
         }
         return new Claim();
     }
 
-    public ExplanationOfBenefit getExplanationofBenefit(MedicationRequest medReq) {
+    public ExplanationOfBenefit getExplanationofBenefit(String encID) {
         Bundle bundle;
-        String encID = medReq.getEncounter().getReference().split("/")[1];
 
         try {
             bundle = (Bundle) client.search().forResource(ExplanationOfBenefit.class)
@@ -131,16 +118,8 @@ public class MedicationRequestsConverter extends BaseConverter{
         }
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
-            if (((ExplanationOfBenefit) entry.getResource()).hasClaim())
-                eobs.add((ExplanationOfBenefit) entry.getResource());
-        }
-
-        if (eobs.isEmpty())
-            System.out.println("No ExplanationOfBenefit found in the encounter with id: " + encID);
-
-        for (ExplanationOfBenefit eob : eobs) {
-            if (eob.hasClaim())
-                return eob;
+            if ((entry.getResource()).getId().contains("EM"))
+                return (ExplanationOfBenefit) entry.getResource();
         }
         return new ExplanationOfBenefit();
     }
