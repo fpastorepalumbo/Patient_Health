@@ -6,8 +6,6 @@ import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
 import lombok.Getter;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Device;
-import org.hl7.fhir.r4.model.DeviceRequest;
-import org.hl7.fhir.r4.model.Procedure;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +15,10 @@ public class DevicesDownload extends BaseDownloader{
     FhirContext ctx = FhirContext.forR4();
     String serverBaseUrl = "http://localhost:8080/fhir";
     IGenericClient client = ctx.newRestfulGenericClient(serverBaseUrl);
-
     @Getter
     List<Device> devices;
-
-    String encounterId = "";
-    String patientId = "";
+    String encounterId;
+    String patientId;
 
     public DevicesDownload(String encounterId, String patientId) {
         this.devices = new ArrayList<>();

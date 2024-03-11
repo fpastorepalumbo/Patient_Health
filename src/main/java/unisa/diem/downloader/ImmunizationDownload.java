@@ -2,6 +2,7 @@ package unisa.diem.downloader;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import lombok.Getter;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Immunization;
 
@@ -13,38 +14,31 @@ public class ImmunizationDownload extends BaseDownloader{
     FhirContext ctx = FhirContext.forR4();
     String serverBaseUrl = "http://localhost:8080/fhir";
     IGenericClient client = ctx.newRestfulGenericClient(serverBaseUrl);
-
+    @Getter
     List<Immunization> immunizations;
-
-    String patientId = "";
+    String patientId;
 
     public ImmunizationDownload(String patientId) {
         this.immunizations =  new ArrayList<>();
         this.patientId = patientId;
     }
 
-    public List<Immunization> getImmunizations() {
-        return immunizations;
-    }
     @Override
     public void download() {
-        Bundle bundle = null;
+        Bundle bundle;
 
         try {
             bundle = (Bundle) client.search().forResource(Immunization.class)
                     .where(Immunization.PATIENT.hasId(patientId))
                     .encodedXml().execute();
-        }
-        catch (Exception e) {
-            new RuntimeException("Error during the download of the immunizations");
+        } catch (Exception e) {
+            throw new RuntimeException("Error during the download of the immunizations");
         }
 
-        for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
+        for (Bundle.BundleEntryComponent entry : bundle.getEntry())
             immunizations.add((Immunization) entry.getResource());
-        }
 
-        if (immunizations.isEmpty()) {
+        if (immunizations.isEmpty())
             System.out.println("No Immunization found in the patient with id: " + patientId);
-        }
     }
 }

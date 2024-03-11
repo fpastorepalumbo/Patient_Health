@@ -12,7 +12,7 @@ import org.hl7.fhir.r4.model.MedicationRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MedicationRequestDownload extends BaseDownloader{
+public class MedicationRequestDownload extends BaseDownloader {
 
     FhirContext ctx = FhirContext.forR4();
     String serverBaseUrl = "http://localhost:8080/fhir";
