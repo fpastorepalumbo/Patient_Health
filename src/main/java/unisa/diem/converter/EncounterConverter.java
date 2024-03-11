@@ -67,7 +67,8 @@ public class EncounterConverter extends BaseConverter {
             parts = encounter.getParticipant().get(0).getIndividual().getReference().split("/");
             ec.setPractitioner(parts[1]);
 
-            // ec.setPayer(encounter.getInsurer().getReference());
+            String payer = getPayerExplanationOfBenefit(encounter);
+            ec.setPayer(payer);
             String cost = getClaimCost(encounter);
             ec.setCost(cost);
 
@@ -87,11 +88,29 @@ public class EncounterConverter extends BaseConverter {
             ec.setPatient("N/A");
             ec.setOrganization("N/A");
             ec.setPractitioner("N/A");
-            // ec.setPayer("N/A");
+            ec.setPayer("N/A");
             ec.setCost("N/A");
             ec.setCoverage("N/A");
             fieldsListEncounter.add(ec);
         }
+    }
+
+    private String getPayerExplanationOfBenefit(Encounter encounter) {
+        Bundle bundle;
+        ExplanationOfBenefit eob;
+        String payer ="";
+
+        try {
+            bundle = (Bundle) client.search().forResource(ExplanationOfBenefit.class)
+                    .where(ExplanationOfBenefit.ENCOUNTER.hasId(encounter.getId()))
+                    .encodedXml()
+                    .execute();
+            eob = (ExplanationOfBenefit) bundle.getEntry().get(0).getResource();
+            payer = eob.getInsurer().getReference();
+        } catch (Exception e) {
+            throw new RuntimeException("Error during the download of the ExplanationOfBenefit");
+        }
+        return payer;
     }
 
     private String getCoverageExplanationOfBenefit(Encounter encounter) {
@@ -141,7 +160,7 @@ public class EncounterConverter extends BaseConverter {
         private String patient;
         private String organization;
         private String practitioner;
-        // private String payer;
+        private String payer;
         private String cost;
         private String coverage;
 
