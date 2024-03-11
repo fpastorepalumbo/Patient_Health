@@ -9,7 +9,7 @@ import org.hl7.fhir.r4.model.Procedure;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProceduresDownload extends BaseDownloader{
+public class ProceduresDownload extends BaseDownloader {
 
     FhirContext ctx = FhirContext.forR4();
     String serverBaseUrl = "http://localhost:8080/fhir";

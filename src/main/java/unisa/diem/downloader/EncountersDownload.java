@@ -33,7 +33,7 @@ public class EncountersDownload extends BaseDownloader {
         try {
             bundle = (Bundle) client.search().forResource(Encounter.class).offset(count).count(20)
                     .encodedXml().execute();
-            count=count+20;
+            count = count + 20;
         } catch (Exception e) {
             throw new RuntimeException("Error during the download of the Encounter");
         }
