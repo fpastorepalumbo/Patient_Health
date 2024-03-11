@@ -40,7 +40,13 @@ public class ConditionConverter extends BaseConverter{
         }
 
         if (listaCampiCondition.isEmpty()) {
-            throw new RuntimeException("listaCampiCondition is empty");
+            ConditionClass cc = new ConditionClass();
+            cc.setCode("N/A");
+            cc.setDescription("N/A");
+            cc.setStartDate("N/A");
+            cc.setStopDate("N/A");
+            cc.setEncounter("N/A");
+            listaCampiCondition.add(cc);
         }
 
     }

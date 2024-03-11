@@ -2,6 +2,7 @@ package unisa.diem.downloader;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.MedicationRequest;
 
@@ -30,9 +31,13 @@ public class MedicationRequestDownload extends BaseDownloader{
         Bundle bundle = null;
 
         try {
-            bundle = (Bundle) client.search().forResource(MedicationRequest.class)
+            /*bundle = (Bundle) client.search().forResource(MedicationRequest.class)
             .where(MedicationRequest.ENCOUNTER.hasId(encounterId))
-            .encodedXml().execute();
+            .encodedXml().execute();*/
+            bundle = (Bundle) client.search().forResource(MedicationRequest.class)
+                    .where(new ReferenceClientParam("encounter").hasId("155aa73b-46da-5808-c218-80a5ed671009"))
+                    .encodedXml()
+                    .execute();
         }
         catch (Exception e) {
             new RuntimeException("Error during the download of the MedicationRequest");

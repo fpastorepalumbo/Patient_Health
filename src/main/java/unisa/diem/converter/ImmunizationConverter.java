@@ -36,7 +36,12 @@ public class ImmunizationConverter extends BaseConverter{
         }
 
         if (listaCampiImmunization.isEmpty()) {
-            throw new RuntimeException("listaCampiImmunization is empty");
+            ImmunizationClass ic = new ImmunizationClass();
+            ic.setCode("N/A");
+            ic.setDescription("N/A");
+            ic.setDate("N/A");
+            ic.setEncounter("N/A");
+            listaCampiImmunization.add(ic);
         }
 
     }

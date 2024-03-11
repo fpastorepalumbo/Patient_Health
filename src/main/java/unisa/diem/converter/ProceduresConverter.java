@@ -34,7 +34,13 @@ public class ProceduresConverter extends BaseConverter {
         }
 
         if (listaCampiProcedure.isEmpty()) {
-            throw new RuntimeException("listaCampiProcedure is empty");
+            ProcedureClass pr = new ProcedureClass();
+            pr.setCode("N/A");
+            pr.setDescription("N/A");
+            pr.setDate("N/A");
+            pr.setCost("N/A");
+            pr.setPatient("N/A");
+            listaCampiProcedure.add(pr);
         }
     }
 

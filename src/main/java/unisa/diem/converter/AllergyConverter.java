@@ -43,7 +43,13 @@ public class AllergyConverter extends BaseConverter{
         }
 
         if (listaCampiAllergie.isEmpty()) {
-            throw new RuntimeException("listaCampiAllergie is empty");
+            AllergyClass ac = new AllergyClass();
+            ac.setCode("N/A");
+            ac.setDescription("N/A");
+            ac.setStartDate("N/A");
+            ac.setStopDate("N/A");
+            ac.setEncounter("N/A");
+            listaCampiAllergie.add(ac);
         }
     }
 

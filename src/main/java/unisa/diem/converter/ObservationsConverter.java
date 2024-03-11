@@ -27,14 +27,20 @@ public class ObservationsConverter extends BaseConverter {
             ob.setCode(observation.getCode().getCodingFirstRep().getCode());
             ob.setDescription(observation.getCode().getCodingFirstRep().getDisplay());
             ob.setValue(observation.getValue().toString());
-            ob.setDate(observation.getIssued().toString());
+            //ob.setDate(observation.getIssued().toString());
             ob.setPatient(observation.getSubject().getReference());
 
             listaCampiObservation.add(ob);
         }
 
         if (listaCampiObservation.isEmpty()) {
-            throw new RuntimeException("listaCampiObservation is empty");
+            ObservationClass ob = new ObservationClass();
+            ob.setCode("N/A");
+            ob.setDescription("N/A");
+            ob.setValue("N/A");
+            ob.setDate("N/A");
+            ob.setPatient("N/A");
+            listaCampiObservation.add(ob);
         }
     }
 

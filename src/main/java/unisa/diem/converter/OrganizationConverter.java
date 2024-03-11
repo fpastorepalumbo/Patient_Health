@@ -25,17 +25,24 @@ public class OrganizationConverter extends BaseConverter {
             OrganizationClass oc = new OrganizationClass();
 
             oc.setName(organization.getName());
-            oc.setAddress(organization.getAddress().get(0).toString());
+            // oc.setAddress(organization.getAddress());
             oc.setCity(organization.getAddress().get(0).getCity());
             oc.setState(organization.getAddress().get(0).getState());
             oc.setPhone(organization.getTelecom().get(0).getValue());
-            oc.setRevenue(organization.getExtension().get(0).getValue().toString());
+            // oc.setRevenue(organization.getExtension().get(0).getValue().toString());
 
             listaCampiOrganization.add(oc);
         }
 
         if (listaCampiOrganization.isEmpty()) {
-            throw new RuntimeException("listaCampiOrganization is empty");
+            OrganizationClass oc = new OrganizationClass();
+            oc.setName("N/A");
+            // oc.setAddress("N/A");
+            oc.setCity("N/A");
+            oc.setState("N/A");
+            oc.setPhone("N/A");
+            // oc.setRevenue("N/A");
+            listaCampiOrganization.add(oc);
         }
     }
 
@@ -45,23 +52,23 @@ public class OrganizationConverter extends BaseConverter {
 
     public class OrganizationClass {
         private String name;
-        private String address;
+        // private String address;
         private String city;
         private String state;
 
         private String phone;
 
-        private String revenue;
+        // private String revenue;
 
 
 
         public OrganizationClass() {
             this.name = "";
-            this.address = "";
+            // this.address = "";
             this.city = "";
             this.state = "";
             this.phone = "";
-            this.revenue = "";
+            // this.revenue = "";
         }
 
         public String getName() {
@@ -72,13 +79,13 @@ public class OrganizationConverter extends BaseConverter {
             this.name = name;
         }
 
-        public String getAddress() {
-            return address;
-        }
+        // public String getAddress() {
+            // return address;
+        // }
 
-        public void setAddress(String address) {
-            this.address = address;
-        }
+        // public void setAddress(String address) {
+            // this.address = address;
+        // }
 
         public String getCity() {
             return city;
@@ -104,23 +111,21 @@ public class OrganizationConverter extends BaseConverter {
             this.phone = phone;
         }
 
-        public String getRevenue() {
-            return revenue;
-        }
+        // public String getRevenue() {
+            // return revenue;
+        // }
 
-        public void setRevenue(String revenue) {
-            this.revenue = revenue;
-        }
+        // public void setRevenue(String revenue) {
+            // this.revenue = revenue;
+        // }
 
         @Override
         public String toString() {
             return "OrganizationClass{" +
                     "name='" + name + '\'' +
-                    ", address='" + address + '\'' +
                     ", city='" + city + '\'' +
                     ", state='" + state + '\'' +
                     ", phone='" + phone + '\'' +
-                    ", revenue='" + revenue + '\'' +
                     '}';
         }
     }

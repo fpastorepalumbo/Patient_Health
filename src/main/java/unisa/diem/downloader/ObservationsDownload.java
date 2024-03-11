@@ -2,6 +2,7 @@ package unisa.diem.downloader;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Observation;
 
@@ -30,12 +31,16 @@ public class ObservationsDownload extends BaseDownloader{
         Bundle bundle = null;
 
         try {
-            bundle = (Bundle) client.search().forResource(Observation.class)
+            /*bundle = (Bundle) client.search().forResource(Observation.class)
             .where(Observation.ENCOUNTER.hasId(encounterId))
-            .encodedXml().execute();
+            .encodedXml().execute();*/
+            bundle = (Bundle) client.search().forResource(Observation.class)
+                    .where(new ReferenceClientParam("encounter").hasId("3cb4d689-187e-3231-df3c-05b7f1b77bb5"))
+                    .encodedXml()
+                    .execute();
         }
         catch (Exception e) {
-            new RuntimeException("Error during the download of the allergies");
+            new RuntimeException("Error during the download of the observations.");
         }
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
@@ -43,7 +48,7 @@ public class ObservationsDownload extends BaseDownloader{
         }
 
         if (observations.isEmpty()) {
-            System.out.println("No allergies found in the patient with id: " + encounterId);
+            System.out.println("No observation found in the patient with id: " + encounterId);
         }
 
     }

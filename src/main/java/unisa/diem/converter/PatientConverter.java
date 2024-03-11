@@ -59,7 +59,20 @@ public class PatientConverter extends BaseConverter {
             listaCampiPatient.add(pc);
         }
         if (listaCampiPatient.isEmpty()) {
-            throw new RuntimeException("listaCampiPatient is empty");
+            PatientClass pc = new PatientClass();
+            pc.setId("N/A");
+            pc.setName("N/A");
+            pc.setSurname("N/A");
+            pc.setBirthdate("N/A");
+            pc.setDeathdate("N/A");
+            pc.setSsn("N/A");
+            pc.setMarital("N/A");
+            pc.setGender("N/A");
+            pc.setBirthplace("N/A");
+            pc.setAddress("N/A");
+            pc.setCity("N/A");
+            pc.setState("N/A");
+            listaCampiPatient.add(pc);
         }
     }
 

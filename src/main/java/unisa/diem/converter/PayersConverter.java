@@ -35,7 +35,14 @@ public class PayersConverter extends BaseConverter {
         }
 
         if (listaCampiPayer.isEmpty()) {
-            throw new RuntimeException("listaCampiPayer is empty");
+            PayersClass py = new PayersClass();
+            py.setName("N/A");
+            py.setAddress("N/A");
+            py.setCity("N/A");
+            py.setState("N/A");
+            py.setPhone("N/A");
+            py.setRevenue("N/A");
+            listaCampiPayer.add(py);
         }
     }
 

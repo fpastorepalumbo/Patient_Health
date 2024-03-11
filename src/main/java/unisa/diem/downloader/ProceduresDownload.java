@@ -2,6 +2,7 @@ package unisa.diem.downloader;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Procedure;
 
@@ -30,9 +31,13 @@ public class ProceduresDownload extends BaseDownloader{
         Bundle bundle = null;
 
         try {
-            bundle = (Bundle) client.search().forResource(Procedure.class)
+            /*bundle = (Bundle) client.search().forResource(Procedure.class)
             .where(Procedure.ENCOUNTER.hasId(encounterId))
-            .encodedXml().execute();
+            .encodedXml().execute();*/
+            bundle = (Bundle) client.search().forResource(Procedure.class)
+                    .where(new ReferenceClientParam("encounter").hasId("efe28b57-e201-a19c-5008-1f178258b681"))
+                    .encodedXml()
+                    .execute();
         }
         catch (Exception e) {
             new RuntimeException("Error during the download of the procedures");

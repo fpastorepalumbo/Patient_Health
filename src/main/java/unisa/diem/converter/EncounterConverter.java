@@ -41,7 +41,19 @@ public class EncounterConverter extends BaseConverter {
         }
 
         if (listaCampiEncounter.isEmpty()) {
-            throw new RuntimeException("listaCampiEncounter is empty");
+            EncounterClass ec = new EncounterClass();
+            ec.setCode("N/A");
+            ec.setClasse("N/A");
+            ec.setDescription("N/A");
+            ec.setStartDate("N/A");
+            ec.setStopDate("N/A");
+            ec.setPatient("N/A");
+            ec.setOrganization("N/A");
+            ec.setPractitioner("N/A");
+            ec.setPayer("N/A");
+            ec.setCost("N/A");
+            ec.setCoverage("N/A");
+            listaCampiEncounter.add(ec);
         }
     }
 

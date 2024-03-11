@@ -28,8 +28,8 @@ public class MedicationRequestsConverter extends BaseConverter{
             //mr.setBaseCost(medReq.getDispenseRequest().getInitialFill().getCost().getValue().toString());
             //mr.setCoverage(medReq.getInsurance().get(0).getCoverage().getReference());
             //mr.setTotCost(medReq.getDispenseRequest().getInitialFill().getCost().getValue().toString());
-            mr.setStartDate(medReq.getAuthoredOn().toString());
-            mr.setStopDate(medReq.getAuthoredOn().toString());
+            //mr.setStartDate(medReq.getAuthoredOn().toString());
+            //mr.setStopDate(medReq.getAuthoredOn().toString());
             mr.setPatient(medReq.getSubject().getReference());
             //mr.setPayer(medReq.getInsurance().get(0).getCoverage().getReference());
 
@@ -37,7 +37,18 @@ public class MedicationRequestsConverter extends BaseConverter{
         }
 
         if (listaCampiMedRequest.isEmpty()) {
-            throw new RuntimeException("listaCampiMedRequest is empty");
+            MedicationRequestsClass mr = new MedicationRequestsClass();
+            mr.setCode("N/A");
+            mr.setDescription("N/A");
+            mr.setBaseCost("N/A");
+            mr.setCoverage("N/A");
+            mr.setDispenses("N/A");
+            mr.setTotCost("N/A");
+            mr.setStartDate("N/A");
+            mr.setStopDate("N/A");
+            mr.setPatient("N/A");
+            mr.setPayer("N/A");
+            listaCampiMedRequest.add(mr);
         }
 
     }
@@ -58,18 +69,26 @@ public class MedicationRequestsConverter extends BaseConverter{
         private String patient;
         private String payer;
 
+        private String dispenses;
+
         public MedicationRequestsClass() {
             this.code = "";
             this.description = "";
             this.baseCost = "";
             this.coverage = "";
+            this.dispenses = "";
             this.totCost = "";
             this.startDate = "";
             this.stopDate = "";
             this.patient = "";
             this.payer = "";
         }
-
+        public String getDispenses() {
+            return dispenses;
+        }
+        public void setDispenses(String dispenses) {
+            this.dispenses = dispenses;
+        }
         public String getCode() {
             return code;
         }
@@ -144,7 +163,7 @@ public class MedicationRequestsConverter extends BaseConverter{
 
         @Override
         public String toString() {
-            return "ConditionClass{" +
+            return "MedicationRequestsClass{" +
                     "code='" + code + '\'' +
                     ", description='" + description + '\'' +
                     ", baseCost='" + baseCost + '\'' +
@@ -154,6 +173,7 @@ public class MedicationRequestsConverter extends BaseConverter{
                     ", stopDate='" + stopDate + '\'' +
                     ", patient='" + patient + '\'' +
                     ", payer='" + payer + '\'' +
+                    ", dispenses='" + dispenses + '\'' +
                     '}';
         }
     }

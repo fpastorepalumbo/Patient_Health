@@ -33,7 +33,12 @@ public class CarePlanConverter extends BaseConverter{
         }
 
         if (listaCampiCarePlan.isEmpty()) {
-            throw new RuntimeException("listaCampiCarePlan is empty");
+            CarePlanClass cpc = new CarePlanClass();
+            cpc.setCode("N/A");
+            cpc.setDescription("N/A");
+            cpc.setReasonCode("N/A");
+            cpc.setReasonDescription("N/A");
+            listaCampiCarePlan.add(cpc);
         }
 
     }

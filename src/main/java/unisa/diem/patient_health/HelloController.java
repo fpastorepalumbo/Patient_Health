@@ -116,16 +116,16 @@ public class HelloController implements Initializable {
     public TableColumn reasonDescriptionClmCarePlan;
     @FXML
     public TableColumn organizationNameClm;
-    @FXML
-    public TableColumn addressOrganizationClm;
+    // @FXML
+    // public TableColumn addressOrganizationClm;
     @FXML
     public TableColumn cityOrganizationClm;
     @FXML
     public TableColumn stateOrganizationClm;
     @FXML
     public TableColumn phoneOrganizationClm;
-    @FXML
-    public TableColumn revenueOrganizationClm;
+    // @FXML
+    // public TableColumn revenueOrganizationClm;
     @FXML
     public TableColumn payerNameClm;
     @FXML
@@ -336,11 +336,11 @@ public class HelloController implements Initializable {
         reasonDescriptionClmCarePlan.setCellValueFactory(new PropertyValueFactory<>("reasonDescription"));
 
         organizationNameClm.setCellValueFactory(new PropertyValueFactory<>("name"));
-        addressOrganizationClm.setCellValueFactory(new PropertyValueFactory<>("address"));
+        // addressOrganizationClm.setCellValueFactory(new PropertyValueFactory<>("address"));
         cityOrganizationClm.setCellValueFactory(new PropertyValueFactory<>("city"));
         stateOrganizationClm.setCellValueFactory(new PropertyValueFactory<>("state"));
         phoneOrganizationClm.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        revenueOrganizationClm.setCellValueFactory(new PropertyValueFactory<>("revenue"));
+        // revenueOrganizationClm.setCellValueFactory(new PropertyValueFactory<>("revenue"));
 
         payerNameClm.setCellValueFactory(new PropertyValueFactory<>("name"));
         addressPayerClm.setCellValueFactory(new PropertyValueFactory<>("address"));
@@ -376,9 +376,8 @@ public class HelloController implements Initializable {
         costEncounterClm.setCellValueFactory(new PropertyValueFactory<>("cost"));
         coverageEncounterClm.setCellValueFactory(new PropertyValueFactory<>("coverage"));
 
-        observationEncounterClm2.setCellValueFactory(new PropertyValueFactory<>("observation"));
+        observationEncounterClm2.setCellValueFactory(new PropertyValueFactory<>("code"));
         descriptionEncounterClm2.setCellValueFactory(new PropertyValueFactory<>("description"));
-
         valueObservationClm.setCellValueFactory(new PropertyValueFactory<>("value"));
         dateObservationClm.setCellValueFactory(new PropertyValueFactory<>("date"));
         patientObservationClm.setCellValueFactory(new PropertyValueFactory<>("patient"));
@@ -387,7 +386,7 @@ public class HelloController implements Initializable {
         descriptionMedReqClm.setCellValueFactory(new PropertyValueFactory<>("description"));
         baseCostMedReqClm.setCellValueFactory(new PropertyValueFactory<>("baseCost"));
         coverageMedReqClm.setCellValueFactory(new PropertyValueFactory<>("coverage"));
-        dispendesMedReqClm.setCellValueFactory(new PropertyValueFactory<>("dispendes"));
+        dispendesMedReqClm.setCellValueFactory(new PropertyValueFactory<>("dispenses"));
         totCostMedReqClm.setCellValueFactory(new PropertyValueFactory<>("totCost"));
         startDateMedReqClm.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         stopDateMedReqClm.setCellValueFactory(new PropertyValueFactory<>("stopDate"));
@@ -596,7 +595,6 @@ public class HelloController implements Initializable {
             conditionTable.setVisible(true);
             immunizationTable.setVisible(true);
             carePlanTable.setVisible(false);
-            System.out.println("\n" + personElement.getName() + "\n " + personElement.getSurname() + "\n " + personElement.getId() + "\n");
 
             AllergyDownload allergyDownload = new AllergyDownload(personElement.getId());
             allergyDownload.download();
@@ -653,7 +651,6 @@ public class HelloController implements Initializable {
         deviceTable.getItems().clear();
 
         encounterElement = encounterTable.getSelectionModel().getSelectedItem();
-        patientElement = personTable.getSelectionModel().getSelectedItem();
 
 
         if (encounterElement != null) {
@@ -661,8 +658,17 @@ public class HelloController implements Initializable {
             observationTable.setVisible(true);
             procedureTable.setVisible(true);
             deviceTable.setVisible(true);
+            String[] parts = encounterElement.getId().split("/");
+            String encID = parts[5];
+            System.out.println(encID + "\n");
 
-            ObservationsDownload observationDownload = new ObservationsDownload(encounterElement.getId());
+            //System.out.println(encounterElement.getPatient() + "\n");
+            //get patient id from element
+            String[] parts2 = encounterElement.getPatient().split("/");
+            String patID = parts2[1];
+            System.out.println(patID + "\n");
+
+            ObservationsDownload observationDownload = new ObservationsDownload(encID);
             observationDownload.download();
             List<Observation> observations = observationDownload.getObservations();
             ObservationsConverter observationsConverter = new ObservationsConverter(observations);
@@ -675,7 +681,7 @@ public class HelloController implements Initializable {
                 observationTable.getItems().add(observation);
             }
 
-            MedicationRequestDownload medReqDownload = new MedicationRequestDownload(encounterElement.getId());
+            MedicationRequestDownload medReqDownload = new MedicationRequestDownload(encID);
             medReqDownload.download();
             List<MedicationRequest> medReqs = medReqDownload.getMedicationRequests();
             MedicationRequestsConverter medReqConverter = new MedicationRequestsConverter(medReqs);
@@ -688,7 +694,8 @@ public class HelloController implements Initializable {
                 medReqTable.getItems().add(medReq);
             }
 
-            ProceduresDownload procedureDownload = new ProceduresDownload(encounterElement.getId());
+
+            ProceduresDownload procedureDownload = new ProceduresDownload(encID);
             procedureDownload.download();
             List<Procedure> procedures = procedureDownload.getProcedures();
             ProceduresConverter procedureConverter = new ProceduresConverter(procedures);
@@ -701,8 +708,7 @@ public class HelloController implements Initializable {
                 procedureTable.getItems().add(procedure);
             }
 
-
-            DevicesDownload deviceDownload = new DevicesDownload(encounterElement.getId(), patientElement.getId());
+            DevicesDownload deviceDownload = new DevicesDownload(encID, patID);
             deviceDownload.download();
             List<Device> devices = deviceDownload.getDevices();
             DevicesConverter deviceConverter = new DevicesConverter(devices);
@@ -714,6 +720,8 @@ public class HelloController implements Initializable {
             for (DevicesConverter.DeviceClass device : deviceConverter.getListaCampiDevices()) {
                 deviceTable.getItems().add(device);
             }
+
+
         }
     }
 

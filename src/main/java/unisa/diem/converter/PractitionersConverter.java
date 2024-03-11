@@ -36,7 +36,15 @@ public class PractitionersConverter extends BaseConverter {
         }
 
         if (listaCampiPractitioner.isEmpty()) {
-            throw new RuntimeException("listaCampiPractitioner is empty");
+            PractitionerClass pr = new PractitionerClass();
+            pr.setName("N/A");
+            pr.setGender("N/A");
+            pr.setSpecialty("N/A");
+            pr.setOrganization("N/A");
+            pr.setAddress("N/A");
+            pr.setCity("N/A");
+            pr.setState("N/A");
+            listaCampiPractitioner.add(pr);
         }
     }
 

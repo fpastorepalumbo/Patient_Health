@@ -26,15 +26,21 @@ public class DevicesConverter extends BaseConverter {
 
             dv.setCode(device.getIdentifier().get(0).getValue());
             dv.setDescription(device.getType().getText());
-            dv.setDate(device.getExpirationDate().toString());
-            dv.setCost(device.getDeviceName().get(0).getName());
+            //dv.setDate(device.getExpirationDate().toString());
+            //dv.setCost(device.getDeviceName().get(0).getName());
             dv.setPatient(device.getPatient().getReference());
 
             listaCampiDevices.add(dv);
         }
 
         if (listaCampiDevices.isEmpty()) {
-            throw new RuntimeException("listaCampiDevices is empty");
+            DeviceClass dv = new DeviceClass();
+            dv.setCode("N/A");
+            dv.setDescription("N/A");
+            dv.setDate("N/A");
+            dv.setCost("N/A");
+            dv.setPatient("N/A");
+            listaCampiDevices.add(dv);
         }
     }
 

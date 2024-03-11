@@ -2,6 +2,7 @@ package unisa.diem.downloader;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Device;
 import org.hl7.fhir.r4.model.DeviceRequest;
@@ -34,9 +35,15 @@ public class DevicesDownload extends BaseDownloader{
         Bundle bundle = null;
 
         try {
-            bundle = (Bundle) client.search().forResource(Device.class)
+           /* bundle = (Bundle) client.search().forResource(Device.class)
             .where(Device.PATIENT.hasId(patientId)).where(DeviceRequest.ENCOUNTER.hasId(encounterId))  // ho un dubbio, vedi DeviceLoader per vedere come fare la query
             .encodedXml().execute();
+*/
+
+            bundle = (Bundle) client.search().forResource(Device.class)
+                    .where(new ReferenceClientParam("patient").hasId("6f4d77e9-2203-03a3-8966-92a22a21000a"))
+                    .encodedXml()
+                    .execute();
         }
         catch (Exception e) {
             new RuntimeException("Error during the download of the Devices");
