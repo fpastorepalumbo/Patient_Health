@@ -35,8 +35,10 @@ public class MedicationRequestDownload extends BaseDownloader {
     @Override
     public void download() {
         Bundle bundle;
+        /*
         Bundle bundle2;
         Bundle bundle3;
+         */
 
         try {
             /*
@@ -58,6 +60,7 @@ public class MedicationRequestDownload extends BaseDownloader {
         if (medicationRequests.isEmpty())
             System.out.println("No medication request found in the encounter with id: " + encounterId);
 
+        /*
         try {
             bundle2 = (Bundle) client.search().forResource(Claim.class)
                     .where(new ReferenceClientParam("encounter").hasId("155aa73b-46da-5808-c218-80a5ed671009"))
@@ -91,5 +94,6 @@ public class MedicationRequestDownload extends BaseDownloader {
 
         if (eobs.isEmpty())
             System.out.println("No explanation of benefit found in the encounter with id: " + encounterId);
+        */
     }
 }

@@ -17,6 +17,10 @@ import java.util.List;
 
 public class MedicationRequestsConverter extends BaseConverter{
 
+    FhirContext ctx = FhirContext.forR4();
+    String serverBaseUrl = "http://localhost:8080/fhir";
+    IGenericClient client = ctx.newRestfulGenericClient(serverBaseUrl);
+    List<Claim> claims;
     private final List<MedicationRequest> bundleMedRequests;
     @Getter
     @FXML
@@ -25,6 +29,7 @@ public class MedicationRequestsConverter extends BaseConverter{
     public MedicationRequestsConverter(List<MedicationRequest> bundleMedRequests) {
         this.bundleMedRequests = bundleMedRequests;
         this.fieldsListMedRequest = FXCollections.observableArrayList();
+        this.claims = new ArrayList<>();
     }
 
     @Override
@@ -80,30 +85,30 @@ public class MedicationRequestsConverter extends BaseConverter{
     }
 
     public Claim getClaim(MedicationRequest medReq) {
-        String encID = medReq.getEncounter().getReference().split("/")[1];
-        List<Claim> claims = new ArrayList<>();
-        FhirContext ctx = FhirContext.forR4();
-        IGenericClient client = ctx.newRestfulGenericClient("http://localhost:8080/fhir");
         Bundle bundle;
+
         try {
             bundle = (Bundle) client.search().forResource(Claim.class)
-                    .where(new ReferenceClientParam("encounter").hasId(encID))
+                    .where(new ReferenceClientParam("encounter").hasId(medReq.getEncounter().getReference().split("/")[1]))
                     .encodedXml()
                     .execute();
-        }
-        catch (Exception e) {
-            throw new RuntimeException("Error during the download of the MedicationRequest");
-        }
-        for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
-            claims.add((Claim) entry.getResource());
+        } catch (Exception e) {
+            throw new RuntimeException("Error during the download of the Claim");
         }
 
-        Claim rmClaim = null;
-        for (Claim claim : claims) {
-            if (claim.hasPrescription() && claim.getPrescription().getReference().split("/")[1].equals(medReq.getId()))
-                rmClaim = claim;
+        for (Bundle.BundleEntryComponent entry : bundle.getEntry()) {
+            if (((Claim) entry.getResource()).hasPrescription())
+                claims.add((Claim) entry.getResource());
         }
-        return rmClaim;
+
+        if (claims.isEmpty())
+            System.out.println("No claim found in the encounter with id: " + medReq.getEncounter().getReference().split("/")[1]);
+
+        for (Claim claim : claims) {
+            if (claim.hasPrescription())
+                return claim;
+        }
+        return new Claim();
     }
 
     @Setter
