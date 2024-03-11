@@ -14,11 +14,11 @@ public class CarePlanConverter extends BaseConverter{
     private final List<CarePlan> bundleCarePlans;
     @Getter
     @FXML
-    private final ObservableList<CarePlanClass> fieldListCarePlan;
+    private final ObservableList<CarePlanClass> fieldsListCarePlan;
 
     public CarePlanConverter(List<CarePlan> bundleCarePlans) {
         this.bundleCarePlans = bundleCarePlans;
-        this.fieldListCarePlan = FXCollections.observableArrayList();
+        this.fieldsListCarePlan = FXCollections.observableArrayList();
     }
     @Override
     public void convert() {
@@ -34,16 +34,16 @@ public class CarePlanConverter extends BaseConverter{
                 cpc.setReasonDescription(activity.getDetail().getReasonCode().get(0).getCoding().get(0).getDisplay());
             }
 
-            fieldListCarePlan.add(cpc);
+            fieldsListCarePlan.add(cpc);
         }
 
-        if (fieldListCarePlan.isEmpty()) {
+        if (fieldsListCarePlan.isEmpty()) {
             CarePlanClass cpc = new CarePlanClass();
             cpc.setCode("N/A");
             cpc.setDescription("N/A");
             cpc.setReasonCode("N/A");
             cpc.setReasonDescription("N/A");
-            fieldListCarePlan.add(cpc);
+            fieldsListCarePlan.add(cpc);
         }
 
     }

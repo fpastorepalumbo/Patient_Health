@@ -14,11 +14,11 @@ public class ConditionConverter extends BaseConverter{
     private final List<Condition> bundleConditions;
     @Getter
     @FXML
-    private final ObservableList<ConditionClass> fieldListCondition;
+    private final ObservableList<ConditionClass> fieldsListCondition;
 
     public ConditionConverter(List<Condition> bundleConditions) {
         this.bundleConditions = bundleConditions;
-        this.fieldListCondition = FXCollections.observableArrayList();
+        this.fieldsListCondition = FXCollections.observableArrayList();
     }
 
     @Override
@@ -42,17 +42,17 @@ public class ConditionConverter extends BaseConverter{
             parts = condition.getEncounter().getReference().split("/");
             cc.setEncounter(parts[1]);
 
-            fieldListCondition.add(cc);
+            fieldsListCondition.add(cc);
         }
 
-        if (fieldListCondition.isEmpty()) {
+        if (fieldsListCondition.isEmpty()) {
             ConditionClass cc = new ConditionClass();
             cc.setCode("N/A");
             cc.setDescription("N/A");
             cc.setStartDate("N/A");
             cc.setStopDate("N/A");
             cc.setEncounter("N/A");
-            fieldListCondition.add(cc);
+            fieldsListCondition.add(cc);
         }
     }
 

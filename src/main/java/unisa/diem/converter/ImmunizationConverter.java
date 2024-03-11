@@ -14,11 +14,11 @@ public class ImmunizationConverter extends BaseConverter{
     private final List<Immunization> bundleImmunizations;
     @Getter
     @FXML
-    private final ObservableList<ImmunizationClass> fieldListImmunization;
+    private final ObservableList<ImmunizationClass> fieldsListImmunization;
 
     public ImmunizationConverter(List<Immunization> bundleImmunizations) {
         this.bundleImmunizations = bundleImmunizations;
-        this.fieldListImmunization = FXCollections.observableArrayList();
+        this.fieldsListImmunization = FXCollections.observableArrayList();
     }
 
     @Override
@@ -39,16 +39,16 @@ public class ImmunizationConverter extends BaseConverter{
 
             ic.setEncounter(encounter);
 
-            fieldListImmunization.add(ic);
+            fieldsListImmunization.add(ic);
         }
 
-        if (fieldListImmunization.isEmpty()) {
+        if (fieldsListImmunization.isEmpty()) {
             ImmunizationClass ic = new ImmunizationClass();
             ic.setCode("N/A");
             ic.setDescription("N/A");
             ic.setDate("N/A");
             ic.setEncounter("N/A");
-            fieldListImmunization.add(ic);
+            fieldsListImmunization.add(ic);
         }
     }
 

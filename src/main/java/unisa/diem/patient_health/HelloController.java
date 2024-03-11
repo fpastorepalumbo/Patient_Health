@@ -467,10 +467,10 @@ public class HelloController implements Initializable {
             PatientConverter patientConverter = new PatientConverter(patients);
             patientConverter.convert();
 
-            if (patientConverter.getFieldListPatient().isEmpty()) {
+            if (patientConverter.getFieldsListPatient().isEmpty()) {
                 throw new RuntimeException("Patient Data Conversion Error");
             }
-            for (PatientConverter.PatientClass patient : patientConverter.getFieldListPatient()) {
+            for (PatientConverter.PatientClass patient : patientConverter.getFieldsListPatient()) {
                 personTable.getItems().add(patient);
             }
         }
@@ -554,10 +554,10 @@ public class HelloController implements Initializable {
             EncounterConverter encounterConverter = new EncounterConverter(encounters);
             encounterConverter.convert();
 
-            if (encounterConverter.getFieldListEncounter().isEmpty()) {
+            if (encounterConverter.getFieldsListEncounter().isEmpty()) {
                 throw new RuntimeException("Encounter Data Conversion Error");
             }
-            for (EncounterConverter.EncounterClass encounter : encounterConverter.getFieldListEncounter()) {
+            for (EncounterConverter.EncounterClass encounter : encounterConverter.getFieldsListEncounter()) {
                 encounterTable.getItems().add(encounter);
             }
 
@@ -604,10 +604,10 @@ public class HelloController implements Initializable {
             AllergyConverter allergyConverter = new AllergyConverter(allergies);
             allergyConverter.convert();
 
-            if (allergyConverter.getFieldListAllergy().isEmpty()) {
+            if (allergyConverter.getFieldsListAllergy().isEmpty()) {
                 throw new RuntimeException("Allergy Data Conversion Error");
             }
-            for (AllergyConverter.AllergyClass allergie : allergyConverter.getFieldListAllergy()) {
+            for (AllergyConverter.AllergyClass allergie : allergyConverter.getFieldsListAllergy()) {
                 allergyTable.getItems().add(allergie);
             }
 
@@ -617,10 +617,10 @@ public class HelloController implements Initializable {
             ImmunizationConverter immunizationConverter = new ImmunizationConverter(immunizations);
             immunizationConverter.convert();
 
-            if (immunizationConverter.getFieldListImmunization().isEmpty()) {
+            if (immunizationConverter.getFieldsListImmunization().isEmpty()) {
                 throw new RuntimeException("Immunization Data Conversion Error");
             }
-            for (ImmunizationConverter.ImmunizationClass immunization : immunizationConverter.getFieldListImmunization()) {
+            for (ImmunizationConverter.ImmunizationClass immunization : immunizationConverter.getFieldsListImmunization()) {
                 immunizationTable.getItems().add(immunization);
             }
 
@@ -630,10 +630,10 @@ public class HelloController implements Initializable {
             ConditionConverter conditionConverter = new ConditionConverter(conditions);
             conditionConverter.convert();
 
-            if (conditionConverter.getFieldListCondition().isEmpty()) {
+            if (conditionConverter.getFieldsListCondition().isEmpty()) {
                 throw new RuntimeException("Condition Data Conversion Error");
             }
-            for (ConditionConverter.ConditionClass condition : conditionConverter.getFieldListCondition()) {
+            for (ConditionConverter.ConditionClass condition : conditionConverter.getFieldsListCondition()) {
                 conditionTable.getItems().add(condition);
             }
         }
@@ -682,10 +682,10 @@ public class HelloController implements Initializable {
             MedicationRequestsConverter medReqConverter = new MedicationRequestsConverter(medReqs);
             medReqConverter.convert();
 
-            if (medReqConverter.getListaCampiMedRequest().isEmpty()) {
+            if (medReqConverter.getFieldsListMedRequest().isEmpty()) {
                 throw new RuntimeException("Medication Request Data Conversion Error");
             }
-            for (MedicationRequestsConverter.MedicationRequestsClass medReq : medReqConverter.getListaCampiMedRequest()) {
+            for (MedicationRequestsConverter.MedicationRequestsClass medReq : medReqConverter.getFieldsListMedRequest()) {
                 medReqTable.getItems().add(medReq);
             }
 
@@ -731,7 +731,7 @@ public class HelloController implements Initializable {
         List<CarePlan> carePlans = carePlanDownload.getCarePlans();
         CarePlanConverter carePlanConverter = new CarePlanConverter(carePlans);
         carePlanConverter.convert();
-        for (CarePlanConverter.CarePlanClass carePlan : carePlanConverter.getFieldListCarePlan()) {
+        for (CarePlanConverter.CarePlanClass carePlan : carePlanConverter.getFieldsListCarePlan()) {
             carePlanTable.getItems().add(carePlan);
         }
     }
@@ -752,10 +752,10 @@ public class HelloController implements Initializable {
             PatientConverter patientConverter = new PatientConverter(patients);
             patientConverter.convert();
 
-            if (patientConverter.getFieldListPatient().isEmpty()) {
+            if (patientConverter.getFieldsListPatient().isEmpty()) {
                 throw new RuntimeException("ERROR DURING THE SCROLL OF PATIENT");
             }
-            for (PatientConverter.PatientClass patient : patientConverter.getFieldListPatient()) {
+            for (PatientConverter.PatientClass patient : patientConverter.getFieldsListPatient()) {
                 personTable.getItems().add(patient);
             }
         }
@@ -820,10 +820,10 @@ public class HelloController implements Initializable {
             EncounterConverter encounterConverter = new EncounterConverter(encounters);
             encounterConverter.convert();
 
-            if (encounterConverter.getFieldListEncounter().isEmpty()) {
+            if (encounterConverter.getFieldsListEncounter().isEmpty()) {
                 throw new RuntimeException("ERROR DURING THE SCROLL OF ENCOUNTERS");
             }
-            for (EncounterConverter.EncounterClass encounter : encounterConverter.getFieldListEncounter()) {
+            for (EncounterConverter.EncounterClass encounter : encounterConverter.getFieldsListEncounter()) {
                 encounterTable.getItems().add(encounter);
             }
         }

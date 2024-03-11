@@ -9,18 +9,18 @@ import org.hl7.fhir.r4.model.Encounter;
 
 import java.util.List;
 
-// TODO: Rinominare code in id e classe in code, eliminare payer, cost e coverage, non vengono mai caricati
+// TODO: Rinominare code in id e classe in code, prendere claim e eob per payer cost e coverage
 
 public class EncounterConverter extends BaseConverter {
 
     private final List<Encounter> bundleEncounters;
     @Getter
     @FXML
-    private final ObservableList<EncounterClass> fieldListEncounter;
+    private final ObservableList<EncounterClass> fieldsListEncounter;
 
     public EncounterConverter(List<Encounter> bundleEncounters) {
         this.bundleEncounters = bundleEncounters;
-        this.fieldListEncounter = FXCollections.observableArrayList();
+        this.fieldsListEncounter = FXCollections.observableArrayList();
     }
 
     @Override
@@ -56,10 +56,10 @@ public class EncounterConverter extends BaseConverter {
             // ec.setCost(encounter.getHospitalization().getAccomodation().get(0).getCost().toString());
             // ec.setCoverage(encounter.getHospitalization().getAccomodation().get(0).getPrecedence().toString());
 
-            fieldListEncounter.add(ec);
+            fieldsListEncounter.add(ec);
         }
 
-        if (fieldListEncounter.isEmpty()) {
+        if (fieldsListEncounter.isEmpty()) {
             EncounterClass ec = new EncounterClass();
             ec.setCode("N/A");
             ec.setClasse("N/A");
@@ -72,7 +72,7 @@ public class EncounterConverter extends BaseConverter {
             // ec.setPayer("N/A");
             // ec.setCost("N/A");
             // ec.setCoverage("N/A");
-            fieldListEncounter.add(ec);
+            fieldsListEncounter.add(ec);
         }
     }
 

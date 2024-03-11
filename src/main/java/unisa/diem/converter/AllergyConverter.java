@@ -14,11 +14,11 @@ public class AllergyConverter extends BaseConverter{
     private final List<AllergyIntolerance> bundleAllergies;
     @Getter
     @FXML
-    private final ObservableList<AllergyClass> fieldListAllergy;
+    private final ObservableList<AllergyClass> fieldsListAllergy;
 
     public AllergyConverter(List<AllergyIntolerance> bundleAllergies) {
         this.bundleAllergies = bundleAllergies;
-        this.fieldListAllergy = FXCollections.observableArrayList();
+        this.fieldsListAllergy = FXCollections.observableArrayList();
     }
 
     @Override
@@ -37,24 +37,23 @@ public class AllergyConverter extends BaseConverter{
             if (allergyIntolerance.hasLastOccurrence()) {
                 parts = allergyIntolerance.getLastOccurrence().toString().split(" ");
                 ac.setStopDate(parts[5] + "-" + parts[1] + "-" + parts[2]);
-            }
-            else
+            } else
                 ac.setStopDate("---");
 
             parts = allergyIntolerance.getEncounter().getReference().split("/");
             ac.setEncounter(parts[1]);
 
-            fieldListAllergy.add(ac);
+            fieldsListAllergy.add(ac);
         }
 
-        if (fieldListAllergy.isEmpty()) {
+        if (fieldsListAllergy.isEmpty()) {
             AllergyClass ac = new AllergyClass();
             ac.setCode("N/A");
             ac.setDescription("N/A");
             ac.setStartDate("N/A");
             ac.setStopDate("N/A");
             ac.setEncounter("N/A");
-            fieldListAllergy.add(ac);
+            fieldsListAllergy.add(ac);
         }
     }
 

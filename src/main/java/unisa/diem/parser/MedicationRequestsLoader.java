@@ -19,9 +19,8 @@ public class MedicationRequestsLoader extends BaseLoader {
         super(datasetService, "medications");
 
         encRecords = datasetService.parse("encounters");
-        if (records == null || encRecords == null) {
-            // datasetService.logSevere("Failed to load medications");
-        }
+        if (records == null || encRecords == null)
+            datasetService.logSevere("Failed to load medications");
         encIndex = makeIndex();
     }
 

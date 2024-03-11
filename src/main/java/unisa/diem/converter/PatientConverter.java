@@ -13,11 +13,11 @@ public class PatientConverter extends BaseConverter {
     private final List<Patient> bundlePatients;
     @Getter
     @FXML
-    private final ObservableList<PatientClass> fieldListPatient;
+    private final ObservableList<PatientClass> fieldsListPatient;
 
     public PatientConverter(List<Patient> bundlePatients) {
         this.bundlePatients = bundlePatients;
-        this.fieldListPatient = FXCollections.observableArrayList();
+        this.fieldsListPatient = FXCollections.observableArrayList();
     }
 
     @Override
@@ -39,8 +39,7 @@ public class PatientConverter extends BaseConverter {
             if (patient.hasDeceasedDateTimeType()){
                 parts = patient.getDeceasedDateTimeType().getValueAsString().split("T");
                 pc.setDeathdate(parts[0]);
-            }
-            else
+            } else
                 pc.setDeathdate("---");
 
             pc.setSsn(patient.getIdentifier().get(1).getValue());
@@ -66,9 +65,9 @@ public class PatientConverter extends BaseConverter {
 
             pc.setState(patient.getAddress().get(0).getState());
 
-            fieldListPatient.add(pc);
+            fieldsListPatient.add(pc);
         }
-        if (fieldListPatient.isEmpty()) {
+        if (fieldsListPatient.isEmpty()) {
             PatientClass pc = new PatientClass();
             pc.setId("N/A");
             pc.setName("N/A");
@@ -82,7 +81,7 @@ public class PatientConverter extends BaseConverter {
             pc.setAddress("N/A");
             pc.setCity("N/A");
             pc.setState("N/A");
-            fieldListPatient.add(pc);
+            fieldsListPatient.add(pc);
         }
     }
 
