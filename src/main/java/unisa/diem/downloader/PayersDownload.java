@@ -24,16 +24,14 @@ public class PayersDownload extends BaseDownloader {
 
     public PayersDownload() {
         this.payers = new ArrayList<>();
-        count = 0;
     }
 
     public void download() {
-        Bundle bundle = null;
+        Bundle bundle;
 
         try {
-            bundle = (Bundle) client.search().forResource(Organization.class).offset(count).count(20)
+            bundle = (Bundle) client.search().forResource(Organization.class).offset(2535).count(10)
                     .encodedXml().execute();
-            count = count + 20;
         } catch (Exception e) {
             throw new RuntimeException("Error during the download of the Payers");
         }

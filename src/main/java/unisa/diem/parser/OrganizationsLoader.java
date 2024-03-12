@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrganizationsLoader extends BaseLoader {
-
     OrganizationsLoader(DatasetService datasetService) {
         super(datasetService, "organizations");
     }

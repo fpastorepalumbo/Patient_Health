@@ -517,9 +517,9 @@ public class HelloController implements Initializable {
             OrganizationConverter organizationConverter = new OrganizationConverter(organizations);
             organizationConverter.convert();
 
-            if (organizationConverter.getListaCampiOrganization().isEmpty())
+            if (organizationConverter.getFieldsListOrganization().isEmpty())
                 throw new RuntimeException("Organization Data Conversion Error");
-            for (OrganizationConverter.OrganizationClass organization : organizationConverter.getListaCampiOrganization())
+            for (OrganizationConverter.OrganizationClass organization : organizationConverter.getFieldsListOrganization())
                 organizationTable.getItems().add(organization);
 
             payersDownload.download();
@@ -527,9 +527,9 @@ public class HelloController implements Initializable {
             PayersConverter payersConverter = new PayersConverter(payers);
             payersConverter.convert();
 
-            if (payersConverter.getListaCampiPayer().isEmpty())
+            if (payersConverter.getFieldsListPayer().isEmpty())
                 throw new RuntimeException("Payers Data Conversion Error");
-            for (PayersConverter.PayersClass payer : payersConverter.getListaCampiPayer())
+            for (PayersConverter.PayersClass payer : payersConverter.getFieldsListPayer())
                 payerTable.getItems().add(payer);
 
             practitionersDownload.download();
@@ -748,13 +748,14 @@ public class HelloController implements Initializable {
             List<Organization> organizations = organizationDownload.getOrganizations();
             OrganizationConverter organizationConverter = new OrganizationConverter(organizations);
             organizationConverter.convert();
-            if (organizationConverter.getListaCampiOrganization().isEmpty())
+            if (organizationConverter.getFieldsListOrganization().isEmpty())
                 throw new RuntimeException("ERROR DURING THE SCROLL OF ORGANIZATIONS");
-            for (OrganizationConverter.OrganizationClass organization : organizationConverter.getListaCampiOrganization())
+            for (OrganizationConverter.OrganizationClass organization : organizationConverter.getFieldsListOrganization())
                 organizationTable.getItems().add(organization);
         }
     }
 
+    // TODO: eliminare metodo scroll per i payer
     public void payerScrollTable(ScrollEvent scrollEvent) {
         if (scrollEvent.getDeltaY() < 0) {
             payerTable.getItems().clear();
@@ -762,9 +763,9 @@ public class HelloController implements Initializable {
             List<Organization> payers = payersDownload.getPayers();
             PayersConverter payersConverter = new PayersConverter(payers);
             payersConverter.convert();
-            if (payersConverter.getListaCampiPayer().isEmpty())
+            if (payersConverter.getFieldsListPayer().isEmpty())
                 throw new RuntimeException("ERROR DURING THE SCROLL OF PAYERS");
-            for (PayersConverter.PayersClass payer : payersConverter.getListaCampiPayer())
+            for (PayersConverter.PayersClass payer : payersConverter.getFieldsListPayer())
                 payerTable.getItems().add(payer);
         }
     }
