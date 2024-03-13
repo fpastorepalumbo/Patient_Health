@@ -32,7 +32,7 @@ public class CarePlanDownload extends BaseDownloader {
                     .where(CarePlan.PATIENT.hasId(patientId))
                     .encodedXml().execute();
         } catch (Exception e) {
-            throw new RuntimeException("Error during the download of the carePlans");
+            throw new RuntimeException("Error during the download of the care plans");
         }
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())

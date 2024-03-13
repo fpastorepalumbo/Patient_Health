@@ -45,10 +45,8 @@ public class ImmunizationsLoader extends BaseLoader {
                 BundleBuilder bb = new BundleBuilder(FhirWrapper.getContext());
                 buffer.forEach(bb::addTransactionCreateEntry);
                 FhirWrapper.getClient().transaction().withBundle(bb.getBundle()).execute();
-
                 if (count % 1000 == 0)
-                    datasetService.logInfo("Loaded %d immunizations".formatted(count));
-
+                    datasetService.logInfo("Loaded %d immunizations", count);
                 buffer.clear();
             }
         }

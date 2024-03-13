@@ -63,10 +63,8 @@ public class PayersLoader extends BaseLoader {
                 BundleBuilder bb = new BundleBuilder(FhirWrapper.getContext());
                 buffer.forEach(bb::addTransactionUpdateEntry);
                 FhirWrapper.getClient().transaction().withBundle(bb.getBundle()).execute();
-
                 if (count % 1000 == 0)
-                    datasetService.logInfo("Loaded %d payers".formatted(count));
-
+                    datasetService.logInfo("Loaded %d payers", count);
                 buffer.clear();
             }
         }

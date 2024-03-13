@@ -47,6 +47,6 @@ public class ObservationsDownload extends BaseDownloader {
             observations.add((Observation) entry.getResource());
 
         if (observations.isEmpty())
-            System.out.println("No observation found in the patient with id: " + encounterId);
+            System.out.println("No observation found in the encounter with id: " + encounterId);
     }
 }

@@ -9,8 +9,6 @@ import org.hl7.fhir.r4.model.Procedure;
 
 import java.util.List;
 
-// TODO: Cancellare cost dalla tabella
-
 public class ProceduresConverter extends BaseConverter {
 
     private final List<Procedure> bundleProcedures;
@@ -37,8 +35,6 @@ public class ProceduresConverter extends BaseConverter {
             parts = procedure.getPerformedDateTimeType().getValueAsString().split("T");
             pr.setDate(parts[0]);
 
-            // pr.setCost(claim.getItem().get(0).getNet().getValue().toString());
-
             parts = procedure.getSubject().getReference().split("/");
             pr.setPatient(parts[1]);
 
@@ -50,7 +46,6 @@ public class ProceduresConverter extends BaseConverter {
             pr.setCode("N/A");
             pr.setDescription("N/A");
             pr.setDate("N/A");
-            // pr.setCost("N/A");
             pr.setPatient("N/A");
             fieldsListProcedure.add(pr);
         }
@@ -62,14 +57,12 @@ public class ProceduresConverter extends BaseConverter {
         private String code;
         private String description;
         private String date;
-        // private String cost;
         private String patient;
 
         public ProcedureClass() {
             this.code = "";
             this.description = "";
             this.date = "";
-            // this.cost = "";
             this.patient = "";
         }
 

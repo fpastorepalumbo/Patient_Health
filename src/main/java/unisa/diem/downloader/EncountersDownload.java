@@ -35,7 +35,7 @@ public class EncountersDownload extends BaseDownloader {
                     .encodedXml().execute();
             count = count + 20;
         } catch (Exception e) {
-            throw new RuntimeException("Error during the download of the Encounter");
+            throw new RuntimeException("Error during the download of the encounters");
         }
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())

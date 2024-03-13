@@ -35,10 +35,6 @@ public class MedicationRequestDownload extends BaseDownloader {
     @Override
     public void download() {
         Bundle bundle;
-        /*
-        Bundle bundle2;
-        Bundle bundle3;
-         */
 
         try {
             /*
@@ -51,7 +47,7 @@ public class MedicationRequestDownload extends BaseDownloader {
                     .encodedXml()
                     .execute();
         } catch (Exception e) {
-            throw new RuntimeException("Error during the download of the MedicationRequest");
+            throw new RuntimeException("Error during the download of the medication requests");
         }
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
@@ -59,41 +55,5 @@ public class MedicationRequestDownload extends BaseDownloader {
 
         if (medicationRequests.isEmpty())
             System.out.println("No medication request found in the encounter with id: " + encounterId);
-
-        /*
-        try {
-            bundle2 = (Bundle) client.search().forResource(Claim.class)
-                    .where(new ReferenceClientParam("encounter").hasId("155aa73b-46da-5808-c218-80a5ed671009"))
-                    .encodedXml()
-                    .execute();
-        } catch (Exception e) {
-            throw new RuntimeException("Error during the download of the Claim");
-        }
-
-        for (Bundle.BundleEntryComponent entry : bundle2.getEntry()) {
-            if (((Claim) entry.getResource()).hasPrescription())
-                claims.add((Claim) entry.getResource());
-        }
-
-        if (claims.isEmpty())
-            System.out.println("No claim found in the encounter with id: " + encounterId);
-
-        try {
-            bundle3 = (Bundle) client.search().forResource(ExplanationOfBenefit.class)
-                    .where(new ReferenceClientParam("encounter").hasId("155aa73b-46da-5808-c218-80a5ed671009"))
-                    .encodedXml()
-                    .execute();
-        } catch (Exception e) {
-            throw new RuntimeException("Error during the download of the ExplanationOfBenefit");
-        }
-
-        for (Bundle.BundleEntryComponent entry : bundle3.getEntry()) {
-            if (((ExplanationOfBenefit) entry.getResource()).hasClaim())
-                eobs.add((ExplanationOfBenefit) entry.getResource());
-        }
-
-        if (eobs.isEmpty())
-            System.out.println("No explanation of benefit found in the encounter with id: " + encounterId);
-        */
     }
 }

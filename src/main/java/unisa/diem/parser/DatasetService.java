@@ -28,7 +28,7 @@ public class DatasetService {
     private final Logger logger = Logger.getLogger("DatasetLoader");
 
     @Getter
-    private DicomService dicomService;
+    private final DicomService dicomService;
 
     public DatasetService() {
         dicomService = new DicomService();
@@ -128,10 +128,10 @@ public class DatasetService {
      * @throws IOException if file errors arise
      */
     public void loadDataset() throws IOException {
-        //Path path = Paths.get("dataset_loaded");
-        //if (!Files.exists(path)) {
+        Path path = Paths.get("dataset_loaded");
+        if (!Files.exists(path)) {
             new DatasetLoader(this).load();
-        //    Files.createFile(path);
-        //}
+            Files.createFile(path);
+        }
     }
 }

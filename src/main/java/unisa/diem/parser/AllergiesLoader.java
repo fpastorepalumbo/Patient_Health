@@ -23,7 +23,6 @@ public class AllergiesLoader extends BaseLoader {
 
         for (CSVRecord rec : records) {
             AllergyIntolerance alin = new AllergyIntolerance();
-            //  alin.setOnset(DateTimeType.parseV3(rec.get("START")));
             alin.setOnset(new DateTimeType(rec.get("START")));
             if (datasetService.hasProp(rec, "STOP"))
                 alin.setLastOccurrence(datasetService.parseDate(rec.get("STOP")));

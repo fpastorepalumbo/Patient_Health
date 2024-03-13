@@ -136,15 +136,13 @@ public class MedicationRequestsLoader extends BaseLoader {
                 clmBuffer.forEach(bb::addTransactionUpdateEntry);
                 eobBuffer.forEach(bb::addTransactionUpdateEntry);
                 FhirWrapper.getClient().transaction().withBundle(bb.getBundle()).execute();
-
                 if (count % 1000 == 0)
-                    datasetService.logInfo("Loaded %d medication statements", count);
-
+                    datasetService.logInfo("Loaded %d medication requests", count);
                 buffer.clear();
                 clmBuffer.clear();
                 eobBuffer.clear();
             }
         }
-        datasetService.logInfo("Loaded ALL medication statements");
+        datasetService.logInfo("Loaded ALL medication requests");
     }
 }

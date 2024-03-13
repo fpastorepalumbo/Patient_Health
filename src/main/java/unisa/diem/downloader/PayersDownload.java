@@ -33,13 +33,13 @@ public class PayersDownload extends BaseDownloader {
             bundle = (Bundle) client.search().forResource(Organization.class).offset(2535).count(10)
                     .encodedXml().execute();
         } catch (Exception e) {
-            throw new RuntimeException("Error during the download of the Payers");
+            throw new RuntimeException("Error during the download of the payers");
         }
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
             payers.add((Organization) entry.getResource());
 
         if (payers.isEmpty())
-            throw new RuntimeException("No payers found");
+            throw new RuntimeException("No payer found");
     }
 }

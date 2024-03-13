@@ -47,6 +47,6 @@ public class ProceduresDownload extends BaseDownloader {
             procedures.add((Procedure) entry.getResource());
 
         if (procedures.isEmpty())
-            System.out.println("No procedures found in the patient with id: " + encounterId);
+            System.out.println("No procedures found in the encounter with id: " + encounterId);
     }
 }

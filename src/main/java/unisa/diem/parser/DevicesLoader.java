@@ -93,10 +93,8 @@ public class DevicesLoader extends BaseLoader {
                 devBuffer.forEach(bb::addTransactionUpdateEntry);
                 reqBuffer.forEach(bb::addTransactionCreateEntry);
                 FhirWrapper.getClient().transaction().withBundle(bb.getBundle()).execute();
-
                 if (count % 1000 == 0)
                     datasetService.logInfo("Loaded %d devices", count);
-
                 devBuffer.clear();
                 reqBuffer.clear();
             }

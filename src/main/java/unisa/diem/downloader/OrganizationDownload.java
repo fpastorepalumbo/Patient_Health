@@ -35,7 +35,7 @@ public class OrganizationDownload extends BaseDownloader {
                     .encodedXml().execute();
             count = count + 20;
         } catch (Exception e) {
-            throw new RuntimeException("Error during the download of the Organizations");
+            throw new RuntimeException("Error during the download of the organizations");
         }
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())

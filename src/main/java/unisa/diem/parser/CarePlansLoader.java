@@ -75,10 +75,10 @@ public class CarePlansLoader extends BaseLoader {
                 buffer.forEach(bb::addTransactionUpdateEntry);
                 FhirWrapper.getClient().transaction().withBundle(bb.getBundle()).execute();
                 if (count % 1000 == 0)
-                    datasetService.logInfo("Loaded %d careplans", count);
+                    datasetService.logInfo("Loaded %d care plans", count);
                 buffer.clear();
             }
         }
-        datasetService.logInfo("Loaded ALL careplans");
+        datasetService.logInfo("Loaded ALL care plans");
     }
 }

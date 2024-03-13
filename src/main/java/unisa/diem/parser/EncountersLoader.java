@@ -129,10 +129,8 @@ public class EncountersLoader extends BaseLoader {
                 claimBuffer.forEach(bb::addTransactionUpdateEntry);
                 eobBuffer.forEach(bb::addTransactionUpdateEntry);
                 FhirWrapper.getClient().transaction().withBundle(bb.getBundle()).execute();
-
                 if (count % 1000 == 0)
                     datasetService.logInfo("Loaded %d encounters", count);
-
                 encBuffer.clear();
                 claimBuffer.clear();
                 eobBuffer.clear();

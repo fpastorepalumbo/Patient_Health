@@ -41,11 +41,9 @@ public class OrganizationConverter extends BaseConverter {
         if (fieldsListOrganization.isEmpty()) {
             OrganizationClass oc = new OrganizationClass();
             oc.setName("N/A");
-            // oc.setAddress("N/A");
             oc.setCity("N/A");
             oc.setState("N/A");
             oc.setPhone("N/A");
-            // oc.setRevenue("N/A");
             fieldsListOrganization.add(oc);
         }
     }

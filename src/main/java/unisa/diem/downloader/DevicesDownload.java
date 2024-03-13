@@ -40,7 +40,7 @@ public class DevicesDownload extends BaseDownloader{
                     .execute();
         }
         catch (Exception e) {
-            throw new RuntimeException("Error during the download of the Devices");
+            throw new RuntimeException("Error during the download of the devices");
         }
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())

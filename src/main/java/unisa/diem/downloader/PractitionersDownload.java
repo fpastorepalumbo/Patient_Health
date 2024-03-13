@@ -34,7 +34,7 @@ public class PractitionersDownload extends BaseDownloader {
                     .encodedXml().execute();
             count = count + 20;
         } catch (Exception e) {
-            throw new RuntimeException("Error during the download of the Practitioners");
+            throw new RuntimeException("Error during the download of the practitioners");
         }
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
