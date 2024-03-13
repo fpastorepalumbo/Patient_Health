@@ -77,10 +77,8 @@ public class PractitionersLoader extends BaseLoader {
                 BundleBuilder bb = new BundleBuilder(FhirWrapper.getContext());
                 buffer.forEach(bb::addTransactionUpdateEntry);
                 FhirWrapper.getClient().transaction().withBundle(bb.getBundle()).execute();
-
                 if (count % 1000 == 0)
                     datasetService.logInfo("Loaded %d practitioners".formatted(count));
-
                 buffer.clear();
             }
         }

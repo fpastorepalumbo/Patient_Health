@@ -29,15 +29,11 @@ public class OrganizationConverter extends BaseConverter {
 
             oc.setName(organization.getName());
 
-            // oc.setAddress(organization.getAddress());
-
             oc.setCity(organization.getAddress().get(0).getCity());
 
             oc.setState(organization.getAddress().get(0).getState());
 
             oc.setPhone(organization.getTelecom().get(0).getValue());
-
-            // oc.setRevenue(organization.getExtension().get(0).getValue().toString());
 
             fieldsListOrganization.add(oc);
         }
@@ -58,19 +54,15 @@ public class OrganizationConverter extends BaseConverter {
     @Getter
     public static class OrganizationClass {
         private String name;
-        // private String address;
         private String city;
         private String state;
         private String phone;
-        // private String revenue;
 
         public OrganizationClass() {
             this.name = "";
-            // this.address = "";
             this.city = "";
             this.state = "";
             this.phone = "";
-            // this.revenue = "";
         }
 
         @Override

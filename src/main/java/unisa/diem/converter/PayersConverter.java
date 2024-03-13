@@ -29,8 +29,6 @@ public class PayersConverter extends BaseConverter {
 
             py.setName(payer.getName());
 
-            // py.setAddress(payer.getAddress().get(0).getLine().get(0).toString());
-
             if(payer.hasAddress()) {
                 py.setCity(payer.getAddress().get(0).getCity());
                 py.setState(payer.getAddress().get(0).getState());
@@ -44,19 +42,15 @@ public class PayersConverter extends BaseConverter {
             else
                 py.setPhone("---");
 
-            // py.setRevenue(payer.getExtension().get(0).getValue().toString());
-
             fieldsListPayer.add(py);
         }
 
         if (fieldsListPayer.isEmpty()) {
             PayersClass py = new PayersClass();
             py.setName("N/A");
-            // py.setAddress("N/A");
             py.setCity("N/A");
             py.setState("N/A");
             py.setPhone("N/A");
-            // py.setRevenue("N/A");
             fieldsListPayer.add(py);
         }
     }
@@ -73,22 +67,18 @@ public class PayersConverter extends BaseConverter {
 
         public PayersClass() {
             this.name = "";
-            // this.address = "";
             this.city = "";
             this.state = "";
             this.phone = "";
-            // this.revenue = "";
         }
 
         @Override
         public String toString() {
             return "OrganizationClass{" +
                     "name='" + name + '\'' +
-                    // ", address='" + address + '\'' +
                     ", city='" + city + '\'' +
                     ", state='" + state + '\'' +
                     ", phone='" + phone + '\'' +
-                    // ", revenue='" + revenue + '\'' +
                     '}';
         }
     }

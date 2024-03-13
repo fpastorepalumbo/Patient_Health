@@ -14,8 +14,6 @@ import org.hl7.fhir.r4.model.ExplanationOfBenefit;
 
 import java.util.List;
 
-// TODO: Rinominare code in id e classe in code, prendere claim e eob per payer cost e coverage
-
 public class EncounterConverter extends BaseConverter {
 
 
@@ -47,9 +45,9 @@ public class EncounterConverter extends BaseConverter {
             ExplanationOfBenefit eob = getExplanationOfBenefit(encID);
             Claim claim = getClaim(encID);
 
-            ec.setCode(encID);
+            ec.setId(encID);
 
-            ec.setClasse(encounter.getType().get(0).getCoding().get(0).getCode());
+            ec.setCode(encounter.getType().get(0).getCoding().get(0).getCode());
 
             ec.setDescription(encounter.getType().get(0).getCoding().get(0).getDisplay());
 
@@ -80,8 +78,8 @@ public class EncounterConverter extends BaseConverter {
 
         if (fieldsListEncounter.isEmpty()) {
             EncounterClass ec = new EncounterClass();
+            ec.setId("N/A");
             ec.setCode("N/A");
-            ec.setClasse("N/A");
             ec.setDescription("N/A");
             ec.setStartDate("N/A");
             ec.setStopDate("N/A");
@@ -136,8 +134,8 @@ public class EncounterConverter extends BaseConverter {
     @Setter
     @Getter
     public static class EncounterClass {
+        private String id;
         private String code;
-        private String classe;
         private String description;
         private String startDate;
         private String stopDate;
@@ -149,8 +147,8 @@ public class EncounterConverter extends BaseConverter {
         private String coverage;
 
         public EncounterClass() {
+            this.id = "";
             this.code = "";
-            this.classe = "";
             this.description = "";
             this.startDate = "";
             this.stopDate = "";
@@ -165,8 +163,8 @@ public class EncounterConverter extends BaseConverter {
         @Override
         public String toString() {
             return "EncounterClass{" +
-                    "code='" + code + '\'' +
-                    ", classe='" + classe + '\'' +
+                    "id='" + id + '\'' +
+                    ", code='" + code + '\'' +
                     ", description='" + description + '\'' +
                     ", startDate='" + startDate + '\'' +
                     ", stopDate='" + stopDate + '\'' +

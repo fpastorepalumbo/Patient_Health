@@ -3,39 +3,50 @@ package unisa.diem.converter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import lombok.Getter;
+import lombok.Setter;
 import org.hl7.fhir.r4.model.Practitioner;
 
 import java.util.List;
 
 public class PractitionersConverter extends BaseConverter {
 
-    private List<Practitioner> boundlePractitioners;
+    private final List<Practitioner> bundlePractitioners;
+    @Getter
     @FXML
-    private ObservableList<PractitionerClass> listaCampiPractitioner;
+    private final ObservableList<PractitionerClass> fieldsListPractitioner;
 
-    public PractitionersConverter(List<Practitioner> boundlePractitioners) {
-        this.boundlePractitioners = boundlePractitioners;
-        this.listaCampiPractitioner = FXCollections.observableArrayList();
+    public PractitionersConverter(List<Practitioner> bundlePractitioners) {
+        this.bundlePractitioners = bundlePractitioners;
+        this.fieldsListPractitioner = FXCollections.observableArrayList();
     }
 
     @Override
     public void convert() {
 
-        for(Practitioner practitioner : boundlePractitioners) {
+        for(Practitioner practitioner : bundlePractitioners) {
             PractitionerClass pr = new PractitionerClass();
+            String[] parts;
 
-            pr.setName(practitioner.getNameFirstRep().getGivenAsSingleString() + " " + practitioner.getNameFirstRep().getFamily());
+            pr.setName(practitioner.getName().get(0).getText());
+
             pr.setGender(practitioner.getGender().getDisplay());
-            pr.setSpecialty(practitioner.getQualification().get(0).getCode().getText());
-            pr.setOrganization(practitioner.getQualification().get(0).getIssuer().getDisplay());
+
+            pr.setSpecialty(practitioner.getQualification().get(0).getCode().getCoding().get(0).getDisplay());
+
+            parts = practitioner.getQualification().get(0).getIssuer().getReference().split("/");
+            pr.setOrganization(parts[1]);
+
             pr.setAddress(practitioner.getAddress().get(0).getLine().get(0).toString());
+
             pr.setCity(practitioner.getAddress().get(0).getCity());
+
             pr.setState(practitioner.getAddress().get(0).getState());
 
-            listaCampiPractitioner.add(pr);
+            fieldsListPractitioner.add(pr);
         }
 
-        if (listaCampiPractitioner.isEmpty()) {
+        if (fieldsListPractitioner.isEmpty()) {
             PractitionerClass pr = new PractitionerClass();
             pr.setName("N/A");
             pr.setGender("N/A");
@@ -44,15 +55,13 @@ public class PractitionersConverter extends BaseConverter {
             pr.setAddress("N/A");
             pr.setCity("N/A");
             pr.setState("N/A");
-            listaCampiPractitioner.add(pr);
+            fieldsListPractitioner.add(pr);
         }
     }
 
-    public ObservableList<PractitionerClass> getListaCampiPractitioner() {
-        return listaCampiPractitioner;
-    }
-
-    public class PractitionerClass {
+    @Setter
+    @Getter
+    public static class PractitionerClass {
         private String name;
         private String gender;
         private String specialty;
@@ -60,8 +69,6 @@ public class PractitionersConverter extends BaseConverter {
         private String address;
         private String city;
         private String state;
-
-
 
         public PractitionerClass() {
             this.name = "";
@@ -71,62 +78,6 @@ public class PractitionersConverter extends BaseConverter {
             this.address = "";
             this.city = "";
             this.state = "";
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getGender() {
-            return gender;
-        }
-
-        public String getSpecialty() {
-            return specialty;
-        }
-
-        public String getOrganization() {
-            return organization;
-        }
-
-        public String getAddress() {
-            return address;
-        }
-
-        public String getCity() {
-            return city;
-        }
-
-        public String getState() {
-            return state;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public void setGender(String gender) {
-            this.gender = gender;
-        }
-
-        public void setSpecialty(String specialty) {
-            this.specialty = specialty;
-        }
-
-        public void setOrganization(String organization) {
-            this.organization = organization;
-        }
-
-        public void setAddress(String address) {
-            this.address = address;
-        }
-
-        public void setCity(String city) {
-            this.city = city;
-        }
-
-        public void setState(String state) {
-            this.state = state;
         }
 
         @Override

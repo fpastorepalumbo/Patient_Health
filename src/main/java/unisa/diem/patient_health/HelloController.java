@@ -124,30 +124,22 @@ public class HelloController implements Initializable {
     // organizationTable
     @FXML
     public TableColumn organizationNameClm;
-    // @FXML
-    // public TableColumn addressOrganizationClm;
     @FXML
     public TableColumn cityOrganizationClm;
     @FXML
     public TableColumn stateOrganizationClm;
     @FXML
     public TableColumn phoneOrganizationClm;
-    // @FXML
-    // public TableColumn revenueOrganizationClm;
 
     // payerTable
     @FXML
     public TableColumn payerNameClm;
-    @FXML
-    public TableColumn addressPayerClm;
     @FXML
     public TableColumn cityPayerClm;
     @FXML
     public TableColumn statePayerClm;
     @FXML
     public TableColumn phonePayerClm;
-    @FXML
-    public TableColumn revenuePayerClm;
 
     // practitionerTable
     @FXML
@@ -155,7 +147,7 @@ public class HelloController implements Initializable {
     @FXML
     public TableColumn genderPractitionerClm;
     @FXML
-    public TableColumn specialityPractitionerClm;
+    public TableColumn specialtyPractitionerClm;
     @FXML
     public TableColumn organizationPractitionerClm;
     @FXML
@@ -167,9 +159,9 @@ public class HelloController implements Initializable {
 
     // encounterTable
     @FXML
-    public TableColumn codeEncounterClm;
+    public TableColumn idEncounterClm;
     @FXML
-    public TableColumn classEncounterClm;
+    public TableColumn codeEncounterClm;
     @FXML
     public TableColumn descriptionEncounterClm;
     @FXML
@@ -210,9 +202,8 @@ public class HelloController implements Initializable {
     public TableColumn baseCostMedReqClm;
     @FXML
     public TableColumn coverageMedReqClm;
-    // TODO: correggere disendes con dispenses
     @FXML
-    public TableColumn dispendesMedReqClm;
+    public TableColumn dispensesMedReqClm;
     @FXML
     public TableColumn totCostMedReqClm;
     @FXML
@@ -231,9 +222,6 @@ public class HelloController implements Initializable {
     public TableColumn descriptionProcedureClm;
     @FXML
     public TableColumn dateProcedureClm;
-    // TODO: rimuovere colonna cost
-    // @FXML
-    // public TableColumn costProcedureClm;
     @FXML
     public TableColumn patientProcedureClm;
 
@@ -360,36 +348,25 @@ public class HelloController implements Initializable {
         reasonDescriptionClmCarePlan.setCellValueFactory(new PropertyValueFactory<>("reasonDescription"));
 
         organizationNameClm.setCellValueFactory(new PropertyValueFactory<>("name"));
-        // addressOrganizationClm.setCellValueFactory(new PropertyValueFactory<>("address"));
         cityOrganizationClm.setCellValueFactory(new PropertyValueFactory<>("city"));
         stateOrganizationClm.setCellValueFactory(new PropertyValueFactory<>("state"));
         phoneOrganizationClm.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        // revenueOrganizationClm.setCellValueFactory(new PropertyValueFactory<>("revenue"));
 
         payerNameClm.setCellValueFactory(new PropertyValueFactory<>("name"));
-        addressPayerClm.setCellValueFactory(new PropertyValueFactory<>("address"));
         cityPayerClm.setCellValueFactory(new PropertyValueFactory<>("city"));
         statePayerClm.setCellValueFactory(new PropertyValueFactory<>("state"));
         phonePayerClm.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        revenuePayerClm.setCellValueFactory(new PropertyValueFactory<>("revenue"));
-
-        payerNameClm.setCellValueFactory(new PropertyValueFactory<>("name"));
-        addressPayerClm.setCellValueFactory(new PropertyValueFactory<>("address"));
-        cityPayerClm.setCellValueFactory(new PropertyValueFactory<>("city"));
-        statePayerClm.setCellValueFactory(new PropertyValueFactory<>("state"));
-        phonePayerClm.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        revenuePayerClm.setCellValueFactory(new PropertyValueFactory<>("revenue"));
 
         namePractitionerClm.setCellValueFactory(new PropertyValueFactory<>("name"));
-        genderClmPersona.setCellValueFactory(new PropertyValueFactory<>("gender"));
-        specialityPractitionerClm.setCellValueFactory(new PropertyValueFactory<>("speciality"));
+        genderPractitionerClm.setCellValueFactory(new PropertyValueFactory<>("gender"));
+        specialtyPractitionerClm.setCellValueFactory(new PropertyValueFactory<>("specialty"));
         organizationPractitionerClm.setCellValueFactory(new PropertyValueFactory<>("organization"));
         addressPractitionerClm.setCellValueFactory(new PropertyValueFactory<>("address"));
         cityPractitionerClm.setCellValueFactory(new PropertyValueFactory<>("city"));
         statePractitionerClm.setCellValueFactory(new PropertyValueFactory<>("state"));
 
+        idEncounterClm.setCellValueFactory(new PropertyValueFactory<>("id"));
         codeEncounterClm.setCellValueFactory(new PropertyValueFactory<>("code"));
-        classEncounterClm.setCellValueFactory(new PropertyValueFactory<>("classe"));
         descriptionEncounterClm.setCellValueFactory(new PropertyValueFactory<>("description"));
         startDateEncounterClm.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         stopDateEncounterClm.setCellValueFactory(new PropertyValueFactory<>("stopDate"));
@@ -410,7 +387,7 @@ public class HelloController implements Initializable {
         descriptionMedReqClm.setCellValueFactory(new PropertyValueFactory<>("description"));
         baseCostMedReqClm.setCellValueFactory(new PropertyValueFactory<>("baseCost"));
         coverageMedReqClm.setCellValueFactory(new PropertyValueFactory<>("coverage"));
-        dispendesMedReqClm.setCellValueFactory(new PropertyValueFactory<>("dispenses"));
+        dispensesMedReqClm.setCellValueFactory(new PropertyValueFactory<>("dispenses"));
         totCostMedReqClm.setCellValueFactory(new PropertyValueFactory<>("totCost"));
         startDateMedReqClm.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         stopDateMedReqClm.setCellValueFactory(new PropertyValueFactory<>("stopDate"));
@@ -420,7 +397,6 @@ public class HelloController implements Initializable {
         codeProcedureClm.setCellValueFactory(new PropertyValueFactory<>("code"));
         descriptionProcedureClm.setCellValueFactory(new PropertyValueFactory<>("description"));
         dateProcedureClm.setCellValueFactory(new PropertyValueFactory<>("date"));
-        // costProcedureClm.setCellValueFactory(new PropertyValueFactory<>("cost"));
         patientProcedureClm.setCellValueFactory(new PropertyValueFactory<>("patient"));
 
         codeDeviceClm.setCellValueFactory(new PropertyValueFactory<>("code"));
@@ -537,10 +513,10 @@ public class HelloController implements Initializable {
             PractitionersConverter practitionersConverter = new PractitionersConverter(practitioners);
             practitionersConverter.convert();
 
-            if (practitionersConverter.getListaCampiPractitioner().isEmpty()) {
+            if (practitionersConverter.getFieldsListPractitioner().isEmpty()) {
                 throw new RuntimeException("Practitioners Data Conversion Error");
             }
-            for (PractitionersConverter.PractitionerClass practitioner : practitionersConverter.getListaCampiPractitioner()) {
+            for (PractitionersConverter.PractitionerClass practitioner : practitionersConverter.getFieldsListPractitioner()) {
                 practitionerTable.getItems().add(practitioner);
             }
         }
@@ -777,9 +753,9 @@ public class HelloController implements Initializable {
             List<Practitioner> practitioners = practitionersDownload.getPractitioners();
             PractitionersConverter practitionersConverter = new PractitionersConverter(practitioners);
             practitionersConverter.convert();
-            if (practitionersConverter.getListaCampiPractitioner().isEmpty())
+            if (practitionersConverter.getFieldsListPractitioner().isEmpty())
                 throw new RuntimeException("ERROR DURING THE SCROLL OF PRACTITIONERS");
-            for (PractitionersConverter.PractitionerClass practitioner : practitionersConverter.getListaCampiPractitioner())
+            for (PractitionersConverter.PractitionerClass practitioner : practitionersConverter.getFieldsListPractitioner())
                 practitionerTable.getItems().add(practitioner);
         }
     }
