@@ -52,7 +52,7 @@ public class EncountersDownload extends BaseDownloader {
         try {
              bundle = (Bundle) client.search().forResource(Encounter.class)
                     .where(new TokenClientParam("identifier").exactly().code("0c62aae4-c10b-4d30-0091-4cb1f3422b55"))
-                    .prettyPrint()
+                     .encodedXml()
                     .execute();
 
         } catch (Exception e) {
