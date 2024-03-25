@@ -286,6 +286,8 @@ public class HelloController implements Initializable {
 
     public PatientDownload patientDownload;
     public EncountersDownload encounterDownload;
+
+    public EncountersDownload encounterDownloadSearch;
     public OrganizationDownload organizationDownload;
     public PayersDownload payersDownload;
     public PractitionersDownload practitionersDownload;
@@ -786,8 +788,8 @@ public class HelloController implements Initializable {
         if (search.isEmpty())
             return;
 
-        encounterDownload.downloadEncounter(search);
-        List<Encounter> encounter = encounterDownload.getEncounters();
+        encounterDownloadSearch.downloadEncounter(search);
+        List<Encounter> encounter = encounterDownloadSearch.getEncounters();
         EncounterConverter encounterConverter = new EncounterConverter(encounter);
         encounterConverter.convert();
 

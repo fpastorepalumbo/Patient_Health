@@ -18,6 +18,7 @@ public class EncountersDownload extends BaseDownloader {
     IGenericClient client = ctx.newRestfulGenericClient(serverBaseUrl);
     @Getter
     List <Encounter> encounters;
+    List <Encounter> encounterSearch;
     @Setter
     @Getter
     int count;
@@ -59,9 +60,9 @@ public class EncountersDownload extends BaseDownloader {
         }
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
-            encounters.add((Encounter) entry.getResource());
+            encounterSearch.add((Encounter) entry.getResource());
 
-        if (encounters.isEmpty())
+        if (encounterSearch.isEmpty())
             throw new RuntimeException("No encounter found with id: " + id);
     }
 }
