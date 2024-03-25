@@ -21,7 +21,7 @@
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="672.0" prefWidth="1045.0">
                 <Pane fx:id="patientPane" prefHeight="695.0" prefWidth="1045.0" visible="false">
-                    <TableView fx:id="personTable" layoutX="14.0" layoutY="28.0" onMouseClicked="#clickPatientTable" prefHeight="200.0" prefWidth="1022.0">
+                    <TableView fx:id="personTable" layoutX="14.0" layoutY="28.0" onMouseClicked="#clickPatientTable" onScroll="#patientScrollTable" prefHeight="200.0" prefWidth="1022.0">
                         <columns>
                             <TableColumn fx:id="nameClmPersona" prefWidth="89.0" text="Name" />
                             <TableColumn fx:id="surnameClmPersona" prefWidth="85.0" text="Surname" />
@@ -86,11 +86,11 @@
                         </columns>
                     </TableView>
 
-                    <TableView fx:id="payerTable" layoutX="14.0" layoutY="271.0" onScroll="#payerScrollTable" prefHeight="234.0" prefWidth="772.0">
+                    <TableView fx:id="payerTable" layoutX="14.0" layoutY="271.0" prefHeight="234.0" prefWidth="772.0">
                         <columns>
-                            <TableColumn fx:id="payerNameClm" prefWidth="226.0" text="Payer Name" />
-                            <TableColumn fx:id="cityPayerClm" prefWidth="180.0" text="City" />
-                            <TableColumn fx:id="statePayerClm" prefWidth="170.0" text="State" />
+                            <TableColumn fx:id="payerNameClm" prefWidth="157.0" text="Payer Name" />
+                            <TableColumn fx:id="cityPayerClm" prefWidth="102.0" text="City" />
+                            <TableColumn fx:id="statePayerClm" prefWidth="317.0" text="State" />
                             <TableColumn fx:id="phonePayerClm" prefWidth="195.0" text="Phone Number" />
                         </columns>
                     </TableView>
