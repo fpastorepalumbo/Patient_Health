@@ -281,6 +281,7 @@ public class HelloController implements Initializable {
     @FXML
     private Pane imagingPane;
 
+    @FXML
     private TextField searchBar;
 
     public PatientDownload patientDownload;
@@ -781,6 +782,7 @@ public class HelloController implements Initializable {
     public void searchButtonClick(MouseEvent mouseEvent) {
 
         String search = searchBar.getText();
+
         if (search.isEmpty())
             return;
 
