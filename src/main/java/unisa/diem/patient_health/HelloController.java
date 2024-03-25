@@ -302,6 +302,7 @@ public class HelloController implements Initializable {
     public HelloController() {
         patientDownload = new PatientDownload();
         encounterDownload = new EncountersDownload();
+        encounterDownloadSearch = new EncountersDownload();
         organizationDownload = new OrganizationDownload();
         payersDownload = new PayersDownload();
         practitionersDownload = new PractitionersDownload();
