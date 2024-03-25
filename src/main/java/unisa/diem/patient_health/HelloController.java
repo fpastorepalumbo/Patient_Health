@@ -615,6 +615,21 @@ public class HelloController implements Initializable {
     }
 
     public void clickEncounterTable() {
+
+        /*
+        for(Encounter encounter : bundleEncounters) {
+            EncounterClass ec = new EncounterClass();
+            String[] parts;
+
+            parts = encounter.getId().split("/");
+            String encID = parts[5];
+
+            ExplanationOfBenefit eob = getExplanationOfBenefit(encID);
+            Claim claim = getClaim(encID);
+
+            ec.setId(encID);
+         */
+
         exstEncounterPane.setVisible(true);
         encounterPane1.setVisible(false);
         encounterPane2.setVisible(true);
@@ -634,8 +649,9 @@ public class HelloController implements Initializable {
             observationTable.setVisible(true);
             procedureTable.setVisible(true);
             deviceTable.setVisible(true);
-            String encID = encounterElement.getCode();
-            String patID = encounterElement.getPatient();
+            String encID = encounterElement.getId();
+
+            System.out.println(encID);
 
             ObservationsDownload observationDownload = new ObservationsDownload(encID);
             observationDownload.download();

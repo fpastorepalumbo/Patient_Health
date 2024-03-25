@@ -35,7 +35,7 @@ public class ObservationsDownload extends BaseDownloader {
             .encodedXml().execute();
             */
             bundle = (Bundle) client.search().forResource(Observation.class)
-                    .where(new ReferenceClientParam("encounter").hasId("3cb4d689-187e-3231-df3c-05b7f1b77bb5"))
+                    .where(new ReferenceClientParam("encounter").hasId(encounterId))
                     .encodedXml()
                     .execute();
         }

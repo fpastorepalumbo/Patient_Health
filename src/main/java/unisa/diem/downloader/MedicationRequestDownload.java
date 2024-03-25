@@ -43,7 +43,7 @@ public class MedicationRequestDownload extends BaseDownloader {
             .encodedXml().execute();
             */
             bundle = (Bundle) client.search().forResource(MedicationRequest.class)
-                    .where(new ReferenceClientParam("encounter").hasId("155aa73b-46da-5808-c218-80a5ed671009"))
+                    .where(new ReferenceClientParam("encounter").hasId(encounterId))
                     .encodedXml()
                     .execute();
         } catch (Exception e) {

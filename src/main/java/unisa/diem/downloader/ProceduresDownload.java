@@ -35,7 +35,7 @@ public class ProceduresDownload extends BaseDownloader {
             .encodedXml().execute();
             */
             bundle = (Bundle) client.search().forResource(Procedure.class)
-                    .where(new ReferenceClientParam("encounter").hasId("efe28b57-e201-a19c-5008-1f178258b681"))
+                    .where(new ReferenceClientParam("encounter").hasId(encounterId))
                     .encodedXml()
                     .execute();
         }
