@@ -12,6 +12,7 @@ import unisa.diem.converter.*;
 import unisa.diem.downloader.*;
 import unisa.diem.parser.DatasetService;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -279,6 +280,8 @@ public class HelloController implements Initializable {
     private Pane encounterPane2;
     @FXML
     private Pane imagingPane;
+
+    private TextField searchBar;
 
     public PatientDownload patientDownload;
     public EncountersDownload encounterDownload;
@@ -773,6 +776,27 @@ public class HelloController implements Initializable {
             for (EncounterConverter.EncounterClass encounter : encounterConverter.getFieldsListEncounter())
                 encounterTable.getItems().add(encounter);
         }
+    }
+
+    public void searchButtonClick(MouseEvent mouseEvent) {
+
+        String search = searchBar.getText();
+        if (search.isEmpty())
+            return;
+
+        encounterTable.getItems().clear();
+        encounterDownload.downloadEncounter(search);
+        List<Encounter> encounters = encounterDownload.getEncounters();
+        EncounterConverter encounterConverter = new EncounterConverter(encounters);
+        encounterConverter.convert();
+
+        if (encounterConverter.getFieldsListEncounter().isEmpty())
+            throw new RuntimeException("Encounter Data Conversion Error");
+        for (EncounterConverter.EncounterClass encounter : encounterConverter.getFieldsListEncounter())
+            encounterTable.getItems().add(encounter);
+
+
+
     }
 
     // TODO: Metodo Scroll immagini

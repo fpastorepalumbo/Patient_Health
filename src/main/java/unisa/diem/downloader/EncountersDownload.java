@@ -2,6 +2,7 @@ package unisa.diem.downloader;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.gclient.TokenClientParam;
 import lombok.Getter;
 import lombok.Setter;
 import org.hl7.fhir.r4.model.Bundle;
@@ -43,5 +44,24 @@ public class EncountersDownload extends BaseDownloader {
 
         if (encounters.isEmpty())
             throw new RuntimeException("No encounter found");
+    }
+
+    public void downloadEncounter(String id){
+        Bundle bundle;
+        try {
+             bundle = (Bundle) client.search().forResource(Encounter.class)
+                    .where(new TokenClientParam("identifier").exactly().code("0c62aae4-c10b-4d30-0091-4cb1f3422b55"))
+                    .prettyPrint()
+                    .execute();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error during the download of the encounter");
+        }
+
+        for (Bundle.BundleEntryComponent entry : bundle.getEntry())
+            encounters.add((Encounter) entry.getResource());
+
+        if (encounters.isEmpty())
+            throw new RuntimeException("No encounter found with id: " + id);
     }
 }
