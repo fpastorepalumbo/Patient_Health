@@ -25,6 +25,7 @@ public class EncountersDownload extends BaseDownloader {
 
     public EncountersDownload() {
         this.encounters = new ArrayList<>();
+        this.encounterSearch = new ArrayList<>();
         count = 0;
     }
 
