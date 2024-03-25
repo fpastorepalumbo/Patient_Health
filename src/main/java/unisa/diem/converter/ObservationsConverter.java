@@ -5,6 +5,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import lombok.Getter;
 import lombok.Setter;
+import org.hl7.fhir.r4.model.Address;
+import org.hl7.fhir.r4.model.Extension;
 import org.hl7.fhir.r4.model.Observation;
 
 import java.util.List;
@@ -32,7 +34,15 @@ public class ObservationsConverter extends BaseConverter {
 
             ob.setDescription(observation.getCode().getCodingFirstRep().getDisplay());
 
-            ob.setValue(observation.getValue().toString());
+            if (observation.getValue() instanceof org.hl7.fhir.r4.model.Quantity) {
+                ob.setValue(String.valueOf(((org.hl7.fhir.r4.model.Quantity) observation.getValue()).getValue()));
+            } else if (observation.getValue() instanceof org.hl7.fhir.r4.model.IntegerType) {
+                ob.setValue(String.valueOf(((org.hl7.fhir.r4.model.IntegerType) observation.getValue()).getValue()));
+            } else if (observation.getValue() instanceof org.hl7.fhir.r4.model.StringType) {
+                ob.setValue(((org.hl7.fhir.r4.model.StringType) observation.getValue()).getValue());
+            } else {
+                ob.setValue("---");
+            }
 
             parts = observation.getEffectiveDateTimeType().getValueAsString().split("T");
             ob.setDate(parts[0]);
