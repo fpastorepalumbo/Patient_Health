@@ -780,22 +780,21 @@ public class HelloController implements Initializable {
     }
 
     public void searchButtonClick(MouseEvent mouseEvent) {
-
+        encounterTable.getItems().clear();
         String search = searchBar.getText();
 
         if (search.isEmpty())
             return;
 
-        encounterTable.getItems().clear();
         encounterDownload.downloadEncounter(search);
-        List<Encounter> encounters = encounterDownload.getEncounters();
-        EncounterConverter encounterConverter = new EncounterConverter(encounters);
+        List<Encounter> encounter = encounterDownload.getEncounters();
+        EncounterConverter encounterConverter = new EncounterConverter(encounter);
         encounterConverter.convert();
 
         if (encounterConverter.getFieldsListEncounter().isEmpty())
             throw new RuntimeException("Encounter Data Conversion Error");
-        for (EncounterConverter.EncounterClass encounter : encounterConverter.getFieldsListEncounter())
-            encounterTable.getItems().add(encounter);
+        for (EncounterConverter.EncounterClass encounter1 : encounterConverter.getFieldsListEncounter())
+            encounterTable.getItems().add(encounter1);
 
 
 
