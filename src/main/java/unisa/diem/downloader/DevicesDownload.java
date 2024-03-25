@@ -35,7 +35,7 @@ public class DevicesDownload extends BaseDownloader{
             .encodedXml().execute();
             */
             bundle = (Bundle) client.search().forResource(DeviceRequest.class)
-                    .where(new ReferenceClientParam("encounter").hasId("0c62aae4-c10b-4d30-0091-4cb1f3422b55"))
+                    .where(new ReferenceClientParam("encounter").hasId(encounterId))
                     .encodedXml()
                     .execute();
         }
