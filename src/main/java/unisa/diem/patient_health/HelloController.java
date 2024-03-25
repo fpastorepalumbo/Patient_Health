@@ -785,22 +785,19 @@ public class HelloController implements Initializable {
     public void searchButtonClick(MouseEvent mouseEvent) {
         encounterTable.getItems().clear();
         String search = searchBar.getText();
-
         if (search.isEmpty())
             return;
 
         encounterDownloadSearch.downloadEncounter(search);
-        List<Encounter> encounter = encounterDownloadSearch.getEncounters();
+        List<Encounter> encounter = encounterDownloadSearch.getEncounterSearch();
         EncounterConverter encounterConverter = new EncounterConverter(encounter);
         encounterConverter.convert();
 
         if (encounterConverter.getFieldsListEncounter().isEmpty())
             throw new RuntimeException("Encounter Data Conversion Error");
+
         for (EncounterConverter.EncounterClass encounter1 : encounterConverter.getFieldsListEncounter())
             encounterTable.getItems().add(encounter1);
-
-
-
     }
 
     // TODO: Metodo Scroll immagini

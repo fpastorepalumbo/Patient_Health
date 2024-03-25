@@ -18,6 +18,7 @@ public class EncountersDownload extends BaseDownloader {
     IGenericClient client = ctx.newRestfulGenericClient(serverBaseUrl);
     @Getter
     List <Encounter> encounters;
+    @Getter
     List <Encounter> encounterSearch;
     @Setter
     @Getter
@@ -55,7 +56,6 @@ public class EncountersDownload extends BaseDownloader {
                     .where(new TokenClientParam("identifier").exactly().code("0c62aae4-c10b-4d30-0091-4cb1f3422b55"))
                      .encodedXml()
                     .execute();
-
         } catch (Exception e) {
             throw new RuntimeException("Error during the download of the encounter");
         }
