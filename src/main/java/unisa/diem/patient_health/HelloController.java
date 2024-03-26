@@ -865,13 +865,13 @@ public class HelloController implements Initializable {
 
     public void searchButtonClick(MouseEvent mouseEvent) {
         String search1 = searchBar1.getText();
-        if (search1.isEmpty()){
-            search1 = "-";
-        }
+        // if (search1.isEmpty()){
+            // search1 = "-";
+        // }
         String search2 = searchBar2.getText();
-        if (search2.isEmpty()){
-            search2 = "-";
-        }
+        // if (search2.isEmpty()){
+            // search2 = "-";
+        // }
 
         if(patientPane.isVisible()){
             personTable.getItems().clear();
@@ -879,7 +879,7 @@ public class HelloController implements Initializable {
                 patientDownloadSearch.downloadPatientWithId(search1);
             }
             if (checkBox2.isSelected()){
-                patientDownloadSearch.downloadPatientWithName(search1,search2);
+                patientDownloadSearch.downloadPatientWithName(search1, search2);
             }
 
             List<Patient> patients = patientDownloadSearch.getPatients();
@@ -897,7 +897,7 @@ public class HelloController implements Initializable {
 
             if (checkBox1.isSelected()){
                 organizationDownloadSearch.downloadOrganizationWithName(search1);
-                List<Organization> organizations = organizationDownload.getOrganizations();
+                List<Organization> organizations = organizationDownloadSearch.getOrganizations();
                 OrganizationConverter organizationConverter = new OrganizationConverter(organizations);
                 organizationConverter.convert();
                 if (organizationConverter.getFieldsListOrganization().isEmpty()) {
@@ -909,7 +909,7 @@ public class HelloController implements Initializable {
 
             } else if (checkBox2.isSelected()){
                 organizationDownloadSearch.downloadOrganizationWithId(search1);
-                List<Organization> organizations = organizationDownload.getOrganizations();
+                List<Organization> organizations = organizationDownloadSearch.getOrganizations();
                 OrganizationConverter organizationConverter = new OrganizationConverter(organizations);
                 organizationConverter.convert();
                 if (organizationConverter.getFieldsListOrganization().isEmpty()) {
@@ -921,13 +921,31 @@ public class HelloController implements Initializable {
             }
 
             if (checkBox3.isSelected()){
-                //payer
+                payersDownloadSearch.downloadPayerWithName(search1);
+                List<Organization> payers = payersDownloadSearch.getPayers();
+                PayersConverter payersConverter = new PayersConverter(payers);
+                payersConverter.convert();
+                if (payersConverter.getFieldsListPayer().isEmpty()) {
+                    new Alert(Alert.AlertType.ERROR, "Payer not found").showAndWait();
+                    return;
+                }
+                for (PayersConverter.PayersClass payer : payersConverter.getFieldsListPayer())
+                    payerTable.getItems().add(payer);
             } else if (checkBox4.isSelected()){
-                //payer
+                payersDownloadSearch.downloadPayerWithId(search1);
+                List<Organization> payers = payersDownloadSearch.getPayers();
+                PayersConverter payersConverter = new PayersConverter(payers);
+                payersConverter.convert();
+                if (payersConverter.getFieldsListPayer().isEmpty()) {
+                    new Alert(Alert.AlertType.ERROR, "Payer not found").showAndWait();
+                    return;
+                }
+                for (PayersConverter.PayersClass payer : payersConverter.getFieldsListPayer())
+                    payerTable.getItems().add(payer);
             }
             if (checkBox5.isSelected()){
-                practitionersDownloadSearch.downloadPractitionerWithName(search1,search2);
-                List<Practitioner> practitioners = practitionersDownload.getPractitioners();
+                practitionersDownloadSearch.downloadPractitionerWithName(search1);
+                List<Practitioner> practitioners = practitionersDownloadSearch.getPractitioners();
                 PractitionersConverter practitionersConverter = new PractitionersConverter(practitioners);
                 practitionersConverter.convert();
                 if (practitionersConverter.getFieldsListPractitioner().isEmpty()) {
@@ -939,7 +957,7 @@ public class HelloController implements Initializable {
 
             } else if (checkBox6.isSelected()){
                 practitionersDownloadSearch.downloadPractitionerWithId(search1);
-                List<Practitioner> practitioners = practitionersDownload.getPractitioners();
+                List<Practitioner> practitioners = practitionersDownloadSearch.getPractitioners();
                 PractitionersConverter practitionersConverter = new PractitionersConverter(practitioners);
                 practitionersConverter.convert();
                 if (practitionersConverter.getFieldsListPractitioner().isEmpty()) {
@@ -993,7 +1011,7 @@ public class HelloController implements Initializable {
 
     public void setSearchOrganization(){
         searchBar1.setVisible(true);
-        searchBar2.setVisible(true);
+        searchBar2.setVisible(false);
         buttonSearch.setVisible(true);
         checkBox1.setVisible(true);
         checkBox1.setText("Organization Name");

@@ -28,6 +28,7 @@ public class PractitionersDownload extends BaseDownloader {
 
     public PractitionersDownload() {
         this.practitioners = new ArrayList<>();
+        this.practitionerSearch = new ArrayList<>();
         count = 0;
     }
 
@@ -49,14 +50,13 @@ public class PractitionersDownload extends BaseDownloader {
             throw new RuntimeException("No practitioner found");
     }
 
-    public void downloadPractitionerWithName(String name, String surname){
+    public void downloadPractitionerWithName(String name){
         Bundle bundle;
         practitionerSearch.clear();
 
         try {
             bundle = (Bundle) client.search().forResource(Practitioner.class)
-                    .where(new StringClientParam("given").matches().value(name))
-                    .where(new StringClientParam("family").matches().value(surname))
+                    .where(new StringClientParam("name").matches().value(name))
                     .encodedXml()
                     .execute();
         } catch (Exception e) {

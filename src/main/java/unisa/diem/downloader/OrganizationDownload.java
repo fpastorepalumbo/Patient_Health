@@ -2,6 +2,7 @@ package unisa.diem.downloader;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.gclient.StringClientParam;
 import ca.uhn.fhir.rest.gclient.TokenClientParam;
 import lombok.Getter;
 import lombok.Setter;
@@ -58,7 +59,7 @@ public class OrganizationDownload extends BaseDownloader {
 
         try {
             bundle = (Bundle) client.search().forResource(Organization.class)
-                    .where(Organization.NAME.matches().value(name))
+                    .where(new StringClientParam("name").matches().value(name))
                     .encodedXml()
                     .execute();
         } catch (Exception e) {

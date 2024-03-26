@@ -2,6 +2,7 @@ package unisa.diem.downloader;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.gclient.StringClientParam;
 import ca.uhn.fhir.rest.gclient.TokenClientParam;
 import lombok.Getter;
 import lombok.Setter;
@@ -54,12 +55,10 @@ public class PayersDownload extends BaseDownloader {
         payerSearch.clear();
 
         try {
-            //è la stessa di organization devo vedere come fare
             bundle = (Bundle) client.search().forResource(Organization.class)
                     .where(new TokenClientParam("identifier").exactly().code(id))
                     .encodedXml()
                     .execute();
-
         } catch (Exception e) {
             throw new RuntimeException("Error during the download of the payer");
         }
@@ -76,12 +75,10 @@ public class PayersDownload extends BaseDownloader {
         payerSearch.clear();
 
         try {
-            //è la stessa di organization devo vedere come fare
             bundle = (Bundle) client.search().forResource(Organization.class)
-                    .where(Organization.NAME.matches().value(name))
+                    .where(new StringClientParam("name").matches().value(name))
                     .encodedXml()
                     .execute();
-
         } catch (Exception e) {
             throw new RuntimeException("Error during the download of the payer");
         }
