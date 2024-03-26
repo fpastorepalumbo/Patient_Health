@@ -2,6 +2,7 @@ package unisa.diem.downloader;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.gclient.ReferenceClientParam;
 import ca.uhn.fhir.rest.gclient.TokenClientParam;
 import lombok.Getter;
 import lombok.Setter;
@@ -49,11 +50,13 @@ public class EncountersDownload extends BaseDownloader {
             throw new RuntimeException("No encounter found");
     }
 
-    public void downloadEncounter(String id){
+    public void downloadEncounterWithEncounterId(String id){
         Bundle bundle;
+        encounterSearch.clear();
+
         try {
              bundle = (Bundle) client.search().forResource(Encounter.class)
-                    .where(new TokenClientParam("identifier").exactly().code("0c62aae4-c10b-4d30-0091-4cb1f3422b55"))
+                    .where(new TokenClientParam("identifier").exactly().code(id))
                      .encodedXml()
                     .execute();
         } catch (Exception e) {
@@ -65,5 +68,25 @@ public class EncountersDownload extends BaseDownloader {
 
         if (encounterSearch.isEmpty())
             throw new RuntimeException("No encounter found with id: " + id);
+    }
+
+    public void downloadEncounterWithPatientId(String patientId){
+        Bundle bundle;
+        encounterSearch.clear();
+
+        try {
+            bundle = (Bundle) client.search().forResource(Encounter.class)
+                    .where(new ReferenceClientParam("patient").hasId(patientId))
+                    .encodedXml()
+                    .execute();
+        } catch (Exception e) {
+            throw new RuntimeException("Error during the download of the encounter");
+        }
+
+        for (Bundle.BundleEntryComponent entry : bundle.getEntry())
+            encounterSearch.add((Encounter) entry.getResource());
+
+        if (encounterSearch.isEmpty())
+            throw new RuntimeException("No encounter found with patient id: " + patientId);
     }
 }

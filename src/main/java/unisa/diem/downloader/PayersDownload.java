@@ -2,6 +2,7 @@ package unisa.diem.downloader;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.gclient.TokenClientParam;
 import lombok.Getter;
 import lombok.Setter;
 import org.hl7.fhir.r4.model.Bundle;
@@ -18,12 +19,17 @@ public class PayersDownload extends BaseDownloader {
 
     @Getter
     List <Organization> payers;
+
+    @Getter
+    List <Organization> payerSearch;
+
     @Setter
     @Getter
     int count;
 
     public PayersDownload() {
         this.payers = new ArrayList<>();
+        this.payerSearch = new ArrayList<>();
     }
 
     public void download() {
@@ -40,6 +46,50 @@ public class PayersDownload extends BaseDownloader {
             payers.add((Organization) entry.getResource());
 
         if (payers.isEmpty())
+            throw new RuntimeException("No payer found");
+    }
+
+    public void downloadPayerWithId (String id){
+        Bundle bundle;
+        payerSearch.clear();
+
+        try {
+            //è la stessa di organization devo vedere come fare
+            bundle = (Bundle) client.search().forResource(Organization.class)
+                    .where(new TokenClientParam("identifier").exactly().code(id))
+                    .encodedXml()
+                    .execute();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error during the download of the payer");
+        }
+
+        for (Bundle.BundleEntryComponent entry : bundle.getEntry())
+            payerSearch.add((Organization) entry.getResource());
+
+        if (payerSearch.isEmpty())
+            throw new RuntimeException("No payer found");
+    }
+
+    public void downloadPayerWithName(String name){
+        Bundle bundle;
+        payerSearch.clear();
+
+        try {
+            //è la stessa di organization devo vedere come fare
+            bundle = (Bundle) client.search().forResource(Organization.class)
+                    .where(Organization.NAME.matches().value(name))
+                    .encodedXml()
+                    .execute();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error during the download of the payer");
+        }
+
+        for (Bundle.BundleEntryComponent entry : bundle.getEntry())
+            payerSearch.add((Organization) entry.getResource());
+
+        if (payerSearch.isEmpty())
             throw new RuntimeException("No payer found");
     }
 }

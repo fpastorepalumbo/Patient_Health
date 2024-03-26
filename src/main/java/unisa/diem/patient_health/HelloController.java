@@ -280,17 +280,35 @@ public class HelloController implements Initializable {
     private Pane encounterPane2;
     @FXML
     private Pane imagingPane;
-
     @FXML
-    private TextField searchBar;
+    private TextField searchBar1;
+    @FXML
+    private TextField searchBar2;
+    @FXML
+    private Button buttonSearch;
+    @FXML
+    private CheckBox checkBox1;
+    @FXML
+    private CheckBox checkBox2;
+    @FXML
+    private CheckBox checkBox3;
+    @FXML
+    private CheckBox checkBox4;
+    @FXML
+    private CheckBox checkBox5;
+    @FXML
+    private CheckBox checkBox6;
 
     public PatientDownload patientDownload;
+    public PatientDownload patientDownloadSearch;
     public EncountersDownload encounterDownload;
-
     public EncountersDownload encounterDownloadSearch;
     public OrganizationDownload organizationDownload;
+    public OrganizationDownload organizationDownloadSearch;
     public PayersDownload payersDownload;
+    public PayersDownload payersDownloadSearch;
     public PractitionersDownload practitionersDownload;
+    public PractitionersDownload practitionersDownloadSearch;
     public DatasetService datasetUtility;
     public PatientConverter.PatientClass personElement;
     public EncounterConverter.EncounterClass encounterElement;
@@ -301,11 +319,16 @@ public class HelloController implements Initializable {
 
     public HelloController() {
         patientDownload = new PatientDownload();
+        patientDownloadSearch = new PatientDownload();
         encounterDownload = new EncountersDownload();
         encounterDownloadSearch = new EncountersDownload();
         organizationDownload = new OrganizationDownload();
+        organizationDownloadSearch = new OrganizationDownload();
         payersDownload = new PayersDownload();
+        payersDownloadSearch = new PayersDownload();
         practitionersDownload = new PractitionersDownload();
+        practitionersDownloadSearch = new PractitionersDownload();
+
         datasetUtility = new DatasetService();
         personElement = null;
         encounterElement = null;
@@ -319,6 +342,71 @@ public class HelloController implements Initializable {
         encounterPane1.setVisible(false);
         encounterPane2.setVisible(false);
         imagingPane.setVisible(false);
+
+        searchBar1.setVisible(false);
+        searchBar2.setVisible(false);
+        buttonSearch.setVisible(false);
+        checkBox1.setVisible(false);
+        checkBox2.setVisible(false);
+        checkBox3.setVisible(false);
+        checkBox4.setVisible(false);
+        checkBox5.setVisible(false);
+        checkBox6.setVisible(false);
+
+        checkBox1.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue){
+                checkBox2.setSelected(false);
+                checkBox3.setSelected(false);
+                checkBox4.setSelected(false);
+                checkBox5.setSelected(false);
+                checkBox6.setSelected(false);
+            }
+        });
+        checkBox2.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue){
+                checkBox1.setSelected(false);
+                checkBox3.setSelected(false);
+                checkBox4.setSelected(false);
+                checkBox5.setSelected(false);
+                checkBox6.setSelected(false);
+            }
+        });
+        checkBox3.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue){
+                checkBox2.setSelected(false);
+                checkBox1.setSelected(false);
+                checkBox4.setSelected(false);
+                checkBox5.setSelected(false);
+                checkBox6.setSelected(false);
+            }
+        });
+        checkBox4.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue){
+                checkBox2.setSelected(false);
+                checkBox3.setSelected(false);
+                checkBox1.setSelected(false);
+                checkBox5.setSelected(false);
+                checkBox6.setSelected(false);
+            }
+        });
+        checkBox5.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue){
+                checkBox2.setSelected(false);
+                checkBox3.setSelected(false);
+                checkBox4.setSelected(false);
+                checkBox1.setSelected(false);
+                checkBox6.setSelected(false);
+            }
+        });
+        checkBox6.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue){
+                checkBox2.setSelected(false);
+                checkBox3.setSelected(false);
+                checkBox4.setSelected(false);
+                checkBox5.setSelected(false);
+                checkBox1.setSelected(false);
+            }
+        });
 
         nameClmPersona.setCellValueFactory(new PropertyValueFactory<>("name"));
         surnameClmPersona.setCellValueFactory(new PropertyValueFactory<>("surname"));
@@ -449,6 +537,8 @@ public class HelloController implements Initializable {
         if (patientPane.isVisible())
             return;
 
+        setSearchPatient();
+
         patientPane.setVisible(true);
         organizationPane.setVisible(false);
         exstEncounterPane.setVisible(false);
@@ -481,6 +571,8 @@ public class HelloController implements Initializable {
     public void organizationLabelClick(MouseEvent mouseEvent) {
         if (organizationPane.isVisible())
             return;
+
+        setSearchOrganization();
 
         organizationPane.setVisible(true);
         patientPane.setVisible(false);
@@ -534,6 +626,8 @@ public class HelloController implements Initializable {
         if (exstEncounterPane.isVisible())
             return;
 
+        setSearchEncounter();
+
         exstEncounterPane.setVisible(true);
         encounterPane1.setVisible(true);
         encounterPane2.setVisible(false);
@@ -559,6 +653,8 @@ public class HelloController implements Initializable {
     public void imagineLabelClick() {
         if (imagingPane.isVisible())
             return;
+
+        setSearchImage();
 
         imagingPane.setVisible(true);
         patientPane.setVisible(false);
@@ -622,21 +718,6 @@ public class HelloController implements Initializable {
     }
 
     public void clickEncounterTable() {
-
-        /*
-        for(Encounter encounter : bundleEncounters) {
-            EncounterClass ec = new EncounterClass();
-            String[] parts;
-
-            parts = encounter.getId().split("/");
-            String encID = parts[5];
-
-            ExplanationOfBenefit eob = getExplanationOfBenefit(encID);
-            Claim claim = getClaim(encID);
-
-            ec.setId(encID);
-         */
-
         exstEncounterPane.setVisible(true);
         encounterPane1.setVisible(false);
         encounterPane2.setVisible(true);
@@ -783,21 +864,180 @@ public class HelloController implements Initializable {
     }
 
     public void searchButtonClick(MouseEvent mouseEvent) {
-        encounterTable.getItems().clear();
-        String search = searchBar.getText();
-        if (search.isEmpty())
-            return;
+        String search1 = searchBar1.getText();
+        if (search1.isEmpty()){
+            search1 = "-";
+        }
+        String search2 = searchBar2.getText();
+        if (search2.isEmpty()){
+            search2 = "-";
+        }
 
-        encounterDownloadSearch.downloadEncounter(search);
-        List<Encounter> encounter = encounterDownloadSearch.getEncounterSearch();
-        EncounterConverter encounterConverter = new EncounterConverter(encounter);
-        encounterConverter.convert();
+        if(patientPane.isVisible()){
+            personTable.getItems().clear();
+            if (checkBox1.isSelected()){
+                patientDownloadSearch.downloadPatientWithId(search1);
+            }
+            if (checkBox2.isSelected()){
+                patientDownloadSearch.downloadPatientWithName(search1,search2);
+            }
 
-        if (encounterConverter.getFieldsListEncounter().isEmpty())
-            throw new RuntimeException("Encounter Data Conversion Error");
+            List<Patient> patients = patientDownloadSearch.getPatients();
+            PatientConverter patientConverter = new PatientConverter(patients);
+            patientConverter.convert();
+            if (patientConverter.getFieldsListPatient().isEmpty()) {
+                new Alert(Alert.AlertType.ERROR, "Patient not found").showAndWait();
+                return;
+            }
+            for (PatientConverter.PatientClass patient : patientConverter.getFieldsListPatient())
+                personTable.getItems().add(patient);
 
-        for (EncounterConverter.EncounterClass encounter1 : encounterConverter.getFieldsListEncounter())
-            encounterTable.getItems().add(encounter1);
+        } else if (organizationPane.isVisible()) {
+            organizationTable.getItems().clear();
+
+            if (checkBox1.isSelected()){
+                organizationDownloadSearch.downloadOrganizationWithName(search1);
+                List<Organization> organizations = organizationDownload.getOrganizations();
+                OrganizationConverter organizationConverter = new OrganizationConverter(organizations);
+                organizationConverter.convert();
+                if (organizationConverter.getFieldsListOrganization().isEmpty()) {
+                    new Alert(Alert.AlertType.ERROR, "Organization not found").showAndWait();
+                    return;
+                }
+                for (OrganizationConverter.OrganizationClass organization : organizationConverter.getFieldsListOrganization())
+                    organizationTable.getItems().add(organization);
+
+            } else if (checkBox2.isSelected()){
+                organizationDownloadSearch.downloadOrganizationWithId(search1);
+                List<Organization> organizations = organizationDownload.getOrganizations();
+                OrganizationConverter organizationConverter = new OrganizationConverter(organizations);
+                organizationConverter.convert();
+                if (organizationConverter.getFieldsListOrganization().isEmpty()) {
+                    new Alert(Alert.AlertType.ERROR, "Organization not found").showAndWait();
+                    return;
+                }
+                for (OrganizationConverter.OrganizationClass organization : organizationConverter.getFieldsListOrganization())
+                    organizationTable.getItems().add(organization);
+            }
+
+            if (checkBox3.isSelected()){
+                //payer
+            } else if (checkBox4.isSelected()){
+                //payer
+            }
+            if (checkBox5.isSelected()){
+                practitionersDownloadSearch.downloadPractitionerWithName(search1,search2);
+                List<Practitioner> practitioners = practitionersDownload.getPractitioners();
+                PractitionersConverter practitionersConverter = new PractitionersConverter(practitioners);
+                practitionersConverter.convert();
+                if (practitionersConverter.getFieldsListPractitioner().isEmpty()) {
+                    new Alert(Alert.AlertType.ERROR, "Practitioner not found").showAndWait();
+                    return;
+                }
+                for (PractitionersConverter.PractitionerClass practitioner : practitionersConverter.getFieldsListPractitioner())
+                    practitionerTable.getItems().add(practitioner);
+
+            } else if (checkBox6.isSelected()){
+                practitionersDownloadSearch.downloadPractitionerWithId(search1);
+                List<Practitioner> practitioners = practitionersDownload.getPractitioners();
+                PractitionersConverter practitionersConverter = new PractitionersConverter(practitioners);
+                practitionersConverter.convert();
+                if (practitionersConverter.getFieldsListPractitioner().isEmpty()) {
+                    new Alert(Alert.AlertType.ERROR, "Practitioner not found").showAndWait();
+                    return;
+                }
+                for (PractitionersConverter.PractitionerClass practitioner : practitionersConverter.getFieldsListPractitioner())
+                    practitionerTable.getItems().add(practitioner);
+            }
+
+        } else if (exstEncounterPane.isVisible() && encounterPane1.isVisible()) {
+            encounterTable.getItems().clear();
+
+            if (checkBox1.isSelected()){
+                encounterDownloadSearch.downloadEncounterWithEncounterId(search1);
+            }
+            if (checkBox2.isSelected()){
+                encounterDownloadSearch.downloadEncounterWithPatientId(search1);
+            }
+
+            List<Encounter> encounter = encounterDownloadSearch.getEncounterSearch();
+            EncounterConverter encounterConverter = new EncounterConverter(encounter);
+            encounterConverter.convert();
+
+            if (encounterConverter.getFieldsListEncounter().isEmpty()){
+                new Alert(Alert.AlertType.ERROR, "Encounter not found").showAndWait();
+                return;
+            }
+            for (EncounterConverter.EncounterClass encounter1 : encounterConverter.getFieldsListEncounter())
+                encounterTable.getItems().add(encounter1);
+
+        } else if (imagingPane.isVisible()){
+
+        }
+    }
+
+    public void setSearchPatient(){
+        searchBar1.setVisible(true);
+        searchBar2.setVisible(true);
+        buttonSearch.setVisible(true);
+        checkBox1.setVisible(true);
+        checkBox1.setText("Patient ID");
+        checkBox2.setVisible(true);
+        checkBox2.setText("Patient Name and Surname");
+        checkBox3.setVisible(false);
+        checkBox4.setVisible(false);
+        checkBox5.setVisible(false);
+        checkBox6.setVisible(false);
+        checkBox1.setSelected(true);
+    }
+
+    public void setSearchOrganization(){
+        searchBar1.setVisible(true);
+        searchBar2.setVisible(true);
+        buttonSearch.setVisible(true);
+        checkBox1.setVisible(true);
+        checkBox1.setText("Organization Name");
+        checkBox2.setVisible(true);
+        checkBox2.setText("Organization ID");
+        checkBox3.setVisible(true);
+        checkBox3.setText("Payer Name");
+        checkBox4.setVisible(true);
+        checkBox4.setText("Payer ID");
+        checkBox5.setVisible(true);
+        checkBox5.setText("Practitioner Name and Surname");
+        checkBox6.setVisible(true);
+        checkBox6.setText("Practitioner ID");
+        checkBox1.setSelected(true);
+    }
+
+    public void setSearchEncounter(){
+        searchBar1.setVisible(true);
+        searchBar2.setVisible(false);
+        buttonSearch.setVisible(true);
+        checkBox1.setVisible(true);
+        checkBox1.setText("Encounter ID");
+        checkBox2.setVisible(true);
+        checkBox2.setText("Patient ID");
+        checkBox3.setVisible(false);
+        checkBox4.setVisible(false);
+        checkBox5.setVisible(false);
+        checkBox6.setVisible(false);
+        checkBox1.setSelected(true);
+    }
+
+    public void setSearchImage(){
+        searchBar1.setVisible(true);
+        searchBar2.setVisible(false);
+        buttonSearch.setVisible(true);
+        checkBox1.setVisible(true);
+        checkBox1.setText("Image ID");
+        checkBox2.setVisible(false);
+        checkBox2.setText("Encounter ID");
+        checkBox3.setVisible(false);
+        checkBox4.setVisible(false);
+        checkBox5.setVisible(false);
+        checkBox6.setVisible(false);
+        checkBox1.setSelected(true);
     }
 
     // TODO: Metodo Scroll immagini

@@ -2,6 +2,8 @@ package unisa.diem.downloader;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.gclient.StringClientParam;
+import ca.uhn.fhir.rest.gclient.TokenClientParam;
 import lombok.Getter;
 import lombok.Setter;
 import org.hl7.fhir.r4.model.Bundle;
@@ -17,6 +19,9 @@ public class PractitionersDownload extends BaseDownloader {
     IGenericClient client = ctx.newRestfulGenericClient(serverBaseUrl);
     @Getter
     List <Practitioner> practitioners;
+
+    @Getter
+    List <Practitioner> practitionerSearch;
     @Setter
     @Getter
     int count;
@@ -42,5 +47,46 @@ public class PractitionersDownload extends BaseDownloader {
 
         if (practitioners.isEmpty())
             throw new RuntimeException("No practitioner found");
+    }
+
+    public void downloadPractitionerWithName(String name, String surname){
+        Bundle bundle;
+        practitionerSearch.clear();
+
+        try {
+            bundle = (Bundle) client.search().forResource(Practitioner.class)
+                    .where(new StringClientParam("given").matches().value(name))
+                    .where(new StringClientParam("family").matches().value(surname))
+                    .encodedXml()
+                    .execute();
+        } catch (Exception e) {
+            throw new RuntimeException("Error during the download of the practitioner");
+        }
+
+        for (Bundle.BundleEntryComponent entry : bundle.getEntry())
+            practitionerSearch.add((Practitioner) entry.getResource());
+
+        if (practitionerSearch.isEmpty())
+            throw new RuntimeException("No practitioner found");
+    }
+
+    public void downloadPractitionerWithId(String id){
+        Bundle bundle;
+        practitionerSearch.clear();
+
+        try {
+            bundle = (Bundle) client.search().forResource(Practitioner.class)
+                    .where(new TokenClientParam("identifier").exactly().code(id))
+                    .encodedXml()
+                    .execute();
+        } catch (Exception e) {
+            throw new RuntimeException("Error during the download of the practitioner");
+        }
+
+        for (Bundle.BundleEntryComponent entry : bundle.getEntry())
+            practitionerSearch.add((Practitioner) entry.getResource());
+
+        if (practitionerSearch.isEmpty())
+            throw new RuntimeException("No practitioner found with id: " + id);
     }
 }

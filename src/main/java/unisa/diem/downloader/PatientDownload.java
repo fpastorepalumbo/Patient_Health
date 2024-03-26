@@ -2,6 +2,8 @@ package unisa.diem.downloader;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import ca.uhn.fhir.rest.gclient.StringClientParam;
+import ca.uhn.fhir.rest.gclient.TokenClientParam;
 import lombok.Getter;
 import lombok.Setter;
 import org.hl7.fhir.r4.model.Bundle;
@@ -18,12 +20,16 @@ public class PatientDownload extends BaseDownloader {
 
     @Getter
     List <Patient> patients;
+
+    @Getter
+    List <Patient> patientSearch;
     @Setter
     @Getter
     int count;
 
     public PatientDownload() {
         this.patients = new ArrayList<>();
+        this.patientSearch = new ArrayList<>();
         count = 0;
     }
 
@@ -42,6 +48,47 @@ public class PatientDownload extends BaseDownloader {
                 patients.add((Patient) entry.getResource());
 
         if (patients.isEmpty())
+            throw new RuntimeException("No patient found");
+    }
+
+    public void downloadPatientWithName(String name, String surname){
+        Bundle bundle;
+        patientSearch.clear();
+
+        try {
+            bundle = (Bundle) client.search().forResource(Patient.class)
+                    .where(new StringClientParam("given").matches().value(name))
+                    .where(new StringClientParam("family").matches().value(surname))
+                    .encodedXml()
+                    .execute();
+        } catch (Exception e) {
+            throw new RuntimeException("Error during the download of the patient");
+        }
+
+        for (Bundle.BundleEntryComponent entry : bundle.getEntry())
+            patientSearch.add((Patient) entry.getResource());
+
+        if (patientSearch.isEmpty())
+            throw new RuntimeException("No patient found");
+    }
+
+    public void downloadPatientWithId(String id){
+        Bundle bundle;
+        patientSearch.clear();
+
+        try {
+            bundle = (Bundle) client.search().forResource(Patient.class)
+                    .where(new TokenClientParam("_id").exactly().code(id))
+                    .encodedXml()
+                    .execute();
+        } catch (Exception e) {
+            throw new RuntimeException("Error during the download of the patient");
+        }
+
+        for (Bundle.BundleEntryComponent entry : bundle.getEntry())
+            patientSearch.add((Patient) entry.getResource());
+
+        if (patientSearch.isEmpty())
             throw new RuntimeException("No patient found");
     }
 }
