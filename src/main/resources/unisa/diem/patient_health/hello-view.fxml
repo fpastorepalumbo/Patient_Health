@@ -117,19 +117,19 @@
 
                 <Pane fx:id="exstEncounterPane" prefHeight="685.0" prefWidth="1045.0">
                     <Pane fx:id="encounterPane1" prefHeight="685.0" prefWidth="1045.0">
-                        <TableView fx:id="encounterTable" layoutX="14.0" layoutY="12.0" onMouseClicked="#clickEncounterTable" onScroll="#encounterScrollTable" prefHeight="662.0" prefWidth="1022.0">
+                        <TableView fx:id="encounterTable" layoutX="14.0" layoutY="14.0" onMouseClicked="#clickEncounterTable" onScroll="#encounterScrollTable" prefHeight="403.0" prefWidth="1022.0">
                             <columns>
-                                <TableColumn fx:id="idEncounterClm" prefWidth="118.0" text="Encounter ID" />
-                                <TableColumn fx:id="codeEncounterClm" prefWidth="101.0" text="Code" />
-                                <TableColumn fx:id="descriptionEncounterClm" prefWidth="102.0" text="Description" />
-                                <TableColumn fx:id="startDateEncounterClm" prefWidth="110.0" text="Start Date" />
+                                <TableColumn fx:id="idEncounterClm" prefWidth="190.0" text="Encounter ID" />
+                                <TableColumn fx:id="codeEncounterClm" minWidth="0.0" prefWidth="109.0" text="Code" />
+                                <TableColumn fx:id="descriptionEncounterClm" minWidth="0.0" prefWidth="71.0" text="Description" />
+                                <TableColumn fx:id="startDateEncounterClm" prefWidth="61.0" text="Start Date" />
                                 <TableColumn fx:id="stopDateEncounterClm" prefWidth="121.0" text="Stop Date" />
-                                <TableColumn fx:id="patientEncounterClm" prefWidth="125.0" text="Patient" />
-                                <TableColumn fx:id="organizationEncounterClm" prefWidth="157.0" text="Organization" />
-                                <TableColumn fx:id="practitionerEncounterClm" prefWidth="168.0" text="Practitioner" />
-                                <TableColumn fx:id="payerEncounterClm" prefWidth="130.0" text="Payer" />
-                                <TableColumn fx:id="costEncounterClm" prefWidth="141.0" text="Cost" />
-                                <TableColumn fx:id="coverageEncounterClm" prefWidth="200.0" text="Payer Coverage" />
+                                <TableColumn fx:id="patientEncounterClm" prefWidth="172.0" text="Patient" />
+                                <TableColumn fx:id="organizationEncounterClm" prefWidth="182.0" text="Organization" />
+                                <TableColumn fx:id="practitionerEncounterClm" prefWidth="262.0" text="Practitioner" />
+                                <TableColumn fx:id="payerEncounterClm" prefWidth="287.0" text="Payer" />
+                                <TableColumn fx:id="costEncounterClm" prefWidth="96.0" text="Cost" />
+                                <TableColumn fx:id="coverageEncounterClm" prefWidth="127.0" text="Payer Coverage" />
                             </columns>
                         </TableView>
 

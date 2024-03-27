@@ -7,6 +7,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import org.hl7.fhir.r4.model.*;
 import unisa.diem.converter.*;
 import unisa.diem.downloader.*;
@@ -561,6 +562,7 @@ public class HelloController implements Initializable {
                 throw new RuntimeException("Patient Data Conversion Error");
             for (PatientConverter.PatientClass patient : patientConverter.getFieldsListPatient())
                 personTable.getItems().add(patient);
+            autoResizeColumns(personTable);
         }
     }
 
@@ -715,6 +717,7 @@ public class HelloController implements Initializable {
     }
 
     public void clickEncounterTable() {
+        setSearchOff();
         exstEncounterPane.setVisible(true);
         encounterPane1.setVisible(false);
         encounterPane2.setVisible(true);
@@ -860,8 +863,10 @@ public class HelloController implements Initializable {
         }
     }
 
-    public void searchButtonClick(MouseEvent mouseEvent) {
+    public void searchButtonClick() {
         String search1 = searchBar1.getText();
+        searchBar1.clear();
+
         if (search1.isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "No arguments find").showAndWait();
             return;
@@ -869,6 +874,12 @@ public class HelloController implements Initializable {
 
         if(patientPane.isVisible()){
             firstClickPatient = true;
+
+            allergyTable.visibleProperty().setValue(false);
+            conditionTable.visibleProperty().setValue(false);
+            immunizationTable.visibleProperty().setValue(false);
+            carePlanTable.visibleProperty().setValue(false);
+
             if (checkBox1.isSelected())
                 patientDownloadSearch.downloadPatientWithId(search1);
             if (checkBox2.isSelected()){
@@ -1030,6 +1041,17 @@ public class HelloController implements Initializable {
         checkBox1.setSelected(true);
     }
 
+    public void setSearchOff(){
+        searchBar1.setVisible(false);
+        buttonSearch.setVisible(false);
+        checkBox1.setVisible(false);
+        checkBox2.setVisible(false);
+        checkBox3.setVisible(false);
+        checkBox4.setVisible(false);
+        checkBox5.setVisible(false);
+        checkBox6.setVisible(false);
+    }
+
     public void setSearchEncounter(){
         searchBar1.setVisible(true);
         buttonSearch.setVisible(true);
@@ -1059,4 +1081,33 @@ public class HelloController implements Initializable {
     }
 
     // TODO: Metodo Scroll immagini
+
+
+    public static void autoResizeColumns( TableView<?> table )
+    {
+        //Set the right policy
+        table.setColumnResizePolicy( TableView.UNCONSTRAINED_RESIZE_POLICY);
+        table.getColumns().stream().forEach( (column) ->
+        {
+            //Minimal width = columnheader
+            Text t = new Text( column.getText() );
+            double max = t.getLayoutBounds().getWidth();
+            for ( int i = 0; i < table.getItems().size(); i++ )
+            {
+                //cell must not be empty
+                if ( column.getCellData( i ) != null )
+                {
+                    t = new Text( column.getCellData( i ).toString() );
+                    double calcwidth = t.getLayoutBounds().getWidth();
+                    //remember new max-width
+                    if ( calcwidth > max )
+                    {
+                        max = calcwidth;
+                    }
+                }
+            }
+            //set the new max-widht with some extra space
+            column.setPrefWidth( max + 10.0d );
+        } );
+    }
 }
