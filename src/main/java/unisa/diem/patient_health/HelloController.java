@@ -595,6 +595,7 @@ public class HelloController implements Initializable {
                 throw new RuntimeException("Organization Data Conversion Error");
             for (OrganizationConverter.OrganizationClass organization : organizationConverter.getFieldsListOrganization())
                 organizationTable.getItems().add(organization);
+            autoResizeColumns(organizationTable);
 
             payersDownload.download();
             List<Organization> payers = payersDownload.getPayers();
@@ -605,6 +606,7 @@ public class HelloController implements Initializable {
                 throw new RuntimeException("Payers Data Conversion Error");
             for (PayersConverter.PayersClass payer : payersConverter.getFieldsListPayer())
                 payerTable.getItems().add(payer);
+            autoResizeColumns(payerTable);
 
             practitionersDownload.download();
             List<Practitioner> practitioners = practitionersDownload.getPractitioners();
@@ -617,6 +619,7 @@ public class HelloController implements Initializable {
             for (PractitionersConverter.PractitionerClass practitioner : practitionersConverter.getFieldsListPractitioner()) {
                 practitionerTable.getItems().add(practitioner);
             }
+            autoResizeColumns(practitionerTable);
         }
     }
 
@@ -646,6 +649,7 @@ public class HelloController implements Initializable {
                 throw new RuntimeException("Encounter Data Conversion Error");
             for (EncounterConverter.EncounterClass encounter : encounterConverter.getFieldsListEncounter())
                 encounterTable.getItems().add(encounter);
+            autoResizeColumns(encounterTable);
         }
     }
     @FXML
@@ -693,6 +697,7 @@ public class HelloController implements Initializable {
                 throw new RuntimeException("Allergy Data Conversion Error");
             for (AllergyConverter.AllergyClass allergy : allergyConverter.getFieldsListAllergy())
                 allergyTable.getItems().add(allergy);
+            autoResizeColumns(allergyTable);
 
             ImmunizationDownload immunizationDownload = new ImmunizationDownload(personElement.getId());
             immunizationDownload.download();
@@ -703,6 +708,7 @@ public class HelloController implements Initializable {
                 throw new RuntimeException("Immunization Data Conversion Error");
             for (ImmunizationConverter.ImmunizationClass immunization : immunizationConverter.getFieldsListImmunization())
                 immunizationTable.getItems().add(immunization);
+            autoResizeColumns(immunizationTable);
 
             ConditionDownload conditionDownload = new ConditionDownload(personElement.getId());
             conditionDownload.download();
@@ -713,6 +719,7 @@ public class HelloController implements Initializable {
                 throw new RuntimeException("Condition Data Conversion Error");
             for (ConditionConverter.ConditionClass condition : conditionConverter.getFieldsListCondition())
                 conditionTable.getItems().add(condition);
+            autoResizeColumns(conditionTable);
         }
     }
 
@@ -750,6 +757,7 @@ public class HelloController implements Initializable {
                 throw new RuntimeException("Observation Data Conversion Error");
             for (ObservationsConverter.ObservationClass observation : observationsConverter.getFieldsListObservation())
                 observationTable.getItems().add(observation);
+            autoResizeColumns(observationTable);
 
             MedicationRequestDownload medReqDownload = new MedicationRequestDownload(encID);
             medReqDownload.download();
@@ -760,6 +768,7 @@ public class HelloController implements Initializable {
                 throw new RuntimeException("Medication Request Data Conversion Error");
             for (MedicationRequestsConverter.MedicationRequestsClass medReq : medReqConverter.getFieldsListMedRequest())
                 medReqTable.getItems().add(medReq);
+            autoResizeColumns(medReqTable);
 
             ProceduresDownload procedureDownload = new ProceduresDownload(encID);
             procedureDownload.download();
@@ -770,6 +779,7 @@ public class HelloController implements Initializable {
                 throw new RuntimeException("Procedure Data Conversion Error");
             for (ProceduresConverter.ProcedureClass procedure : procedureConverter.getFieldsListProcedure())
                 procedureTable.getItems().add(procedure);
+            autoResizeColumns(procedureTable);
 
             DevicesDownload deviceDownload = new DevicesDownload(encID);
             deviceDownload.download();
@@ -780,6 +790,7 @@ public class HelloController implements Initializable {
                 throw new RuntimeException("Device Data Conversion Error");
             for (DevicesConverter.DeviceClass device : deviceConverter.getFieldsListDevices())
                 deviceTable.getItems().add(device);
+            autoResizeColumns(deviceTable);
         }
     }
 
@@ -797,6 +808,7 @@ public class HelloController implements Initializable {
         carePlanConverter.convert();
         for (CarePlanConverter.CarePlanClass carePlan : carePlanConverter.getFieldsListCarePlan())
             carePlanTable.getItems().add(carePlan);
+        autoResizeColumns(carePlanTable);
     }
 
     public void loadDataset() {
@@ -818,6 +830,7 @@ public class HelloController implements Initializable {
                 throw new RuntimeException("ERROR DURING THE SCROLL OF PATIENT");
             for (PatientConverter.PatientClass patient : patientConverter.getFieldsListPatient())
                 personTable.getItems().add(patient);
+            autoResizeColumns(personTable);
         }
     }
 
@@ -832,6 +845,7 @@ public class HelloController implements Initializable {
                 throw new RuntimeException("ERROR DURING THE SCROLL OF ORGANIZATIONS");
             for (OrganizationConverter.OrganizationClass organization : organizationConverter.getFieldsListOrganization())
                 organizationTable.getItems().add(organization);
+            autoResizeColumns(organizationTable);
         }
     }
 
@@ -846,6 +860,7 @@ public class HelloController implements Initializable {
                 throw new RuntimeException("ERROR DURING THE SCROLL OF PRACTITIONERS");
             for (PractitionersConverter.PractitionerClass practitioner : practitionersConverter.getFieldsListPractitioner())
                 practitionerTable.getItems().add(practitioner);
+            autoResizeColumns(practitionerTable);
         }
     }
 
@@ -860,6 +875,7 @@ public class HelloController implements Initializable {
                 throw new RuntimeException("ERROR DURING THE SCROLL OF ENCOUNTERS");
             for (EncounterConverter.EncounterClass encounter : encounterConverter.getFieldsListEncounter())
                 encounterTable.getItems().add(encounter);
+            autoResizeColumns(encounterTable);
         }
     }
 
@@ -902,6 +918,7 @@ public class HelloController implements Initializable {
             personTable.getItems().clear();
             for (PatientConverter.PatientClass patient : patientConverter.getFieldsListPatient())
                 personTable.getItems().add(patient);
+            autoResizeColumns(personTable);
 
         } else if (organizationPane.isVisible()) {
             firstClickOrganization = true;
@@ -917,6 +934,7 @@ public class HelloController implements Initializable {
                 }
                 for (OrganizationConverter.OrganizationClass organization : organizationConverter.getFieldsListOrganization())
                     organizationTable.getItems().add(organization);
+                autoResizeColumns(organizationTable);
 
             } else if (checkBox2.isSelected()){
                 organizationTable.getItems().clear();
@@ -930,6 +948,7 @@ public class HelloController implements Initializable {
                 }
                 for (OrganizationConverter.OrganizationClass organization : organizationConverter.getFieldsListOrganization())
                     organizationTable.getItems().add(organization);
+                autoResizeColumns(organizationTable);
             }
 
             if (checkBox3.isSelected()){
@@ -944,6 +963,7 @@ public class HelloController implements Initializable {
                 }
                 for (PayersConverter.PayersClass payer : payersConverter.getFieldsListPayer())
                     payerTable.getItems().add(payer);
+                autoResizeColumns(payerTable);
             } else if (checkBox4.isSelected()){
                 payerTable.getItems().clear();
                 payersDownloadSearch.downloadPayerWithId(search1);
@@ -956,6 +976,7 @@ public class HelloController implements Initializable {
                 }
                 for (PayersConverter.PayersClass payer : payersConverter.getFieldsListPayer())
                     payerTable.getItems().add(payer);
+                autoResizeColumns(payerTable);
             }
             if (checkBox5.isSelected()){
                 practitionerTable.getItems().clear();
@@ -969,6 +990,7 @@ public class HelloController implements Initializable {
                 }
                 for (PractitionersConverter.PractitionerClass practitioner : practitionersConverter.getFieldsListPractitioner())
                     practitionerTable.getItems().add(practitioner);
+                autoResizeColumns(practitionerTable);
 
             } else if (checkBox6.isSelected()){
                 practitionerTable.getItems().clear();
@@ -982,6 +1004,7 @@ public class HelloController implements Initializable {
                 }
                 for (PractitionersConverter.PractitionerClass practitioner : practitionersConverter.getFieldsListPractitioner())
                     practitionerTable.getItems().add(practitioner);
+                autoResizeColumns(practitionerTable);
             }
 
         } else if (exstEncounterPane.isVisible() && encounterPane1.isVisible()) {
@@ -1003,6 +1026,7 @@ public class HelloController implements Initializable {
             }
             for (EncounterConverter.EncounterClass encounter1 : encounterConverter.getFieldsListEncounter())
                 encounterTable.getItems().add(encounter1);
+            autoResizeColumns(encounterTable);
 
         } else if (imagingPane.isVisible()) {
 
