@@ -283,8 +283,6 @@ public class HelloController implements Initializable {
     @FXML
     private TextField searchBar1;
     @FXML
-    private TextField searchBar2;
-    @FXML
     private Button buttonSearch;
     @FXML
     private CheckBox checkBox1;
@@ -344,7 +342,6 @@ public class HelloController implements Initializable {
         imagingPane.setVisible(false);
 
         searchBar1.setVisible(false);
-        searchBar2.setVisible(false);
         buttonSearch.setVisible(false);
         checkBox1.setVisible(false);
         checkBox2.setVisible(false);
@@ -865,19 +862,23 @@ public class HelloController implements Initializable {
 
     public void searchButtonClick(MouseEvent mouseEvent) {
         String search1 = searchBar1.getText();
-        if (search1.isEmpty())
-            search1 = "-";
-        String search2 = searchBar2.getText();
-        if (search2.isEmpty())
-            search2 = "-";
+        if (search1.isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "No arguments find").showAndWait();
+            return;
+        }
 
         if(patientPane.isVisible()){
-            personTable.getItems().clear();
+            firstClickPatient = true;
             if (checkBox1.isSelected())
                 patientDownloadSearch.downloadPatientWithId(search1);
-            if (checkBox2.isSelected())
-                patientDownloadSearch.downloadPatientWithName(search1, search2);
-
+            if (checkBox2.isSelected()){
+                if(search1.contains(" ")){
+                    String[] search = search1.split(" ");
+                    patientDownloadSearch.downloadPatientWithName(search[0], search[1]);
+                } else {
+                    patientDownloadSearch.downloadPatientWithName(search1, "");
+                }
+            }
 
             List<Patient> patients = patientDownloadSearch.getPatientSearch();
             PatientConverter patientConverter = new PatientConverter(patients);
@@ -886,11 +887,13 @@ public class HelloController implements Initializable {
                 new Alert(Alert.AlertType.ERROR, "Patient not found").showAndWait();
                 return;
             }
+
+            personTable.getItems().clear();
             for (PatientConverter.PatientClass patient : patientConverter.getFieldsListPatient())
                 personTable.getItems().add(patient);
 
         } else if (organizationPane.isVisible()) {
-
+            firstClickOrganization = true;
             if (checkBox1.isSelected()){
                 organizationTable.getItems().clear();
                 organizationDownloadSearch.downloadOrganizationWithName(search1);
@@ -971,6 +974,8 @@ public class HelloController implements Initializable {
             }
 
         } else if (exstEncounterPane.isVisible() && encounterPane1.isVisible()) {
+            firstClickEncounter = true;
+
             encounterTable.getItems().clear();
 
             if (checkBox1.isSelected())
@@ -995,7 +1000,6 @@ public class HelloController implements Initializable {
 
     public void setSearchPatient(){
         searchBar1.setVisible(true);
-        searchBar2.setVisible(true);
         buttonSearch.setVisible(true);
         checkBox1.setVisible(true);
         checkBox1.setText("Patient ID");
@@ -1010,7 +1014,6 @@ public class HelloController implements Initializable {
 
     public void setSearchOrganization(){
         searchBar1.setVisible(true);
-        searchBar2.setVisible(false);
         buttonSearch.setVisible(true);
         checkBox1.setVisible(true);
         checkBox1.setText("Organization Name");
@@ -1029,7 +1032,6 @@ public class HelloController implements Initializable {
 
     public void setSearchEncounter(){
         searchBar1.setVisible(true);
-        searchBar2.setVisible(false);
         buttonSearch.setVisible(true);
         checkBox1.setVisible(true);
         checkBox1.setText("Encounter ID");
@@ -1044,7 +1046,6 @@ public class HelloController implements Initializable {
 
     public void setSearchImage(){
         searchBar1.setVisible(true);
-        searchBar2.setVisible(false);
         buttonSearch.setVisible(true);
         checkBox1.setVisible(true);
         checkBox1.setText("Image ID");
