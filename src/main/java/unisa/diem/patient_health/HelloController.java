@@ -865,13 +865,14 @@ public class HelloController implements Initializable {
 
     public void searchButtonClick(MouseEvent mouseEvent) {
         String search1 = searchBar1.getText();
-        // if (search1.isEmpty()){
-            // search1 = "-";
-        // }
+        if (search1.isEmpty())
+            search1 = "-";
         String search2 = searchBar2.getText();
-        // if (search2.isEmpty()){
-            // search2 = "-";
-        // }
+        if (search2.isEmpty())
+            search2 = "-";
+
+        System.out.println(search1);
+        System.out.println(search2);
 
         if(patientPane.isVisible()){
             personTable.getItems().clear();
