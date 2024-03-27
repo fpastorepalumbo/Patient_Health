@@ -871,19 +871,15 @@ public class HelloController implements Initializable {
         if (search2.isEmpty())
             search2 = "-";
 
-        System.out.println(search1);
-        System.out.println(search2);
-
         if(patientPane.isVisible()){
             personTable.getItems().clear();
-            if (checkBox1.isSelected()){
+            if (checkBox1.isSelected())
                 patientDownloadSearch.downloadPatientWithId(search1);
-            }
-            if (checkBox2.isSelected()){
+            if (checkBox2.isSelected())
                 patientDownloadSearch.downloadPatientWithName(search1, search2);
-            }
 
-            List<Patient> patients = patientDownloadSearch.getPatients();
+
+            List<Patient> patients = patientDownloadSearch.getPatientSearch();
             PatientConverter patientConverter = new PatientConverter(patients);
             patientConverter.convert();
             if (patientConverter.getFieldsListPatient().isEmpty()) {
@@ -894,11 +890,11 @@ public class HelloController implements Initializable {
                 personTable.getItems().add(patient);
 
         } else if (organizationPane.isVisible()) {
-            organizationTable.getItems().clear();
 
             if (checkBox1.isSelected()){
+                organizationTable.getItems().clear();
                 organizationDownloadSearch.downloadOrganizationWithName(search1);
-                List<Organization> organizations = organizationDownloadSearch.getOrganizations();
+                List<Organization> organizations = organizationDownloadSearch.getOrganizationsSearch();
                 OrganizationConverter organizationConverter = new OrganizationConverter(organizations);
                 organizationConverter.convert();
                 if (organizationConverter.getFieldsListOrganization().isEmpty()) {
@@ -909,8 +905,9 @@ public class HelloController implements Initializable {
                     organizationTable.getItems().add(organization);
 
             } else if (checkBox2.isSelected()){
+                organizationTable.getItems().clear();
                 organizationDownloadSearch.downloadOrganizationWithId(search1);
-                List<Organization> organizations = organizationDownloadSearch.getOrganizations();
+                List<Organization> organizations = organizationDownloadSearch.getOrganizationsSearch();
                 OrganizationConverter organizationConverter = new OrganizationConverter(organizations);
                 organizationConverter.convert();
                 if (organizationConverter.getFieldsListOrganization().isEmpty()) {
@@ -922,8 +919,9 @@ public class HelloController implements Initializable {
             }
 
             if (checkBox3.isSelected()){
+                payerTable.getItems().clear();
                 payersDownloadSearch.downloadPayerWithName(search1);
-                List<Organization> payers = payersDownloadSearch.getPayers();
+                List<Organization> payers = payersDownloadSearch.getPayerSearch();
                 PayersConverter payersConverter = new PayersConverter(payers);
                 payersConverter.convert();
                 if (payersConverter.getFieldsListPayer().isEmpty()) {
@@ -933,8 +931,9 @@ public class HelloController implements Initializable {
                 for (PayersConverter.PayersClass payer : payersConverter.getFieldsListPayer())
                     payerTable.getItems().add(payer);
             } else if (checkBox4.isSelected()){
+                payerTable.getItems().clear();
                 payersDownloadSearch.downloadPayerWithId(search1);
-                List<Organization> payers = payersDownloadSearch.getPayers();
+                List<Organization> payers = payersDownloadSearch.getPayerSearch();
                 PayersConverter payersConverter = new PayersConverter(payers);
                 payersConverter.convert();
                 if (payersConverter.getFieldsListPayer().isEmpty()) {
@@ -945,8 +944,9 @@ public class HelloController implements Initializable {
                     payerTable.getItems().add(payer);
             }
             if (checkBox5.isSelected()){
+                practitionerTable.getItems().clear();
                 practitionersDownloadSearch.downloadPractitionerWithName(search1);
-                List<Practitioner> practitioners = practitionersDownloadSearch.getPractitioners();
+                List<Practitioner> practitioners = practitionersDownloadSearch.getPractitionerSearch();
                 PractitionersConverter practitionersConverter = new PractitionersConverter(practitioners);
                 practitionersConverter.convert();
                 if (practitionersConverter.getFieldsListPractitioner().isEmpty()) {
@@ -957,8 +957,9 @@ public class HelloController implements Initializable {
                     practitionerTable.getItems().add(practitioner);
 
             } else if (checkBox6.isSelected()){
+                practitionerTable.getItems().clear();
                 practitionersDownloadSearch.downloadPractitionerWithId(search1);
-                List<Practitioner> practitioners = practitionersDownloadSearch.getPractitioners();
+                List<Practitioner> practitioners = practitionersDownloadSearch.getPractitionerSearch();
                 PractitionersConverter practitionersConverter = new PractitionersConverter(practitioners);
                 practitionersConverter.convert();
                 if (practitionersConverter.getFieldsListPractitioner().isEmpty()) {
@@ -972,17 +973,14 @@ public class HelloController implements Initializable {
         } else if (exstEncounterPane.isVisible() && encounterPane1.isVisible()) {
             encounterTable.getItems().clear();
 
-            if (checkBox1.isSelected()){
+            if (checkBox1.isSelected())
                 encounterDownloadSearch.downloadEncounterWithEncounterId(search1);
-            }
-            if (checkBox2.isSelected()){
+            if (checkBox2.isSelected())
                 encounterDownloadSearch.downloadEncounterWithPatientId(search1);
-            }
 
             List<Encounter> encounter = encounterDownloadSearch.getEncounterSearch();
             EncounterConverter encounterConverter = new EncounterConverter(encounter);
             encounterConverter.convert();
-
             if (encounterConverter.getFieldsListEncounter().isEmpty()){
                 new Alert(Alert.AlertType.ERROR, "Encounter not found").showAndWait();
                 return;
@@ -990,7 +988,7 @@ public class HelloController implements Initializable {
             for (EncounterConverter.EncounterClass encounter1 : encounterConverter.getFieldsListEncounter())
                 encounterTable.getItems().add(encounter1);
 
-        } else if (imagingPane.isVisible()){
+        } else if (imagingPane.isVisible()) {
 
         }
     }
