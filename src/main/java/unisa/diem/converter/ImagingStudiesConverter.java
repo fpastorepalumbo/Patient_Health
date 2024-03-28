@@ -12,7 +12,6 @@ import java.util.List;
 public class ImagingStudiesConverter extends BaseConverter {
 
     private final List<ImagingStudy> bundleImagingStudies;
-
     @Getter
     @FXML
     private final ObservableList<ImagingStudiesClass> fieldsListImagingStudies;
@@ -40,12 +39,14 @@ public class ImagingStudiesConverter extends BaseConverter {
 
             isc.setSopDescription(imagingStudy.getSeries().get(0).getInstance().get(0).getSopClass().getCode());
 
-            parts = imagingStudy.getStarted().toString().split("T");
-            isc.setDate(parts[1]);
+            parts = imagingStudy.getStarted().toString().split(" ");
+            isc.setDate(parts[5]+ "-" + parts[1] + "-" + parts[2]);
 
-            isc.setPatient(imagingStudy.getSubject().getReference());
+            parts = imagingStudy.getSubject().getReference().split("/");
+            isc.setPatient(parts[1]);
 
-            isc.setEncounter(imagingStudy.getEncounter().getReference());
+            parts = imagingStudy.getEncounter().getReference().split("/");
+            isc.setEncounter(parts[1]);
 
             fieldsListImagingStudies.add(isc);
         }

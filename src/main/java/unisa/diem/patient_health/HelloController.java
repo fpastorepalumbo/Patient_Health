@@ -46,14 +46,8 @@ public class HelloController implements Initializable {
     public TableView<ProceduresConverter.ProcedureClass> procedureTable;
     @FXML
     public TableView<DevicesConverter.DeviceClass> deviceTable;
-
     @FXML
-    public TableView imageTable;
-
-    /*
-    @FXML
-    public TableView<ImagingStudyConverter.ImagingStudyClass> imageTable;
-    */
+    public TableView<ImagingStudiesConverter.ImagingStudiesClass> imageTable;
 
     //  personTable
     @FXML
@@ -308,9 +302,7 @@ public class HelloController implements Initializable {
     public PayersDownload payersDownloadSearch;
     public PractitionersDownload practitionersDownload;
     public PractitionersDownload practitionersDownloadSearch;
-
     public ImagingStudiesDownload imagingStudiesDownload;
-
     public DatasetService datasetUtility;
     public PatientConverter.PatientClass personElement;
     public EncounterConverter.EncounterClass encounterElement;
@@ -502,12 +494,12 @@ public class HelloController implements Initializable {
         stopDateDeviceClm.setCellValueFactory(new PropertyValueFactory<>("stopDate"));
         patientDeviceClm.setCellValueFactory(new PropertyValueFactory<>("patient"));
 
-        bodyCodeClm.setCellValueFactory(new PropertyValueFactory<>("bodyCode"));
-        bodyDescrClm.setCellValueFactory(new PropertyValueFactory<>("bodyDescr"));
-        modeCodeClm.setCellValueFactory(new PropertyValueFactory<>("modeCode"));
-        modeDescrClm.setCellValueFactory(new PropertyValueFactory<>("modeDescr"));
+        bodyCodeClm.setCellValueFactory(new PropertyValueFactory<>("bodySiteCode"));
+        bodyDescrClm.setCellValueFactory(new PropertyValueFactory<>("bodySiteDescription"));
+        modeCodeClm.setCellValueFactory(new PropertyValueFactory<>("modalityCode"));
+        modeDescrClm.setCellValueFactory(new PropertyValueFactory<>("modalityDescription"));
         sopCodeClm.setCellValueFactory(new PropertyValueFactory<>("sopCode"));
-        sopDescrClm.setCellValueFactory(new PropertyValueFactory<>("sopDescr"));
+        sopDescrClm.setCellValueFactory(new PropertyValueFactory<>("sopDescription"));
         dateImageClm.setCellValueFactory(new PropertyValueFactory<>("date"));
         patientImageClm.setCellValueFactory(new PropertyValueFactory<>("patient"));
         encounterImageClm.setCellValueFactory(new PropertyValueFactory<>("encounter"));
@@ -673,7 +665,6 @@ public class HelloController implements Initializable {
         if (firstClickEncounter) {
             firstClickEncounter = false;
             imageTable.getItems().clear();
-
             imagingStudiesDownload.download();
             List<ImagingStudy> imagingStudies = imagingStudiesDownload.getImages();
             ImagingStudiesConverter imagingStudiesConverter = new ImagingStudiesConverter(imagingStudies);
@@ -899,11 +890,10 @@ public class HelloController implements Initializable {
             ImagingStudiesConverter imagingStudiesConverter = new ImagingStudiesConverter(imagingStudies);
             imagingStudiesConverter.convert();
             if (imagingStudiesConverter.getFieldsListImagingStudies().isEmpty())
-                throw new RuntimeException("Imaging Studies Data Conversion Error");
+                throw new RuntimeException("ERROR DURING THE SCROLL OF IMAGING STUDIES");
             for (ImagingStudiesConverter.ImagingStudiesClass imagingStudy : imagingStudiesConverter.getFieldsListImagingStudies())
                 imageTable.getItems().add(imagingStudy);
             autoResizeColumns(imageTable);
-
         }
     }
 
@@ -1132,9 +1122,6 @@ public class HelloController implements Initializable {
         checkBox1.setSelected(true);
     }
 
-    // TODO: Metodo Scroll immagini
-
-
     public static void autoResizeColumns( TableView<?> table )
     {
         //Set the right policy
@@ -1162,6 +1149,4 @@ public class HelloController implements Initializable {
             column.setPrefWidth( max + 10.0d );
         } );
     }
-
-
 }
