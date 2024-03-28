@@ -115,7 +115,7 @@
                     </TableView>
                 </Pane>
 
-                <Pane fx:id="exstEncounterPane" prefHeight="685.0" prefWidth="1045.0">
+                <Pane fx:id="exstEncounterPane" prefHeight="685.0" prefWidth="1045.0" visible="false">
                     <Pane fx:id="encounterPane1" prefHeight="685.0" prefWidth="1045.0">
                         <TableView fx:id="encounterTable" layoutX="14.0" layoutY="14.0" onMouseClicked="#clickEncounterTable" onScroll="#encounterScrollTable" prefHeight="403.0" prefWidth="1022.0">
                             <columns>
@@ -182,7 +182,7 @@
                     </Pane>
                 </Pane>
 
-                <Pane fx:id="imagingPane" prefHeight="685.0" prefWidth="1045.0" visible="false">
+                <Pane fx:id="imagingPane" prefHeight="685.0" prefWidth="1045.0">
                     <TableView fx:id="imageTable" layoutX="14.0" layoutY="14.0" prefHeight="662.0" prefWidth="1022.0">
                         <columns>
                             <TableColumn fx:id="bodyCodeClm" prefWidth="117.0" text="Body Site Code" />
