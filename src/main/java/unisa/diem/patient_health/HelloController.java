@@ -303,6 +303,7 @@ public class HelloController implements Initializable {
     public PractitionersDownload practitionersDownload;
     public PractitionersDownload practitionersDownloadSearch;
     public ImagingStudiesDownload imagingStudiesDownload;
+    public ImagingStudiesDownload imagingStudiesDownloadSearch;
     public DatasetService datasetUtility;
     public PatientConverter.PatientClass personElement;
     public EncounterConverter.EncounterClass encounterElement;
@@ -323,6 +324,7 @@ public class HelloController implements Initializable {
         practitionersDownload = new PractitionersDownload();
         practitionersDownloadSearch = new PractitionersDownload();
         imagingStudiesDownload = new ImagingStudiesDownload();
+        imagingStudiesDownloadSearch = new ImagingStudiesDownload();
 
         datasetUtility = new DatasetService();
         personElement = null;
@@ -916,7 +918,7 @@ public class HelloController implements Initializable {
 
             if (checkBox1.isSelected())
                 patientDownloadSearch.downloadPatientWithId(search1);
-            if (checkBox2.isSelected()){
+            else if (checkBox2.isSelected()){
                 if(search1.contains(" ")){
                     String[] search = search1.split(" ");
                     patientDownloadSearch.downloadPatientWithName(search[0], search[1]);
@@ -968,8 +970,7 @@ public class HelloController implements Initializable {
                     organizationTable.getItems().add(organization);
                 autoResizeColumns(organizationTable);
             }
-
-            if (checkBox3.isSelected()){
+            else if (checkBox3.isSelected()){
                 payerTable.getItems().clear();
                 payersDownloadSearch.downloadPayerWithName(search1);
                 List<Organization> payers = payersDownloadSearch.getPayerSearch();
@@ -996,7 +997,7 @@ public class HelloController implements Initializable {
                     payerTable.getItems().add(payer);
                 autoResizeColumns(payerTable);
             }
-            if (checkBox5.isSelected()){
+            else if (checkBox5.isSelected()){
                 practitionerTable.getItems().clear();
                 practitionersDownloadSearch.downloadPractitionerWithName(search1);
                 List<Practitioner> practitioners = practitionersDownloadSearch.getPractitionerSearch();
@@ -1032,7 +1033,7 @@ public class HelloController implements Initializable {
 
             if (checkBox1.isSelected())
                 encounterDownloadSearch.downloadEncounterWithEncounterId(search1);
-            if (checkBox2.isSelected())
+            else if (checkBox2.isSelected())
                 encounterDownloadSearch.downloadEncounterWithPatientId(search1);
 
             List<Encounter> encounter = encounterDownloadSearch.getEncounterSearch();
@@ -1048,6 +1049,24 @@ public class HelloController implements Initializable {
 
         } else if (imagingPane.isVisible()) {
 
+            firstClickImaging= true;
+            imageTable.getItems().clear();
+
+            if(checkBox1.isSelected())
+                imagingStudiesDownloadSearch.downloadImageWithPatientId(search1);
+            else if (checkBox2.isSelected())
+                imagingStudiesDownloadSearch.downloadImageWithEncounterId(search1);
+
+            List<ImagingStudy> imagingStudies = imagingStudiesDownload.getImageSearch();
+            ImagingStudiesConverter imagingStudiesConverter = new ImagingStudiesConverter(imagingStudies);
+            imagingStudiesConverter.convert();
+            if (imagingStudiesConverter.getFieldsListImagingStudies().isEmpty()) {
+                new Alert(Alert.AlertType.ERROR, "Image not found").showAndWait();
+                return;
+            }
+            for (ImagingStudiesConverter.ImagingStudiesClass imagingStudy : imagingStudiesConverter.getFieldsListImagingStudies())
+                imageTable.getItems().add(imagingStudy);
+            autoResizeColumns(imageTable);
         }
     }
 
@@ -1112,8 +1131,8 @@ public class HelloController implements Initializable {
         searchBar1.setVisible(true);
         buttonSearch.setVisible(true);
         checkBox1.setVisible(true);
-        checkBox1.setText("Image ID");
-        checkBox2.setVisible(false);
+        checkBox1.setText("Patient ID");
+        checkBox2.setVisible(true);
         checkBox2.setText("Encounter ID");
         checkBox3.setVisible(false);
         checkBox4.setVisible(false);
