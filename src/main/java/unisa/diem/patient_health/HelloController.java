@@ -308,6 +308,9 @@ public class HelloController implements Initializable {
     public PayersDownload payersDownloadSearch;
     public PractitionersDownload practitionersDownload;
     public PractitionersDownload practitionersDownloadSearch;
+
+    public ImagingStudiesDownload imagingStudiesDownload;
+
     public DatasetService datasetUtility;
     public PatientConverter.PatientClass personElement;
     public EncounterConverter.EncounterClass encounterElement;
@@ -327,6 +330,7 @@ public class HelloController implements Initializable {
         payersDownloadSearch = new PayersDownload();
         practitionersDownload = new PractitionersDownload();
         practitionersDownloadSearch = new PractitionersDownload();
+        imagingStudiesDownload = new ImagingStudiesDownload();
 
         datasetUtility = new DatasetService();
         personElement = null;
@@ -669,9 +673,17 @@ public class HelloController implements Initializable {
         if (firstClickEncounter) {
             firstClickEncounter = false;
             imageTable.getItems().clear();
-            /*
-            * TODO: RICHIAMA I METODI DI DOWNLOAD E CONVERSIONE
-            **/
+
+            imagingStudiesDownload.download();
+            List<ImagingStudy> imagingStudies = imagingStudiesDownload.getImages();
+            ImagingStudiesConverter imagingStudiesConverter = new ImagingStudiesConverter(imagingStudies);
+            imagingStudiesConverter.convert();
+
+            if (imagingStudiesConverter.getFieldsListImagingStudies().isEmpty())
+                throw new RuntimeException("Imaging Studies Data Conversion Error");
+            for (ImagingStudiesConverter.ImagingStudiesClass imagingStudy : imagingStudiesConverter.getFieldsListImagingStudies())
+                imageTable.getItems().add(imagingStudy);
+            autoResizeColumns(imageTable);
         }
     }
 
@@ -876,6 +888,22 @@ public class HelloController implements Initializable {
             for (EncounterConverter.EncounterClass encounter : encounterConverter.getFieldsListEncounter())
                 encounterTable.getItems().add(encounter);
             autoResizeColumns(encounterTable);
+        }
+    }
+
+    public void imageScrollTable(ScrollEvent scrollEvent) {
+        if(scrollEvent.getDeltaY()<0){
+            imageTable.getItems().clear();
+            imagingStudiesDownload.download();
+            List<ImagingStudy> imagingStudies = imagingStudiesDownload.getImages();
+            ImagingStudiesConverter imagingStudiesConverter = new ImagingStudiesConverter(imagingStudies);
+            imagingStudiesConverter.convert();
+            if (imagingStudiesConverter.getFieldsListImagingStudies().isEmpty())
+                throw new RuntimeException("Imaging Studies Data Conversion Error");
+            for (ImagingStudiesConverter.ImagingStudiesClass imagingStudy : imagingStudiesConverter.getFieldsListImagingStudies())
+                imageTable.getItems().add(imagingStudy);
+            autoResizeColumns(imageTable);
+
         }
     }
 
@@ -1134,4 +1162,6 @@ public class HelloController implements Initializable {
             column.setPrefWidth( max + 10.0d );
         } );
     }
+
+
 }

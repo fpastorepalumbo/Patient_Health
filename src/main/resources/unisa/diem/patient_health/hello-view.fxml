@@ -183,7 +183,7 @@
                 </Pane>
 
                 <Pane fx:id="imagingPane" prefHeight="685.0" prefWidth="1045.0">
-                    <TableView fx:id="imageTable" layoutX="14.0" layoutY="14.0" prefHeight="662.0" prefWidth="1022.0">
+                    <TableView fx:id="imageTable" layoutX="14.0" layoutY="14.0" onScroll="#imageScrollTable" prefHeight="662.0" prefWidth="1022.0">
                         <columns>
                             <TableColumn fx:id="bodyCodeClm" prefWidth="117.0" text="Body Site Code" />
                             <TableColumn fx:id="bodyDescrClm" prefWidth="166.0" text="Body Site Description" />
