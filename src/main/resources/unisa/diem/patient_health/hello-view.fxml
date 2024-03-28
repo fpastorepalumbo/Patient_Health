@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="unisa.diem.patient_health.HelloController">
     <MenuBar prefHeight="74.0" prefWidth="1280.0">
@@ -25,6 +26,8 @@
             <CheckBox fx:id="checkBox4" layoutX="14.0" layoutY="395.0" mnemonicParsing="false" />
             <CheckBox fx:id="checkBox1" layoutX="14.0" layoutY="315.0" mnemonicParsing="false" />
             <CheckBox fx:id="checkBox5" layoutX="14.0" layoutY="421.0" mnemonicParsing="false" />
+            <Line endX="113.0" layoutX="114.0" layoutY="250.0" startX="-114.0" />
+            <Label fx:id="imageShowLabel" alignment="CENTER" layoutX="16.0" layoutY="376.0" onMouseClicked="#showImagePatientClick" prefHeight="39.0" prefWidth="196.0" text="Show Image Study" />
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="672.0" prefWidth="1045.0">
                 <Pane fx:id="patientPane" prefHeight="695.0" prefWidth="1045.0" visible="false">
@@ -115,7 +118,7 @@
                     </TableView>
                 </Pane>
 
-                <Pane fx:id="exstEncounterPane" prefHeight="685.0" prefWidth="1045.0" visible="false">
+                <Pane fx:id="exstEncounterPane" prefHeight="685.0" prefWidth="1045.0">
                     <Pane fx:id="encounterPane1" prefHeight="685.0" prefWidth="1045.0">
                         <TableView fx:id="encounterTable" layoutX="14.0" layoutY="14.0" onMouseClicked="#clickEncounterTable" onScroll="#encounterScrollTable" prefHeight="403.0" prefWidth="1022.0">
                             <columns>
@@ -182,8 +185,8 @@
                     </Pane>
                 </Pane>
 
-                <Pane fx:id="imagingPane" prefHeight="685.0" prefWidth="1045.0">
-                    <TableView fx:id="imageTable" layoutX="14.0" layoutY="14.0" onScroll="#imageScrollTable" prefHeight="662.0" prefWidth="1022.0">
+                <Pane fx:id="imagingPane" prefHeight="685.0" prefWidth="1045.0" visible="false">
+                    <TableView fx:id="imageTable" layoutX="14.0" layoutY="14.0" onMouseClicked="#clickImageTable" onScroll="#imageScrollTable" prefHeight="662.0" prefWidth="1022.0">
                         <columns>
                             <TableColumn fx:id="bodyCodeClm" prefWidth="117.0" text="Body Site Code" />
                             <TableColumn fx:id="bodyDescrClm" prefWidth="166.0" text="Body Site Description" />

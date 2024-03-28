@@ -253,6 +253,8 @@ public class HelloController implements Initializable {
     @FXML
     public TableColumn encounterImageClm;
 
+    public Label imageShowLabel;
+
     @FXML
     private Label welcomeText;
     @FXML
@@ -348,6 +350,8 @@ public class HelloController implements Initializable {
         checkBox4.setVisible(false);
         checkBox5.setVisible(false);
         checkBox6.setVisible(false);
+
+        imageShowLabel.setVisible(false);
 
         checkBox1.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if(newValue){
@@ -535,6 +539,7 @@ public class HelloController implements Initializable {
 
         setSearchPatient();
 
+
         patientPane.setVisible(true);
         organizationPane.setVisible(false);
         exstEncounterPane.setVisible(false);
@@ -546,6 +551,7 @@ public class HelloController implements Initializable {
         conditionTable.setVisible(false);
         immunizationTable.setVisible(false);
         carePlanTable.setVisible(false);
+        imageShowLabel.setVisible(false);
 
         if (firstClickPatient) {
             firstClickPatient = false;
@@ -577,6 +583,7 @@ public class HelloController implements Initializable {
         imagingPane.setVisible(false);
         encounterPane1.setVisible(false);
         encounterPane2.setVisible(false);
+        imageShowLabel.setVisible(false);
 
         if (firstClickOrganization) {
             firstClickOrganization = false;
@@ -634,6 +641,7 @@ public class HelloController implements Initializable {
         patientPane.setVisible(false);
         organizationPane.setVisible(false);
         imagingPane.setVisible(false);
+        imageShowLabel.setVisible(false);
 
         if (firstClickEncounter) {
             firstClickEncounter = false;
@@ -663,6 +671,7 @@ public class HelloController implements Initializable {
         exstEncounterPane.setVisible(false);
         encounterPane1.setVisible(false);
         encounterPane2.setVisible(false);
+        imageShowLabel.setVisible(false);
 
         if (firstClickImaging) {
             firstClickImaging = false;
@@ -686,7 +695,9 @@ public class HelloController implements Initializable {
         immunizationTable.getItems().clear();
         carePlanTable.getItems().clear();
         personElement = personTable.getSelectionModel().getSelectedItem();
-         
+
+        imageShowLabel.setVisible(true);
+
         if(personElement != null) {
             allergyTable.setVisible(true);
             conditionTable.setVisible(true);
@@ -736,6 +747,7 @@ public class HelloController implements Initializable {
         patientPane.setVisible(false);
         organizationPane.setVisible(false);
         imagingPane.setVisible(false);
+        imageShowLabel.setVisible(false);
 
         observationTable.getItems().clear();
         medReqTable.getItems().clear();
@@ -812,6 +824,15 @@ public class HelloController implements Initializable {
         for (CarePlanConverter.CarePlanClass carePlan : carePlanConverter.getFieldsListCarePlan())
             carePlanTable.getItems().add(carePlan);
         autoResizeColumns(carePlanTable);
+    }
+
+    public void clickImageTable() {
+        ImagingStudiesConverter.ImagingStudiesClass imageElement = imageTable.getSelectionModel().getSelectedItem();
+
+        if (imageElement != null) {
+
+        }
+        //TODO: implement the image visualization
     }
 
     public void loadDataset() {
@@ -1079,6 +1100,7 @@ public class HelloController implements Initializable {
         checkBox5.setVisible(false);
         checkBox6.setVisible(false);
         checkBox1.setSelected(true);
+        imageShowLabel.setVisible(false);
     }
 
     public void setSearchOrganization(){
@@ -1097,6 +1119,7 @@ public class HelloController implements Initializable {
         checkBox6.setVisible(true);
         checkBox6.setText("Practitioner ID");
         checkBox1.setSelected(true);
+        imageShowLabel.setVisible(false);
     }
 
     public void setSearchOff(){
@@ -1108,6 +1131,7 @@ public class HelloController implements Initializable {
         checkBox4.setVisible(false);
         checkBox5.setVisible(false);
         checkBox6.setVisible(false);
+        imageShowLabel.setVisible(false);
     }
 
     public void setSearchEncounter(){
@@ -1122,6 +1146,7 @@ public class HelloController implements Initializable {
         checkBox5.setVisible(false);
         checkBox6.setVisible(false);
         checkBox1.setSelected(true);
+        imageShowLabel.setVisible(false);
     }
 
     public void setSearchImage(){
@@ -1136,10 +1161,35 @@ public class HelloController implements Initializable {
         checkBox5.setVisible(false);
         checkBox6.setVisible(false);
         checkBox1.setSelected(true);
+        imageShowLabel.setVisible(false);
     }
 
-    public static void autoResizeColumns( TableView<?> table )
-    {
+    public void showImagePatientClick() {
+        if(personElement.getId() == null){
+            new Alert(Alert.AlertType.ERROR, "Patient not selected").showAndWait();
+            return;
+        }
+        patientPane.setVisible(false);
+        organizationPane.setVisible(false);
+        exstEncounterPane.setVisible(false);
+        encounterPane1.setVisible(false);
+        encounterPane2.setVisible(false);
+        imagingPane.setVisible(true);
+
+        imagingStudiesDownloadSearch.downloadImageWithPatientId(personElement.getId());
+        List<ImagingStudy> imagingStudies = imagingStudiesDownloadSearch.getImageSearch();
+        ImagingStudiesConverter imagingStudiesConverter = new ImagingStudiesConverter(imagingStudies);
+        imagingStudiesConverter.convert();
+        if (imagingStudiesConverter.getFieldsListImagingStudies().isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Image not found").showAndWait();
+            return;
+        }
+        for (ImagingStudiesConverter.ImagingStudiesClass imagingStudy : imagingStudiesConverter.getFieldsListImagingStudies())
+            imageTable.getItems().add(imagingStudy);
+        autoResizeColumns(imageTable);
+    }
+
+    public static void autoResizeColumns( TableView<?> table ){
         //Set the right policy
         table.setColumnResizePolicy( TableView.UNCONSTRAINED_RESIZE_POLICY);
         table.getColumns().stream().forEach( (column) ->
@@ -1165,4 +1215,7 @@ public class HelloController implements Initializable {
             column.setPrefWidth( max + 10.0d );
         } );
     }
+
+
+
 }
