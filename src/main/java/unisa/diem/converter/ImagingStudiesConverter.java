@@ -9,10 +9,9 @@ import org.hl7.fhir.r4.model.ImagingStudy;
 
 import java.util.List;
 
-public class ImagingStudiesConverter {
+public class ImagingStudiesConverter extends BaseConverter {
 
-
-    private List<ImagingStudy> bundleImagingStudies;
+    private final List<ImagingStudy> bundleImagingStudies;
 
     @Getter
     @FXML
@@ -23,25 +22,34 @@ public class ImagingStudiesConverter {
         this.fieldsListImagingStudies = FXCollections.observableArrayList();
     }
 
-
+    @Override
     public void convert(){
         for(ImagingStudy imagingStudy : bundleImagingStudies) {
             ImagingStudiesClass isc = new ImagingStudiesClass();
             String[] parts;
 
-            isc.setBodySiteCode(imagingStudy.getBodySite().getCoding().get(0).getCode());
-            isc.setBodySiteDescription(imagingStudy.getBodySite().getCoding().get(0).getDisplay());
-            isc.setModalityCode(imagingStudy.getModality().getCoding().get(0).getCode());
-            isc.setModalityDescription(imagingStudy.getModality().getCoding().get(0).getDisplay());
-            isc.setSopCode(imagingStudy.getSeries().get(0).getUid());
-            isc.setSopDescription(imagingStudy.getSeries().get(0).getModality().getCoding().get(0).getDisplay());
-            parts = imagingStudy.getStarted().toString().split(" ");
-            isc.setDate(parts[5] + "-" + parts[1] + "-" + parts[2]);
+            isc.setBodySiteCode(imagingStudy.getSeries().get(0).getBodySite().getCode());
+
+            isc.setBodySiteDescription(imagingStudy.getSeries().get(0).getBodySite().getDisplay());
+
+            isc.setModalityCode(imagingStudy.getModality().get(0).getCode());
+
+            isc.setModalityDescription(imagingStudy.getModality().get(0).getDisplay());
+
+            isc.setSopCode(imagingStudy.getSeries().get(0).getInstance().get(0).getSopClass().getCode());
+
+            isc.setSopDescription(imagingStudy.getSeries().get(0).getInstance().get(0).getSopClass().getCode());
+
+            parts = imagingStudy.getStarted().toString().split("T");
+            isc.setDate(parts[1]);
+
             isc.setPatient(imagingStudy.getSubject().getReference());
+
             isc.setEncounter(imagingStudy.getEncounter().getReference());
 
             fieldsListImagingStudies.add(isc);
         }
+
         if (fieldsListImagingStudies.isEmpty()) {
             ImagingStudiesClass isc = new ImagingStudiesClass();
             isc.setBodySiteCode("N/A");
@@ -53,39 +61,21 @@ public class ImagingStudiesConverter {
             isc.setDate("N/A");
             isc.setPatient("N/A");
             isc.setEncounter("N/A");
+            fieldsListImagingStudies.add(isc);
         }
-
     }
 
-
-
-    public class ImagingStudiesClass {
-        @Getter
-        @Setter
+    @Setter
+    @Getter
+    public static class ImagingStudiesClass {
         private String bodySiteCode;
-        @Getter
-        @Setter
         private String bodySiteDescription;
-        @Getter
-        @Setter
         private String modalityCode;
-        @Getter
-        @Setter
         private String modalityDescription;
-        @Getter
-        @Setter
         private String sopCode;
-        @Getter
-        @Setter
         private String sopDescription;
-        @Getter
-        @Setter
         private String date;
-        @Getter
-        @Setter
         private String patient;
-        @Getter
-        @Setter
         private String encounter;
 
         public ImagingStudiesClass() {
