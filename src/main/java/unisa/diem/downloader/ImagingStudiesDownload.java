@@ -15,13 +15,10 @@ public class ImagingStudiesDownload {
     FhirContext ctx = FhirContext.forR4();
     String serverBaseUrl = "http://localhost:8080/fhir";
     IGenericClient client = ctx.newRestfulGenericClient(serverBaseUrl);
-
     @Getter
     List<ImagingStudy> images;
-
     @Getter
     List<ImagingStudy> imageSearch;
-
     @Setter
     @Getter
     int count;
@@ -36,7 +33,7 @@ public class ImagingStudiesDownload {
         Bundle  bundle;
         try {
             bundle = (Bundle) client.search().forResource(ImagingStudy.class).offset(count).count(30)
-                    .prettyPrint()
+                    .encodedXml()
                     .execute();
             count = count + 30;
         } catch (Exception e) {
@@ -77,7 +74,7 @@ public class ImagingStudiesDownload {
         try {
             bundle = (Bundle) client.search().forResource(ImagingStudy.class)
                     .where(new ReferenceClientParam("encounter").hasId(encounterId))
-                    .prettyPrint()
+                    .encodedXml()
                     .execute();
         } catch (Exception e) {
             throw new RuntimeException("Error during the download of the ImagingStudies");
@@ -88,6 +85,5 @@ public class ImagingStudiesDownload {
 
         if (imageSearch.isEmpty())
             throw new RuntimeException("No ImagingStudies found");
-
     }
 }

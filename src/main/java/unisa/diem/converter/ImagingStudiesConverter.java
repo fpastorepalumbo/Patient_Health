@@ -3,6 +3,7 @@ package unisa.diem.converter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import lombok.Getter;
 import lombok.Setter;
 import org.hl7.fhir.r4.model.ImagingStudy;
@@ -37,7 +38,7 @@ public class ImagingStudiesConverter extends BaseConverter {
 
             isc.setSopCode(imagingStudy.getSeries().get(0).getInstance().get(0).getSopClass().getCode());
 
-            isc.setSopDescription(imagingStudy.getSeries().get(0).getInstance().get(0).getSopClass().getCode());
+            isc.setSopDescription(imagingStudy.getSeries().get(0).getInstance().get(0).getSopClass().getDisplay());
 
             parts = imagingStudy.getStarted().toString().split(" ");
             isc.setDate(parts[5]+ "-" + parts[1] + "-" + parts[2]);

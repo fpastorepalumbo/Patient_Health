@@ -664,8 +664,8 @@ public class HelloController implements Initializable {
         encounterPane1.setVisible(false);
         encounterPane2.setVisible(false);
 
-        if (firstClickEncounter) {
-            firstClickEncounter = false;
+        if (firstClickImaging) {
+            firstClickImaging = false;
             imageTable.getItems().clear();
             imagingStudiesDownload.download();
             List<ImagingStudy> imagingStudies = imagingStudiesDownload.getImages();
@@ -750,8 +750,6 @@ public class HelloController implements Initializable {
             procedureTable.setVisible(true);
             deviceTable.setVisible(true);
             String encID = encounterElement.getId();
-
-            System.out.println(encID);
 
             ObservationsDownload observationDownload = new ObservationsDownload(encID);
             observationDownload.download();
@@ -1048,16 +1046,15 @@ public class HelloController implements Initializable {
             autoResizeColumns(encounterTable);
 
         } else if (imagingPane.isVisible()) {
-
             firstClickImaging= true;
             imageTable.getItems().clear();
 
-            if(checkBox1.isSelected())
+            if (checkBox1.isSelected())
                 imagingStudiesDownloadSearch.downloadImageWithPatientId(search1);
             else if (checkBox2.isSelected())
                 imagingStudiesDownloadSearch.downloadImageWithEncounterId(search1);
 
-            List<ImagingStudy> imagingStudies = imagingStudiesDownload.getImageSearch();
+            List<ImagingStudy> imagingStudies = imagingStudiesDownloadSearch.getImageSearch();
             ImagingStudiesConverter imagingStudiesConverter = new ImagingStudiesConverter(imagingStudies);
             imagingStudiesConverter.convert();
             if (imagingStudiesConverter.getFieldsListImagingStudies().isEmpty()) {
