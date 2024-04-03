@@ -16,6 +16,7 @@ module unisa.diem.patient_health {
     requires ipf.oht.mdht.uml.hl7.datatypes;
     requires ipf.oht.mdht.uml.hl7.vocab;
     requires commons.net;
+    requires org.eclipse.emf.common;
 
 
     opens unisa.diem.patient_health to javafx.fxml;

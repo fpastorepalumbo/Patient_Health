@@ -6,33 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="e9d5dc9a-86d9-43b9-876d-da441170e0d0" name="Changes" comment="ho quasi aggiustato patient">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/converter/OrganizationConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/converter/OrganizationConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/converter/ProceduresConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/converter/ProceduresConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/BaseDownloader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/BaseDownloader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/CarePlanDownload.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/CarePlanDownload.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/DevicesDownload.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/DevicesDownload.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/EncountersDownload.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/EncountersDownload.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/MedicationRequestDownload.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/MedicationRequestDownload.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/ObservationsDownload.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/ObservationsDownload.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/OrganizationDownload.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/OrganizationDownload.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/PayersDownload.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/PayersDownload.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/PractitionersDownload.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/PractitionersDownload.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/ProceduresDownload.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/downloader/ProceduresDownload.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/AllergiesLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/AllergiesLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/CarePlansLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/CarePlansLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/ConditionsLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/ConditionsLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/DatasetService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/DatasetService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/DevicesLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/DevicesLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/EncountersLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/EncountersLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/ImagingStudiesLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/ImagingStudiesLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/ImmunizationsLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/ImmunizationsLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/MedicationRequestsLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/MedicationRequestsLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/ObservationsLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/ObservationsLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/OrganizationsLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/OrganizationsLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/PatientsLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/PatientsLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/PayersLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/PayersLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/PractitionersLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/PractitionersLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/ProceduresLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/parser/ProceduresLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/unisa/diem/cda/CDAService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unisa/diem/cda/CDAService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -143,6 +118,7 @@
       <workItem from="1710179131250" duration="2029000" />
       <workItem from="1710341645635" duration="2985000" />
       <workItem from="1710344659868" duration="762000" />
+      <workItem from="1712139252632" duration="640000" />
     </task>
     <task id="LOCAL-00001" summary="prima">
       <created>1708533059670</created>
