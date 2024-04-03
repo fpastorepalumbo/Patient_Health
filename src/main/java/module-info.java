@@ -12,6 +12,10 @@ module unisa.diem.patient_health {
     requires org.apache.commons.csv;
     requires com.fasterxml.jackson.core;
     requires org.apache.commons.lang3;
+    requires ipf.oht.mdht.uml.cda;
+    requires ipf.oht.mdht.uml.hl7.datatypes;
+    requires ipf.oht.mdht.uml.hl7.vocab;
+    requires commons.net;
 
 
     opens unisa.diem.patient_health to javafx.fxml;
