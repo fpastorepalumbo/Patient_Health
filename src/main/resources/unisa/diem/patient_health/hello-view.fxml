@@ -45,6 +45,12 @@
                             <TableColumn fx:id="cityClmPersona" prefWidth="106.0" text="City" />
                             <TableColumn fx:id="stateClmPersona" prefWidth="91.0" text="State" />
                         </columns>
+                        <ContextMenu>
+                            <items>
+                                <MenuItem fx:id="copiaIDPatient" mnemonicParsing="false" onAction="#copyIDPatient" text="Copy Patient ID" />
+                                <MenuItem fx:id="examinePatient" mnemonicParsing="false" onAction="#examinePatient" text="Examine Patient" />
+                            </items>
+                        </ContextMenu>
                     </TableView>
 
                     <TableView fx:id="allergyTable" layoutX="14.0" layoutY="248.0" prefHeight="118.0" prefWidth="558.0">
@@ -74,6 +80,11 @@
                             <TableColumn fx:id="stopDateClmCondition" prefWidth="75.0" text="Stop Date" />
                             <TableColumn fx:id="encounterClmCondition" prefWidth="88.0" text="Encounter" />
                         </columns>
+                        <ContextMenu>
+                            <items>
+                                <MenuItem fx:id="examineCondition" mnemonicParsing="false" onAction="#examineCondition" text="Examine Condition" />
+                            </items>
+                        </ContextMenu>
                     </TableView>
 
                     <TableView fx:id="carePlanTable" layoutX="590.0" layoutY="557.0" prefHeight="87.0" prefWidth="443.0">
@@ -94,6 +105,11 @@
                             <TableColumn fx:id="stateOrganizationClm" minWidth="0.0" prefWidth="177.0" text="State" />
                             <TableColumn fx:id="phoneOrganizationClm" minWidth="1.0" prefWidth="195.0" text="Phone Number" />
                         </columns>
+                        <ContextMenu>
+                            <items>
+                                <MenuItem fx:id="copyNameOrg" mnemonicParsing="false" onAction="#copyNameOrganization" text="Copy Organization Name" />
+                            </items>
+                        </ContextMenu>
                     </TableView>
 
                     <TableView fx:id="payerTable" layoutX="14.0" layoutY="271.0" prefHeight="234.0" prefWidth="772.0">
@@ -103,6 +119,11 @@
                             <TableColumn fx:id="statePayerClm" prefWidth="317.0" text="State" />
                             <TableColumn fx:id="phonePayerClm" prefWidth="195.0" text="Phone Number" />
                         </columns>
+                        <ContextMenu>
+                            <items>
+                                <MenuItem fx:id="copyNamePayer" mnemonicParsing="false" onAction="#copyNamePayer" text="Copy Payer Name" />
+                            </items>
+                        </ContextMenu>
                     </TableView>
 
                     <TableView fx:id="practitionerTable" layoutX="14.0" layoutY="516.0" onScroll="#practitionerScrollTable" prefHeight="165.0" prefWidth="772.0">
@@ -115,6 +136,11 @@
                             <TableColumn fx:id="cityPractitionerClm" prefWidth="100.0" text="City" />
                             <TableColumn fx:id="statePractitionerClm" prefWidth="110.0" text="State" />
                         </columns>
+                        <ContextMenu>
+                            <items>
+                                <MenuItem fx:id="copiaNamePract" mnemonicParsing="false" onAction="#copyNamePractotioner" text="Copy Practitioner Name" />
+                            </items>
+                        </ContextMenu>
                     </TableView>
                 </Pane>
 
@@ -137,8 +163,9 @@
                             <contextMenu>
                                 <ContextMenu>
                                     <items>
-                                        <MenuItem fx:id="copiaIDBtn" mnemonicParsing="false" onAction="#copyID" text="Cancella Contatto" />
-                                        <MenuItem fx:id="generateCDABtn" mnemonicParsing="false" onAction="#generateCDA" text="Copia Contatto..." />
+                                        <MenuItem fx:id="copiaIDBtn" mnemonicParsing="false" onAction="#copyIDEncounter" text="Copy Encounter ID" />
+                                        <MenuItem fx:id="generateCDABtn" mnemonicParsing="false" onAction="#generateCDAEncounter" text="Generate CDA" />
+                                        <MenuItem fx:id="examineEncounter" mnemonicParsing="false" onAction="#examineEncounter" text="Examine Encounter" />
                                     </items>
                                 </ContextMenu>
                             </contextMenu>
@@ -154,6 +181,13 @@
                                 <TableColumn fx:id="dateObservationClm" prefWidth="156.0" text="Date" />
                                 <TableColumn fx:id="patientObservationClm" prefWidth="156.0" text="Patient" />
                             </columns>
+                            <contextMenu>
+                                <ContextMenu>
+                                    <items>
+                                        <MenuItem fx:id="copiaIDObs" mnemonicParsing="false" onAction="#copyIDObservation" text="Copy Observation ID" />
+                                       </items>
+                                </ContextMenu>
+                            </contextMenu>
                         </TableView>
 
                         <TableView fx:id="medReqTable" layoutX="14.0" layoutY="14.0" prefHeight="327.0" prefWidth="558.0">
@@ -169,6 +203,13 @@
                                 <TableColumn fx:id="patientMedReqClm" prefWidth="128.0" text="Patient" />
                                 <TableColumn fx:id="payerMedReqClm" prefWidth="176.0" text="Payer" />
                             </columns>
+                            <contextMenu>
+                                <ContextMenu>
+                                    <items>
+                                        <MenuItem fx:id="copiaIDMedReq" mnemonicParsing="false" onAction="#copyIDMedReq" text="Copy MedReq ID" />
+                                    </items>
+                                </ContextMenu>
+                            </contextMenu>
                         </TableView>
 
                         <TableView fx:id="procedureTable" layoutX="9.0" layoutY="354.0" prefHeight="317.0" prefWidth="565.0">
@@ -178,6 +219,13 @@
                                 <TableColumn fx:id="dateProcedureClm" prefWidth="122.0" text="Date" />
                                 <TableColumn fx:id="patientProcedureClm" prefWidth="180.0" text="Patient" />
                             </columns>
+                            <contextMenu>
+                                <ContextMenu>
+                                    <items>
+                                        <MenuItem fx:id="copiaIDProcedure" mnemonicParsing="false" onAction="#copyIDProcedure" text="Copy Procedure ID" />
+                                    </items>
+                                </ContextMenu>
+                            </contextMenu>
                         </TableView>
 
                         <TableView fx:id="deviceTable" layoutX="583.0" layoutY="354.0" prefHeight="317.0" prefWidth="455.0">
@@ -188,6 +236,13 @@
                                 <TableColumn fx:id="stopDateDeviceClm" prefWidth="113.0" text="Stop Date" />
                                 <TableColumn fx:id="patientDeviceClm" prefWidth="129.0" text="Patient" />
                             </columns>
+                            <contextMenu>
+                                <ContextMenu>
+                                    <items>
+                                        <MenuItem fx:id="copiaIDDevice" mnemonicParsing="false" onAction="#copyIDDevice" text="Copy Device ID" />
+                                    </items>
+                                </ContextMenu>
+                            </contextMenu>
                         </TableView>
 
                     </Pane>

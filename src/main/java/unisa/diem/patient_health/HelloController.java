@@ -429,16 +429,22 @@ public class HelloController implements Initializable {
         cityClmPersona.setCellValueFactory(new PropertyValueFactory<>("city"));
         stateClmPersona.setCellValueFactory(new PropertyValueFactory<>("state"));
 
+        nameClmPersona.setCellFactory(TextFieldTableCell.forTableColumn());
+
         codeClmAllergy.setCellValueFactory(new PropertyValueFactory<>("code"));
         descriptionClmAllergy.setCellValueFactory(new PropertyValueFactory<>("description"));
         startDateClmAllergy.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         stopDateClmAllergy.setCellValueFactory(new PropertyValueFactory<>("stopDate"));
         encounterClmAllergy.setCellValueFactory(new PropertyValueFactory<>("encounter"));
 
+        codeClmAllergy.setCellFactory(TextFieldTableCell.forTableColumn());
+
         codeClmImmunization.setCellValueFactory(new PropertyValueFactory<>("code"));
         descriptionClmImmunization.setCellValueFactory(new PropertyValueFactory<>("description"));
         dateClmImmunization.setCellValueFactory(new PropertyValueFactory<>("date"));
         encounterClmImmunization.setCellValueFactory(new PropertyValueFactory<>("encounter"));
+
+        codeClmImmunization.setCellFactory(TextFieldTableCell.forTableColumn());
 
         codeClmCondition.setCellValueFactory(new PropertyValueFactory<>("code"));
         descriptionClmCondition.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -446,20 +452,28 @@ public class HelloController implements Initializable {
         stopDateClmCondition.setCellValueFactory(new PropertyValueFactory<>("stopDate"));
         encounterClmCondition.setCellValueFactory(new PropertyValueFactory<>("encounter"));
 
+        codeClmCondition.setCellFactory(TextFieldTableCell.forTableColumn());
+
         codeClmCarePlan.setCellValueFactory(new PropertyValueFactory<>("code"));
         descriptionClmCarePlan.setCellValueFactory(new PropertyValueFactory<>("description"));
         reasonCodeClmCarePlan.setCellValueFactory(new PropertyValueFactory<>("reasonCode"));
         reasonDescriptionClmCarePlan.setCellValueFactory(new PropertyValueFactory<>("reasonDescription"));
+
+        codeClmCarePlan.setCellFactory(TextFieldTableCell.forTableColumn());
 
         organizationNameClm.setCellValueFactory(new PropertyValueFactory<>("name"));
         cityOrganizationClm.setCellValueFactory(new PropertyValueFactory<>("city"));
         stateOrganizationClm.setCellValueFactory(new PropertyValueFactory<>("state"));
         phoneOrganizationClm.setCellValueFactory(new PropertyValueFactory<>("phone"));
 
+        organizationNameClm.setCellFactory(TextFieldTableCell.forTableColumn());
+
         payerNameClm.setCellValueFactory(new PropertyValueFactory<>("name"));
         cityPayerClm.setCellValueFactory(new PropertyValueFactory<>("city"));
         statePayerClm.setCellValueFactory(new PropertyValueFactory<>("state"));
         phonePayerClm.setCellValueFactory(new PropertyValueFactory<>("phone"));
+
+        payerNameClm.setCellFactory(TextFieldTableCell.forTableColumn());
 
         namePractitionerClm.setCellValueFactory(new PropertyValueFactory<>("name"));
         genderPractitionerClm.setCellValueFactory(new PropertyValueFactory<>("gender"));
@@ -468,6 +482,8 @@ public class HelloController implements Initializable {
         addressPractitionerClm.setCellValueFactory(new PropertyValueFactory<>("address"));
         cityPractitionerClm.setCellValueFactory(new PropertyValueFactory<>("city"));
         statePractitionerClm.setCellValueFactory(new PropertyValueFactory<>("state"));
+
+        namePractitionerClm.setCellFactory(TextFieldTableCell.forTableColumn());
 
         idEncounterClm.setCellValueFactory(new PropertyValueFactory<>("id"));
         codeEncounterClm.setCellValueFactory(new PropertyValueFactory<>("code"));
@@ -490,6 +506,9 @@ public class HelloController implements Initializable {
         dateObservationClm.setCellValueFactory(new PropertyValueFactory<>("date"));
         patientObservationClm.setCellValueFactory(new PropertyValueFactory<>("patient"));
 
+        observationEncounterClm2.setCellFactory(TextFieldTableCell.forTableColumn());
+
+
         codeMedReqClm.setCellValueFactory(new PropertyValueFactory<>("code"));
         descriptionMedReqClm.setCellValueFactory(new PropertyValueFactory<>("description"));
         baseCostMedReqClm.setCellValueFactory(new PropertyValueFactory<>("baseCost"));
@@ -501,16 +520,22 @@ public class HelloController implements Initializable {
         patientMedReqClm.setCellValueFactory(new PropertyValueFactory<>("patient"));
         payerMedReqClm.setCellValueFactory(new PropertyValueFactory<>("payer"));
 
+        codeMedReqClm.setCellFactory(TextFieldTableCell.forTableColumn());
+
         codeProcedureClm.setCellValueFactory(new PropertyValueFactory<>("code"));
         descriptionProcedureClm.setCellValueFactory(new PropertyValueFactory<>("description"));
         dateProcedureClm.setCellValueFactory(new PropertyValueFactory<>("date"));
         patientProcedureClm.setCellValueFactory(new PropertyValueFactory<>("patient"));
+
+        codeProcedureClm.setCellFactory(TextFieldTableCell.forTableColumn());
 
         codeDeviceClm.setCellValueFactory(new PropertyValueFactory<>("code"));
         descriptionDeviceClm.setCellValueFactory(new PropertyValueFactory<>("description"));
         startDateDeviceClm.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         stopDateDeviceClm.setCellValueFactory(new PropertyValueFactory<>("stopDate"));
         patientDeviceClm.setCellValueFactory(new PropertyValueFactory<>("patient"));
+
+        codeDeviceClm.setCellFactory(TextFieldTableCell.forTableColumn());
 
         bodyCodeClm.setCellValueFactory(new PropertyValueFactory<>("bodySiteCode"));
         bodyDescrClm.setCellValueFactory(new PropertyValueFactory<>("bodySiteDescription"));
@@ -1182,15 +1207,6 @@ public class HelloController implements Initializable {
         } );
     }
 
-
-    public void copyID(ActionEvent actionEvent) {
-        String id = encounterTable.getSelectionModel().getSelectedItem().getId();
-        final Clipboard clipboard = Clipboard.getSystemClipboard();
-        final ClipboardContent content = new ClipboardContent();
-        content.putString(id);
-        clipboard.setContent(content);
-    }
-
     public void generateCDA(ActionEvent actionEvent) {
         String id = encounterTable.getSelectionModel().getSelectedItem().getId();
         String patientID = encounterTable.getSelectionModel().getSelectedItem().getPatient();
@@ -1201,4 +1217,73 @@ public class HelloController implements Initializable {
         String coverage = encounterTable.getSelectionModel().getSelectedItem().getCoverage();
         //datasetUtility.generateCDA(id, patientID, organizationID, practitionerID, payerID, cost, coverage);
     }
+
+    public void copyIDEncounter(ActionEvent actionEvent) {
+        String id = encounterTable.getSelectionModel().getSelectedItem().getId();
+        copyID(id);
+    }
+
+
+    public void generateCDAEncounter(ActionEvent actionEvent) {
+    }
+
+    public void copyID(String id) {
+        final Clipboard clipboard = Clipboard.getSystemClipboard();
+        final ClipboardContent content = new ClipboardContent();
+        content.putString(id);
+        clipboard.setContent(content);
+    }
+
+    public void copyIDPatient(ActionEvent actionEvent) {
+        String id = personTable.getSelectionModel().getSelectedItem().getId();
+        copyID(id);
+    }
+
+    public void examinePatient(ActionEvent actionEvent) {
+        //copia il contenuto di ClickPatientTable
+    }
+
+    public void examineCondition(ActionEvent actionEvent) {
+        //copia il contenuto di ClickConditionTable
+    }
+
+    public void copyNameOrganization(ActionEvent actionEvent) {
+        String id = organizationTable.getSelectionModel().getSelectedItem().getName();
+        copyID(id);
+    }
+
+    public void copyNamePayer(ActionEvent actionEvent) {
+        String id = payerTable.getSelectionModel().getSelectedItem().getName();
+        copyID(id);
+    }
+
+    public void copyNamePractotioner(ActionEvent actionEvent) {
+        String id = practitionerTable.getSelectionModel().getSelectedItem().getName();
+        copyID(id);
+    }
+
+    public void examineEncounter(ActionEvent actionEvent) {
+        //copia il contenuto di ClickEncounterTable
+    }
+
+    public void copyIDDevice(ActionEvent actionEvent) {
+        String id = deviceTable.getSelectionModel().getSelectedItem().getCode();
+        copyID(id);
+    }
+
+    public void copyIDProcedure(ActionEvent actionEvent) {
+        String id = procedureTable.getSelectionModel().getSelectedItem().getCode();
+        copyID(id);
+    }
+
+    public void copyIDMedReq(ActionEvent actionEvent) {
+        String id = medReqTable.getSelectionModel().getSelectedItem().getCode();
+        copyID(id);
+    }
+
+    public void copyIDObservation(ActionEvent actionEvent) {
+        String id = observationTable.getSelectionModel().getSelectedItem().getCode();
+        copyID(id);
+    }
+
 }
