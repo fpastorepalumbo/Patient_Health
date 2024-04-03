@@ -134,6 +134,14 @@
                                 <TableColumn fx:id="costEncounterClm" prefWidth="96.0" text="Cost" />
                                 <TableColumn fx:id="coverageEncounterClm" prefWidth="127.0" text="Payer Coverage" />
                             </columns>
+                            <contextMenu>
+                                <ContextMenu>
+                                    <items>
+                                        <MenuItem fx:id="copiaIDBtn" mnemonicParsing="false" onAction="#copyID" text="Cancella Contatto" />
+                                        <MenuItem fx:id="generateCDABtn" mnemonicParsing="false" onAction="#generateCDA" text="Copia Contatto..." />
+                                    </items>
+                                </ContextMenu>
+                            </contextMenu>
                         </TableView>
 
                     </Pane>

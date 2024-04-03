@@ -1,9 +1,13 @@
 package unisa.diem.patient_health;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
@@ -48,6 +52,11 @@ public class HelloController implements Initializable {
     public TableView<DevicesConverter.DeviceClass> deviceTable;
     @FXML
     public TableView<ImagingStudiesConverter.ImagingStudiesClass> imageTable;
+
+    @FXML
+    public MenuItem copiaID;
+    @FXML
+    public MenuItem generateCDA;
 
     //  personTable
     @FXML
@@ -471,6 +480,9 @@ public class HelloController implements Initializable {
         payerEncounterClm.setCellValueFactory(new PropertyValueFactory<>("payer"));
         costEncounterClm.setCellValueFactory(new PropertyValueFactory<>("cost"));
         coverageEncounterClm.setCellValueFactory(new PropertyValueFactory<>("coverage"));
+
+        idEncounterClm.setCellFactory(TextFieldTableCell.forTableColumn());
+
 
         observationEncounterClm2.setCellValueFactory(new PropertyValueFactory<>("code"));
         descriptionEncounterClm2.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -1171,5 +1183,22 @@ public class HelloController implements Initializable {
     }
 
 
+    public void copyID(ActionEvent actionEvent) {
+        String id = encounterTable.getSelectionModel().getSelectedItem().getId();
+        final Clipboard clipboard = Clipboard.getSystemClipboard();
+        final ClipboardContent content = new ClipboardContent();
+        content.putString(id);
+        clipboard.setContent(content);
+    }
 
+    public void generateCDA(ActionEvent actionEvent) {
+        String id = encounterTable.getSelectionModel().getSelectedItem().getId();
+        String patientID = encounterTable.getSelectionModel().getSelectedItem().getPatient();
+        String organizationID = encounterTable.getSelectionModel().getSelectedItem().getOrganization();
+        String practitionerID = encounterTable.getSelectionModel().getSelectedItem().getPractitioner();
+        String payerID = encounterTable.getSelectionModel().getSelectedItem().getPayer();
+        String cost = encounterTable.getSelectionModel().getSelectedItem().getCost();
+        String coverage = encounterTable.getSelectionModel().getSelectedItem().getCoverage();
+        //datasetUtility.generateCDA(id, patientID, organizationID, practitionerID, payerID, cost, coverage);
+    }
 }
