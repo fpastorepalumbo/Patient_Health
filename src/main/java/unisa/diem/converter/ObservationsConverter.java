@@ -60,6 +60,7 @@ public class ObservationsConverter extends BaseConverter {
             ob.setValue("N/A");
             ob.setDate("N/A");
             ob.setPatient("N/A");
+            ob.setVuoto(true);
             fieldsListObservation.add(ob);
         }
     }
@@ -72,6 +73,7 @@ public class ObservationsConverter extends BaseConverter {
         private String value;
         private String date;
         private String patient;
+        private Boolean vuoto;
 
         public ObservationClass() {
             this.code = "";
@@ -79,6 +81,7 @@ public class ObservationsConverter extends BaseConverter {
             this.value = "";
             this.date = "";
             this.patient = "";
+            this.vuoto = false;
         }
 
         @Override
@@ -89,6 +92,7 @@ public class ObservationsConverter extends BaseConverter {
                     ", value='" + value + '\'' +
                     ", date='" + date + '\'' +
                     ", patient='" + patient + '\'' +
+                    ", vuoto=" + vuoto +
                     '}';
         }
     }

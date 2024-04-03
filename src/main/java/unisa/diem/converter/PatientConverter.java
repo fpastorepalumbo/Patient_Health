@@ -81,6 +81,7 @@ public class PatientConverter extends BaseConverter {
             pc.setAddress("N/A");
             pc.setCity("N/A");
             pc.setState("N/A");
+            pc.setVuoto(true);
             fieldsListPatient.add(pc);
         }
     }
@@ -100,6 +101,7 @@ public class PatientConverter extends BaseConverter {
         private String city;
         private String state;
         private String id;
+        private Boolean vuoto;
 
         public PatientClass() {
             this.name = "";
@@ -114,6 +116,7 @@ public class PatientConverter extends BaseConverter {
             this.city = "";
             this.state = "";
             this.id = "";
+            this.vuoto = false;
         }
 
         @Override
@@ -131,6 +134,7 @@ public class PatientConverter extends BaseConverter {
                     ", city='" + city + '\'' +
                     ", state='" + state + '\'' +
                     ", id='" + id + '\'' +
+                    ", vuoto=" + vuoto +
                     '}';
         }
     }

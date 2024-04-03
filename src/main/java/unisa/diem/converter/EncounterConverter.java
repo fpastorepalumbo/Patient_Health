@@ -89,6 +89,7 @@ public class EncounterConverter extends BaseConverter {
             ec.setPayer("N/A");
             ec.setCost("N/A");
             ec.setCoverage("N/A");
+            ec.setVuoto(true);
             fieldsListEncounter.add(ec);
         }
     }
@@ -145,6 +146,7 @@ public class EncounterConverter extends BaseConverter {
         private String payer;
         private String cost;
         private String coverage;
+        private Boolean vuoto;
 
         public EncounterClass() {
             this.id = "";
@@ -158,6 +160,7 @@ public class EncounterConverter extends BaseConverter {
             this.payer = "";
             this.cost = "";
             this.coverage = "";
+            this.vuoto = false;
         }
 
         @Override
@@ -174,6 +177,7 @@ public class EncounterConverter extends BaseConverter {
                     ", payer='" + payer + '\'' +
                     ", cost='" + cost + '\'' +
                     ", coverage='" + coverage + '\'' +
+                    ", vuoto=" + vuoto +
                     '}';
         }
     }

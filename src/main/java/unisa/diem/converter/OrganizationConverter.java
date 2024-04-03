@@ -44,6 +44,7 @@ public class OrganizationConverter extends BaseConverter {
             oc.setCity("N/A");
             oc.setState("N/A");
             oc.setPhone("N/A");
+            oc.setVuoto(true);
             fieldsListOrganization.add(oc);
         }
     }
@@ -55,12 +56,14 @@ public class OrganizationConverter extends BaseConverter {
         private String city;
         private String state;
         private String phone;
+        private Boolean vuoto;
 
         public OrganizationClass() {
             this.name = "";
             this.city = "";
             this.state = "";
             this.phone = "";
+            this.vuoto = false;
         }
 
         @Override
@@ -70,6 +73,7 @@ public class OrganizationConverter extends BaseConverter {
                     ", city='" + city + '\'' +
                     ", state='" + state + '\'' +
                     ", phone='" + phone + '\'' +
+                    ", vuoto=" + vuoto +
                     '}';
         }
     }

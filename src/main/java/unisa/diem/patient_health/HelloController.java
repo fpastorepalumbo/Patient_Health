@@ -562,8 +562,6 @@ public class HelloController implements Initializable {
             PatientConverter patientConverter = new PatientConverter(patients);
             patientConverter.convert();
 
-            if (patientConverter.getFieldsListPatient().isEmpty())
-                throw new RuntimeException("Patient Data Conversion Error");
             for (PatientConverter.PatientClass patient : patientConverter.getFieldsListPatient())
                 personTable.getItems().add(patient);
             autoResizeColumns(personTable);
@@ -596,8 +594,6 @@ public class HelloController implements Initializable {
             OrganizationConverter organizationConverter = new OrganizationConverter(organizations);
             organizationConverter.convert();
 
-            if (organizationConverter.getFieldsListOrganization().isEmpty())
-                throw new RuntimeException("Organization Data Conversion Error");
             for (OrganizationConverter.OrganizationClass organization : organizationConverter.getFieldsListOrganization())
                 organizationTable.getItems().add(organization);
             autoResizeColumns(organizationTable);
@@ -607,8 +603,6 @@ public class HelloController implements Initializable {
             PayersConverter payersConverter = new PayersConverter(payers);
             payersConverter.convert();
 
-            if (payersConverter.getFieldsListPayer().isEmpty())
-                throw new RuntimeException("Payers Data Conversion Error");
             for (PayersConverter.PayersClass payer : payersConverter.getFieldsListPayer())
                 payerTable.getItems().add(payer);
             autoResizeColumns(payerTable);
@@ -618,9 +612,6 @@ public class HelloController implements Initializable {
             PractitionersConverter practitionersConverter = new PractitionersConverter(practitioners);
             practitionersConverter.convert();
 
-            if (practitionersConverter.getFieldsListPractitioner().isEmpty()) {
-                throw new RuntimeException("Practitioners Data Conversion Error");
-            }
             for (PractitionersConverter.PractitionerClass practitioner : practitionersConverter.getFieldsListPractitioner()) {
                 practitionerTable.getItems().add(practitioner);
             }
@@ -651,8 +642,6 @@ public class HelloController implements Initializable {
             EncounterConverter encounterConverter = new EncounterConverter(encounters);
             encounterConverter.convert();
 
-            if (encounterConverter.getFieldsListEncounter().isEmpty())
-                throw new RuntimeException("Encounter Data Conversion Error");
             for (EncounterConverter.EncounterClass encounter : encounterConverter.getFieldsListEncounter())
                 encounterTable.getItems().add(encounter);
             autoResizeColumns(encounterTable);
@@ -681,8 +670,6 @@ public class HelloController implements Initializable {
             ImagingStudiesConverter imagingStudiesConverter = new ImagingStudiesConverter(imagingStudies);
             imagingStudiesConverter.convert();
 
-            if (imagingStudiesConverter.getFieldsListImagingStudies().isEmpty())
-                throw new RuntimeException("Imaging Studies Data Conversion Error");
             for (ImagingStudiesConverter.ImagingStudiesClass imagingStudy : imagingStudiesConverter.getFieldsListImagingStudies())
                 imageTable.getItems().add(imagingStudy);
             autoResizeColumns(imageTable);
@@ -709,8 +696,6 @@ public class HelloController implements Initializable {
             List<AllergyIntolerance> allergies = allergyDownload.getAllergies();
             AllergyConverter allergyConverter = new AllergyConverter(allergies);
             allergyConverter.convert();
-            if (allergyConverter.getFieldsListAllergy().isEmpty())
-                throw new RuntimeException("Allergy Data Conversion Error");
             for (AllergyConverter.AllergyClass allergy : allergyConverter.getFieldsListAllergy())
                 allergyTable.getItems().add(allergy);
             autoResizeColumns(allergyTable);
@@ -720,8 +705,6 @@ public class HelloController implements Initializable {
             List<Immunization> immunizations = immunizationDownload.getImmunizations();
             ImmunizationConverter immunizationConverter = new ImmunizationConverter(immunizations);
             immunizationConverter.convert();
-            if (immunizationConverter.getFieldsListImmunization().isEmpty())
-                throw new RuntimeException("Immunization Data Conversion Error");
             for (ImmunizationConverter.ImmunizationClass immunization : immunizationConverter.getFieldsListImmunization())
                 immunizationTable.getItems().add(immunization);
             autoResizeColumns(immunizationTable);
@@ -731,8 +714,6 @@ public class HelloController implements Initializable {
             List<Condition> conditions = conditionDownload.getConditions();
             ConditionConverter conditionConverter = new ConditionConverter(conditions);
             conditionConverter.convert();
-            if (conditionConverter.getFieldsListCondition().isEmpty())
-                throw new RuntimeException("Condition Data Conversion Error");
             for (ConditionConverter.ConditionClass condition : conditionConverter.getFieldsListCondition())
                 conditionTable.getItems().add(condition);
             autoResizeColumns(conditionTable);
@@ -768,8 +749,6 @@ public class HelloController implements Initializable {
             List<Observation> observations = observationDownload.getObservations();
             ObservationsConverter observationsConverter = new ObservationsConverter(observations);
             observationsConverter.convert();
-            if (observationsConverter.getFieldsListObservation().isEmpty())
-                throw new RuntimeException("Observation Data Conversion Error");
             for (ObservationsConverter.ObservationClass observation : observationsConverter.getFieldsListObservation())
                 observationTable.getItems().add(observation);
             autoResizeColumns(observationTable);
@@ -779,8 +758,6 @@ public class HelloController implements Initializable {
             List<MedicationRequest> medReqs = medReqDownload.getMedicationRequests();
             MedicationRequestsConverter medReqConverter = new MedicationRequestsConverter(medReqs);
             medReqConverter.convert();
-            if (medReqConverter.getFieldsListMedRequest().isEmpty())
-                throw new RuntimeException("Medication Request Data Conversion Error");
             for (MedicationRequestsConverter.MedicationRequestsClass medReq : medReqConverter.getFieldsListMedRequest())
                 medReqTable.getItems().add(medReq);
             autoResizeColumns(medReqTable);
@@ -790,8 +767,6 @@ public class HelloController implements Initializable {
             List<Procedure> procedures = procedureDownload.getProcedures();
             ProceduresConverter procedureConverter = new ProceduresConverter(procedures);
             procedureConverter.convert();
-            if (procedureConverter.getFieldsListProcedure().isEmpty())
-                throw new RuntimeException("Procedure Data Conversion Error");
             for (ProceduresConverter.ProcedureClass procedure : procedureConverter.getFieldsListProcedure())
                 procedureTable.getItems().add(procedure);
             autoResizeColumns(procedureTable);
@@ -801,8 +776,6 @@ public class HelloController implements Initializable {
             List<DeviceRequest> devices = deviceDownload.getDevices();
             DevicesConverter deviceConverter = new DevicesConverter(devices);
             deviceConverter.convert();
-            if (deviceConverter.getFieldsListDevices().isEmpty())
-                throw new RuntimeException("Device Data Conversion Error");
             for (DevicesConverter.DeviceClass device : deviceConverter.getFieldsListDevices())
                 deviceTable.getItems().add(device);
             autoResizeColumns(deviceTable);
@@ -850,8 +823,6 @@ public class HelloController implements Initializable {
             List<Patient> patients = patientDownload.getPatients();
             PatientConverter patientConverter = new PatientConverter(patients);
             patientConverter.convert();
-            if (patientConverter.getFieldsListPatient().isEmpty())
-                throw new RuntimeException("ERROR DURING THE SCROLL OF PATIENT");
             for (PatientConverter.PatientClass patient : patientConverter.getFieldsListPatient())
                 personTable.getItems().add(patient);
             autoResizeColumns(personTable);
@@ -865,8 +836,6 @@ public class HelloController implements Initializable {
             List<Organization> organizations = organizationDownload.getOrganizations();
             OrganizationConverter organizationConverter = new OrganizationConverter(organizations);
             organizationConverter.convert();
-            if (organizationConverter.getFieldsListOrganization().isEmpty())
-                throw new RuntimeException("ERROR DURING THE SCROLL OF ORGANIZATIONS");
             for (OrganizationConverter.OrganizationClass organization : organizationConverter.getFieldsListOrganization())
                 organizationTable.getItems().add(organization);
             autoResizeColumns(organizationTable);
@@ -880,8 +849,6 @@ public class HelloController implements Initializable {
             List<Practitioner> practitioners = practitionersDownload.getPractitioners();
             PractitionersConverter practitionersConverter = new PractitionersConverter(practitioners);
             practitionersConverter.convert();
-            if (practitionersConverter.getFieldsListPractitioner().isEmpty())
-                throw new RuntimeException("ERROR DURING THE SCROLL OF PRACTITIONERS");
             for (PractitionersConverter.PractitionerClass practitioner : practitionersConverter.getFieldsListPractitioner())
                 practitionerTable.getItems().add(practitioner);
             autoResizeColumns(practitionerTable);
@@ -895,8 +862,6 @@ public class HelloController implements Initializable {
             List<Encounter> encounters = encounterDownload.getEncounters();
             EncounterConverter encounterConverter = new EncounterConverter(encounters);
             encounterConverter.convert();
-            if (encounterConverter.getFieldsListEncounter().isEmpty())
-                throw new RuntimeException("ERROR DURING THE SCROLL OF ENCOUNTERS");
             for (EncounterConverter.EncounterClass encounter : encounterConverter.getFieldsListEncounter())
                 encounterTable.getItems().add(encounter);
             autoResizeColumns(encounterTable);
@@ -910,8 +875,6 @@ public class HelloController implements Initializable {
             List<ImagingStudy> imagingStudies = imagingStudiesDownload.getImages();
             ImagingStudiesConverter imagingStudiesConverter = new ImagingStudiesConverter(imagingStudies);
             imagingStudiesConverter.convert();
-            if (imagingStudiesConverter.getFieldsListImagingStudies().isEmpty())
-                throw new RuntimeException("ERROR DURING THE SCROLL OF IMAGING STUDIES");
             for (ImagingStudiesConverter.ImagingStudiesClass imagingStudy : imagingStudiesConverter.getFieldsListImagingStudies())
                 imageTable.getItems().add(imagingStudy);
             autoResizeColumns(imageTable);
@@ -949,14 +912,14 @@ public class HelloController implements Initializable {
             List<Patient> patients = patientDownloadSearch.getPatientSearch();
             PatientConverter patientConverter = new PatientConverter(patients);
             patientConverter.convert();
-            if (patientConverter.getFieldsListPatient().isEmpty()) {
-                new Alert(Alert.AlertType.ERROR, "Patient not found").showAndWait();
-                return;
-            }
 
             personTable.getItems().clear();
-            for (PatientConverter.PatientClass patient : patientConverter.getFieldsListPatient())
+            for (PatientConverter.PatientClass patient : patientConverter.getFieldsListPatient()) {
+             if(patient.getVuoto() == false)
                 personTable.getItems().add(patient);
+             else
+                 new Alert(Alert.AlertType.ERROR, "Patient not found").showAndWait();
+            }
             autoResizeColumns(personTable);
 
         } else if (organizationPane.isVisible()) {
@@ -967,12 +930,11 @@ public class HelloController implements Initializable {
                 List<Organization> organizations = organizationDownloadSearch.getOrganizationsSearch();
                 OrganizationConverter organizationConverter = new OrganizationConverter(organizations);
                 organizationConverter.convert();
-                if (organizationConverter.getFieldsListOrganization().isEmpty()) {
-                    new Alert(Alert.AlertType.ERROR, "Organization not found").showAndWait();
-                    return;
-                }
                 for (OrganizationConverter.OrganizationClass organization : organizationConverter.getFieldsListOrganization())
-                    organizationTable.getItems().add(organization);
+                    if(organization.getVuoto() == false)
+                        organizationTable.getItems().add(organization);
+                    else
+                        new Alert(Alert.AlertType.ERROR, "Organization not found").showAndWait();
                 autoResizeColumns(organizationTable);
 
             } else if (checkBox2.isSelected()){
@@ -981,12 +943,12 @@ public class HelloController implements Initializable {
                 List<Organization> organizations = organizationDownloadSearch.getOrganizationsSearch();
                 OrganizationConverter organizationConverter = new OrganizationConverter(organizations);
                 organizationConverter.convert();
-                if (organizationConverter.getFieldsListOrganization().isEmpty()) {
-                    new Alert(Alert.AlertType.ERROR, "Organization not found").showAndWait();
-                    return;
+                for (OrganizationConverter.OrganizationClass organization : organizationConverter.getFieldsListOrganization()) {
+                    if (organization.getVuoto() == false)
+                        organizationTable.getItems().add(organization);
+                    else
+                        new Alert(Alert.AlertType.ERROR, "Organization not found").showAndWait();
                 }
-                for (OrganizationConverter.OrganizationClass organization : organizationConverter.getFieldsListOrganization())
-                    organizationTable.getItems().add(organization);
                 autoResizeColumns(organizationTable);
             }
             else if (checkBox3.isSelected()){
@@ -995,12 +957,11 @@ public class HelloController implements Initializable {
                 List<Organization> payers = payersDownloadSearch.getPayerSearch();
                 PayersConverter payersConverter = new PayersConverter(payers);
                 payersConverter.convert();
-                if (payersConverter.getFieldsListPayer().isEmpty()) {
-                    new Alert(Alert.AlertType.ERROR, "Payer not found").showAndWait();
-                    return;
-                }
                 for (PayersConverter.PayersClass payer : payersConverter.getFieldsListPayer())
-                    payerTable.getItems().add(payer);
+                    if (payer.getVuoto() == false)
+                        payerTable.getItems().add(payer);
+                    else
+                        new Alert(Alert.AlertType.ERROR, "Payer not found").showAndWait();
                 autoResizeColumns(payerTable);
             } else if (checkBox4.isSelected()){
                 payerTable.getItems().clear();
@@ -1008,12 +969,11 @@ public class HelloController implements Initializable {
                 List<Organization> payers = payersDownloadSearch.getPayerSearch();
                 PayersConverter payersConverter = new PayersConverter(payers);
                 payersConverter.convert();
-                if (payersConverter.getFieldsListPayer().isEmpty()) {
-                    new Alert(Alert.AlertType.ERROR, "Payer not found").showAndWait();
-                    return;
-                }
                 for (PayersConverter.PayersClass payer : payersConverter.getFieldsListPayer())
-                    payerTable.getItems().add(payer);
+                    if (payer.getVuoto() == false)
+                        payerTable.getItems().add(payer);
+                    else
+                        new Alert(Alert.AlertType.ERROR, "Payer not found").showAndWait();
                 autoResizeColumns(payerTable);
             }
             else if (checkBox5.isSelected()){
@@ -1022,12 +982,11 @@ public class HelloController implements Initializable {
                 List<Practitioner> practitioners = practitionersDownloadSearch.getPractitionerSearch();
                 PractitionersConverter practitionersConverter = new PractitionersConverter(practitioners);
                 practitionersConverter.convert();
-                if (practitionersConverter.getFieldsListPractitioner().isEmpty()) {
-                    new Alert(Alert.AlertType.ERROR, "Practitioner not found").showAndWait();
-                    return;
-                }
                 for (PractitionersConverter.PractitionerClass practitioner : practitionersConverter.getFieldsListPractitioner())
-                    practitionerTable.getItems().add(practitioner);
+                    if (practitioner.getVuoto() == false)
+                        practitionerTable.getItems().add(practitioner);
+                    else
+                        new Alert(Alert.AlertType.ERROR, "Practitioner not found").showAndWait();
                 autoResizeColumns(practitionerTable);
 
             } else if (checkBox6.isSelected()){
@@ -1036,12 +995,11 @@ public class HelloController implements Initializable {
                 List<Practitioner> practitioners = practitionersDownloadSearch.getPractitionerSearch();
                 PractitionersConverter practitionersConverter = new PractitionersConverter(practitioners);
                 practitionersConverter.convert();
-                if (practitionersConverter.getFieldsListPractitioner().isEmpty()) {
-                    new Alert(Alert.AlertType.ERROR, "Practitioner not found").showAndWait();
-                    return;
-                }
                 for (PractitionersConverter.PractitionerClass practitioner : practitionersConverter.getFieldsListPractitioner())
-                    practitionerTable.getItems().add(practitioner);
+                    if (practitioner.getVuoto() == false)
+                        practitionerTable.getItems().add(practitioner);
+                    else
+                        new Alert(Alert.AlertType.ERROR, "Practitioner not found").showAndWait();
                 autoResizeColumns(practitionerTable);
             }
 
@@ -1058,12 +1016,11 @@ public class HelloController implements Initializable {
             List<Encounter> encounter = encounterDownloadSearch.getEncounterSearch();
             EncounterConverter encounterConverter = new EncounterConverter(encounter);
             encounterConverter.convert();
-            if (encounterConverter.getFieldsListEncounter().isEmpty()){
-                new Alert(Alert.AlertType.ERROR, "Encounter not found").showAndWait();
-                return;
-            }
             for (EncounterConverter.EncounterClass encounter1 : encounterConverter.getFieldsListEncounter())
-                encounterTable.getItems().add(encounter1);
+                if (encounter1.getVuoto() == false)
+                    encounterTable.getItems().add(encounter1);
+                else
+                    new Alert(Alert.AlertType.ERROR, "Encounter not found").showAndWait();
             autoResizeColumns(encounterTable);
 
         } else if (imagingPane.isVisible()) {
@@ -1078,12 +1035,11 @@ public class HelloController implements Initializable {
             List<ImagingStudy> imagingStudies = imagingStudiesDownloadSearch.getImageSearch();
             ImagingStudiesConverter imagingStudiesConverter = new ImagingStudiesConverter(imagingStudies);
             imagingStudiesConverter.convert();
-            if (imagingStudiesConverter.getFieldsListImagingStudies().isEmpty()) {
-                new Alert(Alert.AlertType.ERROR, "Image not found").showAndWait();
-                return;
-            }
             for (ImagingStudiesConverter.ImagingStudiesClass imagingStudy : imagingStudiesConverter.getFieldsListImagingStudies())
-                imageTable.getItems().add(imagingStudy);
+                if (imagingStudy.getVuoto() == false)
+                    imageTable.getItems().add(imagingStudy);
+                else
+                    new Alert(Alert.AlertType.ERROR, "Image not found").showAndWait();
             autoResizeColumns(imageTable);
         }
     }
@@ -1180,15 +1136,13 @@ public class HelloController implements Initializable {
         List<ImagingStudy> imagingStudies = imagingStudiesDownloadSearch.getImageSearch();
         ImagingStudiesConverter imagingStudiesConverter = new ImagingStudiesConverter(imagingStudies);
         imagingStudiesConverter.convert();
-        if (imagingStudiesConverter.getFieldsListImagingStudies().isEmpty()) {
-            new Alert(Alert.AlertType.ERROR, "Image not found").showAndWait();
-            return;
-        }
         for (ImagingStudiesConverter.ImagingStudiesClass imagingStudy : imagingStudiesConverter.getFieldsListImagingStudies())
-            imageTable.getItems().add(imagingStudy);
+            if (imagingStudy.getVuoto() == false)
+                imageTable.getItems().add(imagingStudy);
+            else
+                new Alert(Alert.AlertType.ERROR, "Image not found").showAndWait();
         autoResizeColumns(imageTable);
     }
-
     public static void autoResizeColumns( TableView<?> table ){
         //Set the right policy
         table.setColumnResizePolicy( TableView.UNCONSTRAINED_RESIZE_POLICY);

@@ -63,6 +63,7 @@ public class DevicesConverter extends BaseConverter {
             dv.setStartDate("N/A");
             dv.setStopDate("N/A");
             dv.setPatient("N/A");
+            dv.setVuoto(true);
             fieldsListDevices.add(dv);
         }
     }
@@ -91,6 +92,7 @@ public class DevicesConverter extends BaseConverter {
         private String startDate;
         private String stopDate;
         private String patient;
+        private Boolean vuoto;
 
         public DeviceClass() {
             this.code = "";
@@ -98,6 +100,7 @@ public class DevicesConverter extends BaseConverter {
             this.startDate = "";
             this.stopDate = "";
             this.patient = "";
+            this.vuoto = false;
         }
 
         @Override
@@ -108,6 +111,7 @@ public class DevicesConverter extends BaseConverter {
                     ", startDate='" + startDate + '\'' +
                     ", stopDate='" + stopDate + '\'' +
                     ", patient='" + patient + '\'' +
+                    ", vuoto=" + vuoto +
                     '}';
         }
     }

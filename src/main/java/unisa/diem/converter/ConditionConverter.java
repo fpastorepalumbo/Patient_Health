@@ -52,6 +52,7 @@ public class ConditionConverter extends BaseConverter{
             cc.setStartDate("N/A");
             cc.setStopDate("N/A");
             cc.setEncounter("N/A");
+            cc.setVuoto(true);
             fieldsListCondition.add(cc);
         }
     }
@@ -65,12 +66,15 @@ public class ConditionConverter extends BaseConverter{
         private String stopDate;
         private String encounter;
 
+        private Boolean vuoto;
+
         public ConditionClass() {
             this.code = "";
             this.description = "";
             this.startDate = "";
             this.stopDate = "";
             this.encounter = "";
+            this.vuoto = false;
         }
 
         @Override
@@ -81,6 +85,7 @@ public class ConditionConverter extends BaseConverter{
                     ", startDate='" + startDate + '\'' +
                     ", stopDate='" + stopDate + '\'' +
                     ", encounter='" + encounter + '\'' +
+                    ", vuoto=" + vuoto +
                     '}';
         }
     }

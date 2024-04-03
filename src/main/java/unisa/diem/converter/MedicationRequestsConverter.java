@@ -82,6 +82,7 @@ public class MedicationRequestsConverter extends BaseConverter{
             mr.setStopDate("N/A");
             mr.setPatient("N/A");
             mr.setPayer("N/A");
+            mr.setVuoto(true);
             fieldsListMedRequest.add(mr);
         }
     }
@@ -137,6 +138,7 @@ public class MedicationRequestsConverter extends BaseConverter{
         private String stopDate;
         private String patient;
         private String payer;
+        private Boolean vuoto;
 
         public MedicationRequestsClass() {
             this.code = "";
@@ -149,6 +151,7 @@ public class MedicationRequestsConverter extends BaseConverter{
             this.stopDate = "";
             this.patient = "";
             this.payer = "";
+            this.vuoto = false;
         }
 
         @Override
@@ -158,12 +161,13 @@ public class MedicationRequestsConverter extends BaseConverter{
                     ", description='" + description + '\'' +
                     ", baseCost='" + baseCost + '\'' +
                     ", coverage='" + coverage + '\'' +
+                    ", dispenses='" + dispenses + '\'' +
                     ", totCost='" + totCost + '\'' +
                     ", startDate='" + startDate + '\'' +
                     ", stopDate='" + stopDate + '\'' +
                     ", patient='" + patient + '\'' +
                     ", payer='" + payer + '\'' +
-                    ", dispenses='" + dispenses + '\'' +
+                    ", vuoto=" + vuoto +
                     '}';
         }
     }

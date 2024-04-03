@@ -43,6 +43,7 @@ public class CarePlanConverter extends BaseConverter{
             cpc.setDescription("N/A");
             cpc.setReasonCode("N/A");
             cpc.setReasonDescription("N/A");
+            cpc.setVuoto(true);
             fieldsListCarePlan.add(cpc);
         }
 
@@ -56,11 +57,25 @@ public class CarePlanConverter extends BaseConverter{
         private String reasonCode;
         private String reasonDescription;
 
+        private Boolean vuoto;
+
         public CarePlanClass() {
             this.code = "";
             this.description = "";
             this.reasonCode = "";
             this.reasonDescription = "";
+            this.vuoto = false;
+        }
+
+        @Override
+        public String toString() {
+            return "CarePlanClass{" +
+                    "code='" + code + '\'' +
+                    ", description='" + description + '\'' +
+                    ", reasonCode='" + reasonCode + '\'' +
+                    ", reasonDescription='" + reasonDescription + '\'' +
+                    ", vuoto=" + vuoto +
+                    '}';
         }
     }
 }

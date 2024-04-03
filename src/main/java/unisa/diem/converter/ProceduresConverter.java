@@ -47,6 +47,7 @@ public class ProceduresConverter extends BaseConverter {
             pr.setDescription("N/A");
             pr.setDate("N/A");
             pr.setPatient("N/A");
+            pr.setVuoto(true);
             fieldsListProcedure.add(pr);
         }
     }
@@ -58,12 +59,14 @@ public class ProceduresConverter extends BaseConverter {
         private String description;
         private String date;
         private String patient;
+        private Boolean vuoto;
 
         public ProcedureClass() {
             this.code = "";
             this.description = "";
             this.date = "";
             this.patient = "";
+            this.vuoto = false;
         }
 
         @Override
@@ -73,6 +76,7 @@ public class ProceduresConverter extends BaseConverter {
                     ", description='" + description + '\'' +
                     ", date='" + date + '\'' +
                     ", patient='" + patient + '\'' +
+                    ", vuoto=" + vuoto +
                     '}';
         }
     }

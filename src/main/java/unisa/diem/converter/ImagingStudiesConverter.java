@@ -63,6 +63,7 @@ public class ImagingStudiesConverter extends BaseConverter {
             isc.setDate("N/A");
             isc.setPatient("N/A");
             isc.setEncounter("N/A");
+            isc.setVuoto(true);
             fieldsListImagingStudies.add(isc);
         }
     }
@@ -79,6 +80,7 @@ public class ImagingStudiesConverter extends BaseConverter {
         private String date;
         private String patient;
         private String encounter;
+        private Boolean vuoto;
 
         public ImagingStudiesClass() {
             this.bodySiteCode = "";
@@ -90,6 +92,7 @@ public class ImagingStudiesConverter extends BaseConverter {
             this.date = "";
             this.patient = "";
             this.encounter = "";
+            this.vuoto = false;
         }
 
         @Override
@@ -104,6 +107,7 @@ public class ImagingStudiesConverter extends BaseConverter {
                     ", date='" + date + '\'' +
                     ", patient='" + patient + '\'' +
                     ", encounter='" + encounter + '\'' +
+                    ", vuoto=" + vuoto +
                     '}';
         }
     }

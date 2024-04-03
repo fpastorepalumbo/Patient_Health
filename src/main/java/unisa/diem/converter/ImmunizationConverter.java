@@ -48,6 +48,7 @@ public class ImmunizationConverter extends BaseConverter{
             ic.setDescription("N/A");
             ic.setDate("N/A");
             ic.setEncounter("N/A");
+            ic.setVuoto(true);
             fieldsListImmunization.add(ic);
         }
     }
@@ -59,12 +60,25 @@ public class ImmunizationConverter extends BaseConverter{
         private String description;
         private String date;
         private String encounter;
+        private Boolean vuoto;
 
         public ImmunizationClass() {
             this.code = "";
             this.description = "";
             this.date = "";
             this.encounter = "";
+            this.vuoto = false;
+        }
+
+        @Override
+        public String toString() {
+            return "ImmunizationClass{" +
+                    "code='" + code + '\'' +
+                    ", description='" + description + '\'' +
+                    ", date='" + date + '\'' +
+                    ", encounter='" + encounter + '\'' +
+                    ", vuoto=" + vuoto +
+                    '}';
         }
     }
 }

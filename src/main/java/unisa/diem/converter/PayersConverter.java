@@ -51,6 +51,7 @@ public class PayersConverter extends BaseConverter {
             py.setCity("N/A");
             py.setState("N/A");
             py.setPhone("N/A");
+            py.setVuoto(true);
             fieldsListPayer.add(py);
         }
     }
@@ -64,21 +65,26 @@ public class PayersConverter extends BaseConverter {
         private String state;
         private String phone;
         private String revenue;
+        private Boolean vuoto;
 
         public PayersClass() {
             this.name = "";
             this.city = "";
             this.state = "";
             this.phone = "";
+            this.vuoto = false;
         }
 
         @Override
         public String toString() {
-            return "OrganizationClass{" +
+            return "PayersClass{" +
                     "name='" + name + '\'' +
+                    ", address='" + address + '\'' +
                     ", city='" + city + '\'' +
                     ", state='" + state + '\'' +
                     ", phone='" + phone + '\'' +
+                    ", revenue='" + revenue + '\'' +
+                    ", vuoto=" + vuoto +
                     '}';
         }
     }

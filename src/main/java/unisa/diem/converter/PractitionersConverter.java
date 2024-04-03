@@ -55,6 +55,7 @@ public class PractitionersConverter extends BaseConverter {
             pr.setAddress("N/A");
             pr.setCity("N/A");
             pr.setState("N/A");
+            pr.setVuoto(true);
             fieldsListPractitioner.add(pr);
         }
     }
@@ -69,6 +70,7 @@ public class PractitionersConverter extends BaseConverter {
         private String address;
         private String city;
         private String state;
+        private Boolean vuoto;
 
         public PractitionerClass() {
             this.name = "";
@@ -78,6 +80,7 @@ public class PractitionersConverter extends BaseConverter {
             this.address = "";
             this.city = "";
             this.state = "";
+            this.vuoto = false;
         }
 
         @Override
@@ -90,6 +93,7 @@ public class PractitionersConverter extends BaseConverter {
                     ", address='" + address + '\'' +
                     ", city='" + city + '\'' +
                     ", state='" + state + '\'' +
+                    ", vuoto=" + vuoto +
                     '}';
         }
     }

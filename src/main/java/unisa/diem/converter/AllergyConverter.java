@@ -53,6 +53,7 @@ public class AllergyConverter extends BaseConverter{
             ac.setStartDate("N/A");
             ac.setStopDate("N/A");
             ac.setEncounter("N/A");
+            ac.setVuoto(true);
             fieldsListAllergy.add(ac);
         }
     }
@@ -66,12 +67,27 @@ public class AllergyConverter extends BaseConverter{
         private String stopDate;
         private String encounter;
 
+        private Boolean vuoto;
+
         public AllergyClass() {
             this.code = "";
             this.description = "";
             this.startDate = "";
             this.stopDate = "";
             this.encounter = "";
+            this.vuoto = false;
+        }
+
+        @Override
+        public String toString() {
+            return "AllergyClass{" +
+                    "code='" + code + '\'' +
+                    ", description='" + description + '\'' +
+                    ", startDate='" + startDate + '\'' +
+                    ", stopDate='" + stopDate + '\'' +
+                    ", encounter='" + encounter + '\'' +
+                    ", vuoto=" + vuoto +
+                    '}';
         }
     }
 }
