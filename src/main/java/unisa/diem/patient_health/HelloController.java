@@ -3,23 +3,35 @@ package unisa.diem.patient_health;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import org.hl7.fhir.r4.model.*;
 import unisa.diem.converter.*;
+import unisa.diem.dicom.DicomService;
 import unisa.diem.downloader.*;
+import unisa.diem.fhir.FhirService;
+import unisa.diem.fhir.FhirWrapper;
 import unisa.diem.parser.DatasetService;
 
 import javax.swing.*;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -244,6 +256,8 @@ public class HelloController implements Initializable {
 
     // imageTable
     @FXML
+    public TableColumn idClm;
+    @FXML
     public TableColumn bodyCodeClm;
     @FXML
     public TableColumn bodyDescrClm;
@@ -263,6 +277,9 @@ public class HelloController implements Initializable {
     public TableColumn encounterImageClm;
 
     public Label imageShowLabel;
+    private DicomService dicomService;
+    private List<String> currentFrames;
+    private String currentImage;
 
     @FXML
     private Label welcomeText;
@@ -340,6 +357,9 @@ public class HelloController implements Initializable {
         datasetUtility = new DatasetService();
         personElement = null;
         encounterElement = null;
+
+        dicomService = new DicomService();
+        currentFrames = new ArrayList<>();
     }
 
     @Override
@@ -537,6 +557,8 @@ public class HelloController implements Initializable {
 
         codeDeviceClm.setCellFactory(TextFieldTableCell.forTableColumn());
 
+        idClm.setCellValueFactory(new PropertyValueFactory<>("id"));
+        idClm.setVisible(false);
         bodyCodeClm.setCellValueFactory(new PropertyValueFactory<>("bodySiteCode"));
         bodyDescrClm.setCellValueFactory(new PropertyValueFactory<>("bodySiteDescription"));
         modeCodeClm.setCellValueFactory(new PropertyValueFactory<>("modalityCode"));
@@ -566,7 +588,6 @@ public class HelloController implements Initializable {
         firstClickOrganization = true;
         firstClickEncounter = true;
         firstClickImaging = true;
-
     }
 
     @FXML
@@ -836,13 +857,66 @@ public class HelloController implements Initializable {
         autoResizeColumns(carePlanTable);
     }
 
+    public void start(Stage primaryStage) {
+        GridPane gridPane = new GridPane();
+
+        // Load your images (assuming they are in the same directory as this class)
+        Image[] images = new Image[256];
+        Base64.Decoder base64Decoder = Base64.getDecoder();
+        for (int i = 0; i < 256; i++) {
+            ByteArrayInputStream imgInputStream = new ByteArrayInputStream(base64Decoder.decode(currentFrames.get(i)));
+
+            images[i] = new Image(imgInputStream);
+        }
+
+        // Add images to the grid
+        for (int i = 0; i < 256; i++) {
+            ImageView imageView = new ImageView(images[i]);
+            imageView.setFitWidth(60);
+            imageView.setFitHeight(50);
+            gridPane.add(imageView, i/16, i%16); // Adding images to grid
+        }
+
+        Scene scene = new Scene(gridPane);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Image Grid");
+        primaryStage.show();
+    }
+    /*
+    public void showImage(Stage primaryStage) {
+        // Load image from base64
+        Base64.Decoder base64Decoder = Base64.getDecoder();
+        ByteArrayInputStream imgInputStream = new ByteArrayInputStream(base64Decoder.decode(currentImage));
+
+        Image image = new Image(imgInputStream);
+
+        // Crea un ImageView per visualizzare l'immagine
+        ImageView imageView = new ImageView(image);
+
+        // Crea un layout di StackPane e aggiungi l'ImageView ad esso
+        StackPane root = new StackPane();
+        root.getChildren().add(imageView);
+
+        // Crea la scena e aggiungi il layout ad essa
+        Scene scene = new Scene(root, 600, 400);
+
+        // Imposta il titolo della finestra
+        primaryStage.setTitle("Mostra Immagine");
+
+        // Imposta la scena sulla finestra primaria e mostra la finestra
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+     */
+
     public void clickImageTable() {
         ImagingStudiesConverter.ImagingStudiesClass imageElement = imageTable.getSelectionModel().getSelectedItem();
 
         if (imageElement != null) {
-
+            ImagingStudy im = FhirWrapper.getClient().read().resource(ImagingStudy.class).withId(imageElement.getId()).execute();
+            currentFrames = dicomService.getDicomFile(im).serveAllFrames();
+            start(new Stage());
         }
-        //TODO: implement the image visualization
     }
 
     public void loadDataset() {
@@ -1180,29 +1254,30 @@ public class HelloController implements Initializable {
                 new Alert(Alert.AlertType.ERROR, "Image not found").showAndWait();
         autoResizeColumns(imageTable);
     }
+
     public static void autoResizeColumns( TableView<?> table ){
-        //Set the right policy
+        // Set the right policy
         table.setColumnResizePolicy( TableView.UNCONSTRAINED_RESIZE_POLICY);
         table.getColumns().stream().forEach( (column) ->
         {
-            //Minimal width = columnheader
+            // Minimal width = columnheader
             Text t = new Text( column.getText() );
             double max = t.getLayoutBounds().getWidth();
             for ( int i = 0; i < table.getItems().size(); i++ )
             {
-                //cell must not be empty
+                // cell must not be empty
                 if ( column.getCellData( i ) != null )
                 {
                     t = new Text( column.getCellData( i ).toString() );
                     double calcwidth = t.getLayoutBounds().getWidth();
-                    //remember new max-width
+                    // remember new max-width
                     if ( calcwidth > max )
                     {
                         max = calcwidth;
                     }
                 }
             }
-            //set the new max-widht with some extra space
+            // set the new max-widht with some extra space
             column.setPrefWidth( max + 10.0d );
         } );
     }
@@ -1215,7 +1290,7 @@ public class HelloController implements Initializable {
         String payerID = encounterTable.getSelectionModel().getSelectedItem().getPayer();
         String cost = encounterTable.getSelectionModel().getSelectedItem().getCost();
         String coverage = encounterTable.getSelectionModel().getSelectedItem().getCoverage();
-        //datasetUtility.generateCDA(id, patientID, organizationID, practitionerID, payerID, cost, coverage);
+        // datasetUtility.generateCDA(id, patientID, organizationID, practitionerID, payerID, cost, coverage);
     }
 
     public void copyIDEncounter(ActionEvent actionEvent) {
@@ -1240,11 +1315,11 @@ public class HelloController implements Initializable {
     }
 
     public void examinePatient(ActionEvent actionEvent) {
-        //copia il contenuto di ClickPatientTable
+        // copia il contenuto di ClickPatientTable
     }
 
     public void examineCondition(ActionEvent actionEvent) {
-        //copia il contenuto di ClickConditionTable
+        // copia il contenuto di ClickConditionTable
     }
 
     public void copyNameOrganization(ActionEvent actionEvent) {
@@ -1263,7 +1338,7 @@ public class HelloController implements Initializable {
     }
 
     public void examineEncounter(ActionEvent actionEvent) {
-        //copia il contenuto di ClickEncounterTable
+        // copia il contenuto di ClickEncounterTable
     }
 
     public void copyIDDevice(ActionEvent actionEvent) {
@@ -1285,5 +1360,4 @@ public class HelloController implements Initializable {
         String id = observationTable.getSelectionModel().getSelectedItem().getCode();
         copyID(id);
     }
-
 }

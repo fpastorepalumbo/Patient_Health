@@ -28,6 +28,8 @@ public class ImagingStudiesConverter extends BaseConverter {
             ImagingStudiesClass isc = new ImagingStudiesClass();
             String[] parts;
 
+            isc.setId(imagingStudy.getId());
+
             isc.setBodySiteCode(imagingStudy.getSeries().get(0).getBodySite().getCode());
 
             isc.setBodySiteDescription(imagingStudy.getSeries().get(0).getBodySite().getDisplay());
@@ -54,6 +56,7 @@ public class ImagingStudiesConverter extends BaseConverter {
 
         if (fieldsListImagingStudies.isEmpty()) {
             ImagingStudiesClass isc = new ImagingStudiesClass();
+            isc.setId("N/A");
             isc.setBodySiteCode("N/A");
             isc.setBodySiteDescription("N/A");
             isc.setModalityCode("N/A");
@@ -71,6 +74,7 @@ public class ImagingStudiesConverter extends BaseConverter {
     @Setter
     @Getter
     public static class ImagingStudiesClass {
+        private String id;
         private String bodySiteCode;
         private String bodySiteDescription;
         private String modalityCode;
@@ -83,6 +87,7 @@ public class ImagingStudiesConverter extends BaseConverter {
         private Boolean vuoto;
 
         public ImagingStudiesClass() {
+            this.id = "";
             this.bodySiteCode = "";
             this.bodySiteDescription = "";
             this.modalityCode = "";
@@ -98,7 +103,8 @@ public class ImagingStudiesConverter extends BaseConverter {
         @Override
         public String toString() {
             return "ImagingStudiesClass{" +
-                    "bodySiteCode='" + bodySiteCode + '\'' +
+                    "id='" + id + '\'' +
+                    ", bodySiteCode='" + bodySiteCode + '\'' +
                     ", bodySiteDescription='" + bodySiteDescription + '\'' +
                     ", modalityCode='" + modalityCode + '\'' +
                     ", modalityDescription='" + modalityDescription + '\'' +
