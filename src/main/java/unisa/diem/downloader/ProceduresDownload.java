@@ -29,11 +29,6 @@ public class ProceduresDownload extends BaseDownloader {
         Bundle bundle;
 
         try {
-            /*
-            bundle = (Bundle) client.search().forResource(Procedure.class)
-            .where(Procedure.ENCOUNTER.hasId(encounterId))
-            .encodedXml().execute();
-            */
             bundle = (Bundle) client.search().forResource(Procedure.class)
                     .where(new ReferenceClientParam("encounter").hasId(encounterId))
                     .encodedXml()
@@ -45,8 +40,5 @@ public class ProceduresDownload extends BaseDownloader {
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
             procedures.add((Procedure) entry.getResource());
-
-        if (procedures.isEmpty())
-            System.out.println("No procedures found in the encounter with id: " + encounterId);
     }
 }

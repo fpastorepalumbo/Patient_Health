@@ -45,9 +45,6 @@ public class PayersDownload extends BaseDownloader {
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
             payers.add((Organization) entry.getResource());
-
-        if (payers.isEmpty())
-            throw new RuntimeException("No payer found");
     }
 
     public void downloadPayerWithId (String id){
@@ -65,9 +62,6 @@ public class PayersDownload extends BaseDownloader {
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
             payerSearch.add((Organization) entry.getResource());
-
-        if (payerSearch.isEmpty())
-            throw new RuntimeException("No payer found");
     }
 
     public void downloadPayerWithName(String name){
@@ -85,8 +79,5 @@ public class PayersDownload extends BaseDownloader {
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
             payerSearch.add((Organization) entry.getResource());
-
-        if (payerSearch.isEmpty())
-            throw new RuntimeException("No payer found");
     }
 }

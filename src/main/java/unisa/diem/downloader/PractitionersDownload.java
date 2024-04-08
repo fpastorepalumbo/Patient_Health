@@ -45,9 +45,6 @@ public class PractitionersDownload extends BaseDownloader {
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
             practitioners.add((Practitioner) entry.getResource());
-
-        if (practitioners.isEmpty())
-            throw new RuntimeException("No practitioner found");
     }
 
     public void downloadPractitionerWithName(String name){
@@ -65,9 +62,6 @@ public class PractitionersDownload extends BaseDownloader {
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
             practitionerSearch.add((Practitioner) entry.getResource());
-
-        if (practitionerSearch.isEmpty())
-            throw new RuntimeException("No practitioner found");
     }
 
     public void downloadPractitionerWithId(String id){
@@ -85,8 +79,5 @@ public class PractitionersDownload extends BaseDownloader {
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
             practitionerSearch.add((Practitioner) entry.getResource());
-
-        if (practitionerSearch.isEmpty())
-            throw new RuntimeException("No practitioner found with id: " + id);
     }
 }

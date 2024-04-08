@@ -29,11 +29,6 @@ public class DevicesDownload extends BaseDownloader{
         Bundle bundle;
 
         try {
-           /*
-           bundle = (Bundle) client.search().forResource(Device.class)
-            .where(Device.PATIENT.hasId(patientId)).where(DeviceRequest.ENCOUNTER.hasId(encounterId))
-            .encodedXml().execute();
-            */
             bundle = (Bundle) client.search().forResource(DeviceRequest.class)
                     .where(new ReferenceClientParam("encounter").hasId(encounterId))
                     .encodedXml()
@@ -45,8 +40,5 @@ public class DevicesDownload extends BaseDownloader{
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
             devices.add((DeviceRequest) entry.getResource());
-
-        if (devices.isEmpty())
-            System.out.println("No devices found in the encounter with id: " + encounterId);
     }
 }

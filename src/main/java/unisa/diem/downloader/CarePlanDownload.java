@@ -37,8 +37,5 @@ public class CarePlanDownload extends BaseDownloader {
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
             carePlans.add((CarePlan) entry.getResource());
-
-        if (carePlans.isEmpty())
-            System.out.println("No carePlans found in the patient with id: " + patientId);
     }
 }

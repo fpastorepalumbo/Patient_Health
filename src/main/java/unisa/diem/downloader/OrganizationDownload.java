@@ -48,9 +48,6 @@ public class OrganizationDownload extends BaseDownloader {
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
                 organizations.add((Organization) entry.getResource());
-
-        if (organizations.isEmpty())
-            throw new RuntimeException("No organization found");
     }
 
     public void downloadOrganizationWithName(String name){
@@ -68,9 +65,6 @@ public class OrganizationDownload extends BaseDownloader {
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
             organizationsSearch.add((Organization) entry.getResource());
-
-        if (organizationsSearch.isEmpty())
-            throw new RuntimeException("No organization found");
     }
 
     public void downloadOrganizationWithId(String id){
@@ -88,8 +82,5 @@ public class OrganizationDownload extends BaseDownloader {
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
             organizationsSearch.add((Organization) entry.getResource());
-
-        if (organizationsSearch.isEmpty())
-            throw new RuntimeException("No organization found");
     }
 }

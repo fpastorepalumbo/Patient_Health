@@ -46,9 +46,6 @@ public class PatientDownload extends BaseDownloader {
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
                 patients.add((Patient) entry.getResource());
-
-        if (patients.isEmpty())
-            throw new RuntimeException("No patient found");
     }
 
     public void downloadPatientWithName(String name, String surname){
@@ -67,9 +64,6 @@ public class PatientDownload extends BaseDownloader {
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
             patientSearch.add((Patient) entry.getResource());
-
-        if (patientSearch.isEmpty())
-            throw new RuntimeException("No patient found");
     }
 
     public void downloadPatientWithId(String id){
@@ -87,8 +81,5 @@ public class PatientDownload extends BaseDownloader {
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
             patientSearch.add((Patient) entry.getResource());
-
-        if (patientSearch.isEmpty())
-            throw new RuntimeException("No patient found");
     }
 }

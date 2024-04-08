@@ -860,7 +860,7 @@ public class HelloController implements Initializable {
 
             personTable.getItems().clear();
             for (PatientConverter.PatientClass patient : patientConverter.getFieldsListPatient()) {
-             if(patient.getVuoto() == false)
+             if(!patient.getVuoto())
                 personTable.getItems().add(patient);
              else
                  new Alert(Alert.AlertType.ERROR, "Patient not found").showAndWait();
@@ -876,7 +876,7 @@ public class HelloController implements Initializable {
                 OrganizationConverter organizationConverter = new OrganizationConverter(organizations);
                 organizationConverter.convert();
                 for (OrganizationConverter.OrganizationClass organization : organizationConverter.getFieldsListOrganization())
-                    if(organization.getVuoto() == false)
+                    if(!organization.getVuoto())
                         organizationTable.getItems().add(organization);
                     else
                         new Alert(Alert.AlertType.ERROR, "Organization not found").showAndWait();
@@ -889,7 +889,7 @@ public class HelloController implements Initializable {
                 OrganizationConverter organizationConverter = new OrganizationConverter(organizations);
                 organizationConverter.convert();
                 for (OrganizationConverter.OrganizationClass organization : organizationConverter.getFieldsListOrganization()) {
-                    if (organization.getVuoto() == false)
+                    if (!organization.getVuoto())
                         organizationTable.getItems().add(organization);
                     else
                         new Alert(Alert.AlertType.ERROR, "Organization not found").showAndWait();
@@ -903,7 +903,7 @@ public class HelloController implements Initializable {
                 PayersConverter payersConverter = new PayersConverter(payers);
                 payersConverter.convert();
                 for (PayersConverter.PayersClass payer : payersConverter.getFieldsListPayer())
-                    if (payer.getVuoto() == false)
+                    if (!payer.getVuoto())
                         payerTable.getItems().add(payer);
                     else
                         new Alert(Alert.AlertType.ERROR, "Payer not found").showAndWait();
@@ -915,7 +915,7 @@ public class HelloController implements Initializable {
                 PayersConverter payersConverter = new PayersConverter(payers);
                 payersConverter.convert();
                 for (PayersConverter.PayersClass payer : payersConverter.getFieldsListPayer())
-                    if (payer.getVuoto() == false)
+                    if (!payer.getVuoto())
                         payerTable.getItems().add(payer);
                     else
                         new Alert(Alert.AlertType.ERROR, "Payer not found").showAndWait();
@@ -928,7 +928,7 @@ public class HelloController implements Initializable {
                 PractitionersConverter practitionersConverter = new PractitionersConverter(practitioners);
                 practitionersConverter.convert();
                 for (PractitionersConverter.PractitionerClass practitioner : practitionersConverter.getFieldsListPractitioner())
-                    if (practitioner.getVuoto() == false)
+                    if (!practitioner.getVuoto())
                         practitionerTable.getItems().add(practitioner);
                     else
                         new Alert(Alert.AlertType.ERROR, "Practitioner not found").showAndWait();
@@ -941,7 +941,7 @@ public class HelloController implements Initializable {
                 PractitionersConverter practitionersConverter = new PractitionersConverter(practitioners);
                 practitionersConverter.convert();
                 for (PractitionersConverter.PractitionerClass practitioner : practitionersConverter.getFieldsListPractitioner())
-                    if (practitioner.getVuoto() == false)
+                    if (!practitioner.getVuoto())
                         practitionerTable.getItems().add(practitioner);
                     else
                         new Alert(Alert.AlertType.ERROR, "Practitioner not found").showAndWait();
@@ -962,7 +962,7 @@ public class HelloController implements Initializable {
             EncounterConverter encounterConverter = new EncounterConverter(encounter);
             encounterConverter.convert();
             for (EncounterConverter.EncounterClass encounter1 : encounterConverter.getFieldsListEncounter())
-                if (encounter1.getVuoto() == false)
+                if (!encounter1.getVuoto())
                     encounterTable.getItems().add(encounter1);
                 else
                     new Alert(Alert.AlertType.ERROR, "Encounter not found").showAndWait();
@@ -981,7 +981,7 @@ public class HelloController implements Initializable {
             ImagingStudiesConverter imagingStudiesConverter = new ImagingStudiesConverter(imagingStudies);
             imagingStudiesConverter.convert();
             for (ImagingStudiesConverter.ImagingStudiesClass imagingStudy : imagingStudiesConverter.getFieldsListImagingStudies())
-                if (imagingStudy.getVuoto() == false)
+                if (!imagingStudy.getVuoto())
                     imageTable.getItems().add(imagingStudy);
                 else
                     new Alert(Alert.AlertType.ERROR, "Image not found").showAndWait();

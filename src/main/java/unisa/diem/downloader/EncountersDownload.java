@@ -45,9 +45,6 @@ public class EncountersDownload extends BaseDownloader {
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
             encounters.add((Encounter) entry.getResource());
-
-        if (encounters.isEmpty())
-            throw new RuntimeException("No encounter found");
     }
 
     public void downloadEncounterWithEncounterId(String id){
@@ -65,9 +62,6 @@ public class EncountersDownload extends BaseDownloader {
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
             encounterSearch.add((Encounter) entry.getResource());
-
-        if (encounterSearch.isEmpty())
-            throw new RuntimeException("No encounter found with id: " + id);
     }
 
     public void downloadEncounterWithPatientId(String patientId){
@@ -85,8 +79,5 @@ public class EncountersDownload extends BaseDownloader {
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
             encounterSearch.add((Encounter) entry.getResource());
-
-        if (encounterSearch.isEmpty())
-            throw new RuntimeException("No encounter found with patient id: " + patientId);
     }
 }

@@ -37,8 +37,5 @@ public class AllergyDownload extends BaseDownloader {
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
             allergies.add((AllergyIntolerance) entry.getResource());
-
-        if (allergies.isEmpty())
-            System.out.println("No allergies found in the patient with id: " + patientId);
     }
 }

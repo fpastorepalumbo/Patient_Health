@@ -43,8 +43,6 @@ public class ImagingStudiesDownload {
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
             images.add((ImagingStudy) entry.getResource());
 
-        if (images.isEmpty())
-            throw new RuntimeException("No ImagingStudies found");
     }
 
     public void downloadImageWithPatientId (String patientId) {
@@ -62,9 +60,6 @@ public class ImagingStudiesDownload {
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
             imageSearch.add((ImagingStudy) entry.getResource());
-
-        if (imageSearch.isEmpty())
-            throw new RuntimeException("No ImagingStudies found");
     }
 
     public void downloadImageWithEncounterId (String encounterId) {
@@ -82,8 +77,5 @@ public class ImagingStudiesDownload {
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
             imageSearch.add((ImagingStudy) entry.getResource());
-
-        if (imageSearch.isEmpty())
-            throw new RuntimeException("No ImagingStudies found");
     }
 }

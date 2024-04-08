@@ -37,11 +37,6 @@ public class MedicationRequestDownload extends BaseDownloader {
         Bundle bundle;
 
         try {
-            /*
-            bundle = (Bundle) client.search().forResource(MedicationRequest.class)
-            .where(MedicationRequest.ENCOUNTER.hasId(encounterId))
-            .encodedXml().execute();
-            */
             bundle = (Bundle) client.search().forResource(MedicationRequest.class)
                     .where(new ReferenceClientParam("encounter").hasId(encounterId))
                     .encodedXml()
@@ -52,8 +47,5 @@ public class MedicationRequestDownload extends BaseDownloader {
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
             medicationRequests.add((MedicationRequest) entry.getResource());
-
-        if (medicationRequests.isEmpty())
-            System.out.println("No medication request found in the encounter with id: " + encounterId);
     }
 }

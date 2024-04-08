@@ -38,8 +38,5 @@ public class ConditionDownload extends BaseDownloader {
 
         for (Bundle.BundleEntryComponent entry : bundle.getEntry())
             conditions.add((Condition) entry.getResource());
-
-        if (conditions.isEmpty())
-            System.out.println("No conditions found in the patient with id: " + patientId);
     }
 }
