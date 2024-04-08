@@ -1089,6 +1089,26 @@ public class HelloController implements Initializable {
         copyID(id);
     }
 
+    public void copyIDPatientOnEncounter(ActionEvent actionEvent) {
+        String id = encounterTable.getSelectionModel().getSelectedItem().getPatient();
+        copyID(id);
+    }
+
+    public void copyIDOrganizationOnEncounter(ActionEvent actionEvent) {
+        String id = encounterTable.getSelectionModel().getSelectedItem().getOrganization();
+        copyID(id);
+    }
+
+    public void copyIDPractitionerOnEncounter(ActionEvent actionEvent) {
+        String id = encounterTable.getSelectionModel().getSelectedItem().getPractitioner();
+        copyID(id);
+    }
+
+    public void copyIDPayerOnEncounter(ActionEvent actionEvent) {
+        String id = encounterTable.getSelectionModel().getSelectedItem().getPayer();
+        copyID(id);
+    }
+
     public void copyID(String id) {
         final Clipboard clipboard = Clipboard.getSystemClipboard();
         final ClipboardContent content = new ClipboardContent();
@@ -1269,6 +1289,10 @@ public class HelloController implements Initializable {
         copyID(id);
     }
 
+    public void copyIdOrganization(ActionEvent actionEvent) {
+
+    }
+
     public void copyNamePayer(ActionEvent actionEvent) {
         String id = payerTable.getSelectionModel().getSelectedItem().getName();
         copyID(id);
@@ -1326,4 +1350,7 @@ public class HelloController implements Initializable {
             column.setPrefWidth( max + 10.0d );
         } );
     }
+
+
+
 }
