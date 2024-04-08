@@ -355,6 +355,8 @@ public class HelloController implements Initializable {
     public Pane homePaneId;
     @FXML
     public SplitPane splitPaneId;
+    @FXML
+    public ImageView imageHome;
 
     public HelloController() {
         patientDownload = new PatientDownload();
@@ -383,7 +385,10 @@ public class HelloController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         homePaneId.setVisible(true);
-        homePaneId.setStyle("-fx-background-image: url('file:./resources/images/sfondoHome.webp); " + "-fx-background-size: cover;");
+        homePaneId.setStyle("-fx-background-image: url('file:src/main/resources/images/sfondoHome.png'); " + "-fx-background-size: 1280 720;");
+
+
+
         splitPaneId.setVisible(false);
         patientPane.setVisible(false);
         organizationPane.setVisible(false);
@@ -615,7 +620,7 @@ public class HelloController implements Initializable {
     }
 
     @FXML
-    public void patientLabelClick(MouseEvent mouseEvent) {
+    public void patientLabelClick() {
         if (patientPane.isVisible())
             return;
 
@@ -650,7 +655,7 @@ public class HelloController implements Initializable {
     }
 
     @FXML
-    public void organizationLabelClick(MouseEvent mouseEvent) {
+    public void organizationLabelClick() {
         if (organizationPane.isVisible())
             return;
 
@@ -1340,5 +1345,38 @@ public class HelloController implements Initializable {
             // set the new max-widht with some extra space
             column.setPrefWidth( max + 10.0d );
         } );
+    }
+
+    public void clickHomeLabel(MouseEvent mouseEvent) {
+        splitPaneId.setVisible(false);
+        homePaneId.setVisible(true);
+        homePaneId.setStyle("-fx-background-image: url('file:src/main/resources/images/sfondoHome.png'); " + "-fx-background-size: 1280 720;");
+    }
+
+    public void patientClick(MouseEvent mouseEvent) {
+        splitPaneId.setVisible(true);
+        homePaneId.setVisible(false);
+       patientLabelClick();
+
+    }
+
+    public void organizationClick(MouseEvent mouseEvent) {
+        splitPaneId.setVisible(true);
+        homePaneId.setVisible(false);
+        organizationLabelClick();
+
+    }
+
+    public void encounterClick(MouseEvent mouseEvent) {
+        splitPaneId.setVisible(true);
+        homePaneId.setVisible(false);
+         encounterLabelClick();
+
+    }
+
+    public void imagingStudyClick(MouseEvent mouseEvent) {
+        splitPaneId.setVisible(true);
+        homePaneId.setVisible(false);
+        imagineLabelClick();
     }
 }
