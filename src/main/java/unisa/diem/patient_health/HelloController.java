@@ -141,6 +141,8 @@ public class HelloController implements Initializable {
 
     // organizationTable
     @FXML
+    public TableColumn organizationIdClm;
+    @FXML
     public TableColumn organizationNameClm;
     @FXML
     public TableColumn cityOrganizationClm;
@@ -148,10 +150,11 @@ public class HelloController implements Initializable {
     public TableColumn stateOrganizationClm;
     @FXML
     public TableColumn phoneOrganizationClm;
-    @FXML
-    public TableColumn organizationIdClm;
+
 
     // payerTable
+    @FXML
+    public TableColumn payerIdClm;
     @FXML
     public TableColumn payerNameClm;
     @FXML
@@ -161,7 +164,10 @@ public class HelloController implements Initializable {
     @FXML
     public TableColumn phonePayerClm;
 
+
     // practitionerTable
+    @FXML
+    public TableColumn idPractitionerClm;
     @FXML
     public TableColumn namePractitionerClm;
     @FXML
@@ -488,15 +494,15 @@ public class HelloController implements Initializable {
 
         codeClmCarePlan.setCellFactory(TextFieldTableCell.forTableColumn());
 
+        organizationIdClm.setCellValueFactory(new PropertyValueFactory<>("id"));
         organizationNameClm.setCellValueFactory(new PropertyValueFactory<>("name"));
         cityOrganizationClm.setCellValueFactory(new PropertyValueFactory<>("city"));
         stateOrganizationClm.setCellValueFactory(new PropertyValueFactory<>("state"));
         phoneOrganizationClm.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        organizationIdClm.setCellValueFactory(new PropertyValueFactory<>("id"));
-
 
         organizationNameClm.setCellFactory(TextFieldTableCell.forTableColumn());
 
+        payerIdClm.setCellValueFactory(new PropertyValueFactory<>("id"));
         payerNameClm.setCellValueFactory(new PropertyValueFactory<>("name"));
         cityPayerClm.setCellValueFactory(new PropertyValueFactory<>("city"));
         statePayerClm.setCellValueFactory(new PropertyValueFactory<>("state"));
@@ -504,6 +510,7 @@ public class HelloController implements Initializable {
 
         payerNameClm.setCellFactory(TextFieldTableCell.forTableColumn());
 
+        idPractitionerClm.setCellValueFactory(new PropertyValueFactory<>("id"));
         namePractitionerClm.setCellValueFactory(new PropertyValueFactory<>("name"));
         genderPractitionerClm.setCellValueFactory(new PropertyValueFactory<>("gender"));
         specialtyPractitionerClm.setCellValueFactory(new PropertyValueFactory<>("specialty"));
@@ -1132,7 +1139,7 @@ public class HelloController implements Initializable {
         carePlanTable.getItems().clear();
         personElement = personTable.getSelectionModel().getSelectedItem();
 
-        imageShowLabel.setVisible(true);
+        imageShowLabel.setVisible(false);
 
         if(personElement != null) {
             allergyTable.setVisible(true);
@@ -1308,23 +1315,31 @@ public class HelloController implements Initializable {
         copyID(id);
     }
 
+    public void copyIdPayer(ActionEvent actionEvent) {
+        String id = payerTable.getSelectionModel().getSelectedItem().getId();
+        copyID(id);
+    }
+    public void copyIDPractitioner(ActionEvent actionEvent) {
+        String id = practitionerTable.getSelectionModel().getSelectedItem().getId();
+        copyID(id);
+    }
 
-    public void copyIDDevice(ActionEvent actionEvent) {
+    public void copyCodeDevice(ActionEvent actionEvent) {
         String id = deviceTable.getSelectionModel().getSelectedItem().getCode();
         copyID(id);
     }
 
-    public void copyIDProcedure(ActionEvent actionEvent) {
+    public void copyCodeProcedure(ActionEvent actionEvent) {
         String id = procedureTable.getSelectionModel().getSelectedItem().getCode();
         copyID(id);
     }
 
-    public void copyIDMedReq(ActionEvent actionEvent) {
+    public void copyCodeMedReq(ActionEvent actionEvent) {
         String id = medReqTable.getSelectionModel().getSelectedItem().getCode();
         copyID(id);
     }
 
-    public void copyIDObservation(ActionEvent actionEvent) {
+    public void copyCodeObservation(ActionEvent actionEvent) {
         String id = observationTable.getSelectionModel().getSelectedItem().getCode();
         copyID(id);
     }

@@ -122,6 +122,7 @@
 
                     <TableView fx:id="payerTable" layoutX="14.0" layoutY="271.0" prefHeight="234.0" prefWidth="772.0">
                         <columns>
+                            <TableColumn fx:id="payerIdClm" prefWidth="157.0" text="Payer Id" />
                             <TableColumn fx:id="payerNameClm" prefWidth="157.0" text="Payer Name" />
                             <TableColumn fx:id="cityPayerClm" prefWidth="102.0" text="City" />
                             <TableColumn fx:id="statePayerClm" prefWidth="317.0" text="State" />
@@ -131,6 +132,7 @@
                             <ContextMenu>
                                 <items>
                                     <MenuItem fx:id="copyNamePayer" mnemonicParsing="false" onAction="#copyNamePayer" text="Copy Payer Name" />
+                                    <MenuItem fx:id="copyIdPayer" mnemonicParsing="false" onAction="#copyIdPayer" text="Copy Payer Id" />
                                 </items>
                             </ContextMenu>
                         </contextMenu>
@@ -138,6 +140,7 @@
 
                     <TableView fx:id="practitionerTable" layoutX="14.0" layoutY="516.0" onScroll="#practitionerScrollTable" prefHeight="165.0" prefWidth="772.0">
                         <columns>
+                            <TableColumn fx:id="idPractitionerClm" prefWidth="110.0" text="Practitioner Id" />
                             <TableColumn fx:id="namePractitionerClm" prefWidth="110.0" text="Practitioner Name" />
                             <TableColumn fx:id="genderPractitionerClm" prefWidth="100.0" text="Gender" />
                             <TableColumn fx:id="specialtyPractitionerClm" prefWidth="117.0" text="Specialty" />
@@ -150,6 +153,7 @@
                             <ContextMenu>
                                 <items>
                                     <MenuItem fx:id="copiaNamePract" mnemonicParsing="false" onAction="#copyNamePractotioner" text="Copy Practitioner Name" />
+                                    <MenuItem fx:id="copiaIDPract" mnemonicParsing="false" onAction="#copyIDPractitioner" text="Copy Practitioner ID" />
                                 </items>
                             </ContextMenu>
                         </contextMenu>
@@ -201,7 +205,7 @@
                             <contextMenu>
                                 <ContextMenu>
                                     <items>
-                                        <MenuItem fx:id="copiaIDObs" mnemonicParsing="false" onAction="#copyIDObservation" text="Copy Observation ID" />
+                                        <MenuItem fx:id="copiaIDObs" mnemonicParsing="false" onAction="#copyCodeObservation" text="Copy Observation Code" />
                                        </items>
                                 </ContextMenu>
                             </contextMenu>
@@ -223,7 +227,7 @@
                             <contextMenu>
                                 <ContextMenu>
                                     <items>
-                                        <MenuItem fx:id="copiaIDMedReq" mnemonicParsing="false" onAction="#copyIDMedReq" text="Copy MedReq ID" />
+                                        <MenuItem fx:id="copiaIDMedReq" mnemonicParsing="false" onAction="#copyCodeMedReq" text="Copy MedReq Code" />
                                     </items>
                                 </ContextMenu>
                             </contextMenu>
@@ -239,7 +243,7 @@
                             <contextMenu>
                                 <ContextMenu>
                                     <items>
-                                        <MenuItem fx:id="copiaIDProcedure" mnemonicParsing="false" onAction="#copyIDProcedure" text="Copy Procedure ID" />
+                                        <MenuItem fx:id="copiaIDProcedure" mnemonicParsing="false" onAction="#copyCodeProcedure" text="Copy Procedure Code" />
                                     </items>
                                 </ContextMenu>
                             </contextMenu>
@@ -256,7 +260,7 @@
                             <contextMenu>
                                 <ContextMenu>
                                     <items>
-                                        <MenuItem fx:id="copiaIDDevice" mnemonicParsing="false" onAction="#copyIDDevice" text="Copy Device ID" />
+                                        <MenuItem fx:id="copiaIDDevice" mnemonicParsing="false" onAction="#copyCodeDevice" text="Copy Device Code" />
                                     </items>
                                 </ContextMenu>
                             </contextMenu>
