@@ -26,6 +26,10 @@ public class PayersConverter extends BaseConverter {
 
         for(Organization payer : bundlePayers) {
             PayersClass py = new PayersClass();
+            String[] parts;
+
+            parts = payer.getId().split("/");
+            py.setId(parts[5]);
 
             py.setName(payer.getName());
 
@@ -47,6 +51,7 @@ public class PayersConverter extends BaseConverter {
 
         if (fieldsListPayer.isEmpty()) {
             PayersClass py = new PayersClass();
+            py.setId("N/A");
             py.setName("N/A");
             py.setCity("N/A");
             py.setState("N/A");
@@ -59,6 +64,7 @@ public class PayersConverter extends BaseConverter {
     @Setter
     @Getter
     public static class PayersClass {
+        private String id;
         private String name;
         private String address;
         private String city;
@@ -68,6 +74,7 @@ public class PayersConverter extends BaseConverter {
         private Boolean vuoto;
 
         public PayersClass() {
+            this.id = "";
             this.name = "";
             this.city = "";
             this.state = "";
@@ -78,7 +85,8 @@ public class PayersConverter extends BaseConverter {
         @Override
         public String toString() {
             return "PayersClass{" +
-                    "name='" + name + '\'' +
+                    "id='" + name + '\'' +
+                    ", name='" + name + '\'' +
                     ", address='" + address + '\'' +
                     ", city='" + city + '\'' +
                     ", state='" + state + '\'' +

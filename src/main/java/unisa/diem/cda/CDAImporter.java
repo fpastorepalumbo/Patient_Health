@@ -19,8 +19,13 @@ import java.util.List;
 public class CDAImporter {
     private final SimpleDateFormat DATETIME_FMT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
-    private CDAService cdaService;
-    private FhirService fhirService;
+    private final CDAService cdaService;
+    private final FhirService fhirService;
+
+    public CDAImporter() {
+        this.cdaService = new CDAService();
+        this.fhirService = new FhirService();
+    }
 
     /**
      * Creates C-CDA document from encounter and imports it as FHIR

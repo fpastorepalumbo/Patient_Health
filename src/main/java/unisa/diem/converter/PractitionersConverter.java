@@ -28,6 +28,9 @@ public class PractitionersConverter extends BaseConverter {
             PractitionerClass pr = new PractitionerClass();
             String[] parts;
 
+            parts = practitioner.getId().split("/");
+            pr.setId(parts[5]);
+
             pr.setName(practitioner.getName().get(0).getText());
 
             pr.setGender(practitioner.getGender().getDisplay());
@@ -63,6 +66,7 @@ public class PractitionersConverter extends BaseConverter {
     @Setter
     @Getter
     public static class PractitionerClass {
+        private String id;
         private String name;
         private String gender;
         private String specialty;
@@ -73,6 +77,7 @@ public class PractitionersConverter extends BaseConverter {
         private Boolean vuoto;
 
         public PractitionerClass() {
+            this.id = "";
             this.name = "";
             this.gender = "";
             this.specialty = "";
@@ -86,7 +91,8 @@ public class PractitionersConverter extends BaseConverter {
         @Override
         public String toString() {
             return "PractitionerClass{" +
-                    "name='" + name + '\'' +
+                    "id ='" + id + '\'' +
+                    ", name='" + name + '\'' +
                     ", gender='" + gender + '\'' +
                     ", specialty='" + specialty + '\'' +
                     ", organization='" + organization + '\'' +

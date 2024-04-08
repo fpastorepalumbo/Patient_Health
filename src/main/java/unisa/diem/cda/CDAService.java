@@ -30,8 +30,13 @@ public class CDAService {
     private final SimpleDateFormat onlyDateFmt = new SimpleDateFormat("yyyy-MM-dd");
     private final SimpleDateFormat datetimeFmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
-    private DicomService dicomService;
-    private FhirService fhirService;
+    private final DicomService dicomService;
+    private final FhirService fhirService;
+
+    public CDAService() {
+        this.dicomService = new DicomService();
+        this.fhirService = new FhirService();
+    }
 
     /**
      * Converts FHIR Patient resource to MDHT CDA Patient object.
