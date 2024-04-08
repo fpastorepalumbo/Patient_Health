@@ -19,6 +19,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.hl7.fhir.r4.model.*;
+import unisa.diem.cda.CDAImporter;
 import unisa.diem.converter.*;
 import unisa.diem.dicom.DicomService;
 import unisa.diem.downloader.*;
@@ -176,6 +177,8 @@ public class HelloController implements Initializable {
 
     // encounterTable
     @FXML
+    public TableColumn completeIdEncounterClm;
+    @FXML
     public TableColumn idEncounterClm;
     @FXML
     public TableColumn codeEncounterClm;
@@ -277,7 +280,8 @@ public class HelloController implements Initializable {
     public TableColumn encounterImageClm;
 
     public Label imageShowLabel;
-    private DicomService dicomService;
+    private final DicomService dicomService;
+    private CDAImporter cdaImporter;
     private List<String> currentFrames;
     private String currentImage;
 
@@ -355,6 +359,7 @@ public class HelloController implements Initializable {
         imagingStudiesDownloadSearch = new ImagingStudiesDownload();
 
         datasetUtility = new DatasetService();
+        cdaImporter = new CDAImporter();
         personElement = null;
         encounterElement = null;
 
@@ -505,6 +510,8 @@ public class HelloController implements Initializable {
 
         namePractitionerClm.setCellFactory(TextFieldTableCell.forTableColumn());
 
+        completeIdEncounterClm.setCellValueFactory(new PropertyValueFactory<>("completeId"));
+        completeIdEncounterClm.setVisible(false);
         idEncounterClm.setCellValueFactory(new PropertyValueFactory<>("id"));
         codeEncounterClm.setCellValueFactory(new PropertyValueFactory<>("code"));
         descriptionEncounterClm.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -518,7 +525,6 @@ public class HelloController implements Initializable {
         coverageEncounterClm.setCellValueFactory(new PropertyValueFactory<>("coverage"));
 
         idEncounterClm.setCellFactory(TextFieldTableCell.forTableColumn());
-
 
         observationEncounterClm2.setCellValueFactory(new PropertyValueFactory<>("code"));
         descriptionEncounterClm2.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -1065,28 +1071,17 @@ public class HelloController implements Initializable {
         ImagingStudiesConverter imagingStudiesConverter = new ImagingStudiesConverter(imagingStudies);
         imagingStudiesConverter.convert();
         for (ImagingStudiesConverter.ImagingStudiesClass imagingStudy : imagingStudiesConverter.getFieldsListImagingStudies())
-            if (imagingStudy.getVuoto() == false)
+            if (!imagingStudy.getVuoto())
                 imageTable.getItems().add(imagingStudy);
             else
                 new Alert(Alert.AlertType.ERROR, "Image not found").showAndWait();
         autoResizeColumns(imageTable);
     }
 
-
-
-    public void generateCDA(ActionEvent actionEvent) {
-        String id = encounterTable.getSelectionModel().getSelectedItem().getId();
-        String patientID = encounterTable.getSelectionModel().getSelectedItem().getPatient();
-        String organizationID = encounterTable.getSelectionModel().getSelectedItem().getOrganization();
-        String practitionerID = encounterTable.getSelectionModel().getSelectedItem().getPractitioner();
-        String payerID = encounterTable.getSelectionModel().getSelectedItem().getPayer();
-        String cost = encounterTable.getSelectionModel().getSelectedItem().getCost();
-        String coverage = encounterTable.getSelectionModel().getSelectedItem().getCoverage();
-        // datasetUtility.generateCDA(id, patientID, organizationID, practitionerID, payerID, cost, coverage);
-    }
-
     public void generateCDAEncounter(ActionEvent actionEvent) {
+        String id = encounterTable.getSelectionModel().getSelectedItem().getId();
 
+        cdaImporter.saveCDAToFhir(id);
     }
 
     public void copyIDEncounter(ActionEvent actionEvent) {
