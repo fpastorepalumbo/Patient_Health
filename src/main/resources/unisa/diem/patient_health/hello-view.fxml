@@ -11,7 +11,7 @@
         </Menu>
     </MenuBar>
     <AnchorPane prefHeight="637.0" prefWidth="1280.0">
-        <SplitPane dividerPositions="0.18013856812933027" prefHeight="695.0" prefWidth="1280.0">
+        <SplitPane fx:id="splitPaneId" dividerPositions="0.18013856812933027" prefHeight="695.0" prefWidth="1280.0">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="671.0" prefWidth="227.0">
                 <TextField fx:id="searchBar1" layoutX="14.0" layoutY="272.0" prefHeight="25.0" prefWidth="140.0" />
                 <Button fx:id="buttonSearch" layoutX="161.0" layoutY="272.0" mnemonicParsing="false" onMouseClicked="#searchButtonClick" text="Search" />
@@ -27,7 +27,6 @@
             <CheckBox fx:id="checkBox1" layoutX="14.0" layoutY="315.0" mnemonicParsing="false" />
             <CheckBox fx:id="checkBox5" layoutX="14.0" layoutY="421.0" mnemonicParsing="false" />
             <Line endX="113.0" layoutX="114.0" layoutY="250.0" startX="-114.0" />
-            <Label fx:id="imageShowLabel" alignment="CENTER" layoutX="16.0" layoutY="376.0" onMouseClicked="#showImagePatientClick" prefHeight="39.0" prefWidth="196.0" text="Show Image Study" />
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="672.0" prefWidth="1045.0">
                 <Pane fx:id="patientPane" prefHeight="695.0" prefWidth="1045.0" visible="false">
@@ -287,5 +286,6 @@
                 </Pane>
             </AnchorPane>
         </SplitPane>
+      <Pane fx:id="homePaneId" prefHeight="695.0" prefWidth="1280.0" />
     </AnchorPane>
 </VBox>

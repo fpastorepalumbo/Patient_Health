@@ -287,7 +287,6 @@ public class HelloController implements Initializable {
     @FXML
     public TableColumn encounterImageClm;
 
-    public Label imageShowLabel;
     private final DicomService dicomService;
     private CDAImporter cdaImporter;
     private List<String> currentFrames;
@@ -352,6 +351,12 @@ public class HelloController implements Initializable {
     public boolean firstClickEncounter;
     public boolean firstClickImaging;
 
+    @FXML
+    public Pane homePaneId;
+
+    @FXML
+    public SplitPane splitpaneId;
+
     public HelloController() {
         patientDownload = new PatientDownload();
         patientDownloadSearch = new PatientDownload();
@@ -377,6 +382,12 @@ public class HelloController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        homePaneId.setVisible(true);
+        homePaneId.setStyle("-fx-background-image: url('/resources/images/sfondoHome.webp'); " +
+                    "-fx-background-size: cover;");
+
+        splitpaneId.setVisible(false);
         patientPane.setVisible(false);
         organizationPane.setVisible(false);
         exstEncounterPane.setVisible(false);
@@ -393,7 +404,6 @@ public class HelloController implements Initializable {
         checkBox5.setVisible(false);
         checkBox6.setVisible(false);
 
-        imageShowLabel.setVisible(false);
 
         checkBox1.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if(newValue){
@@ -626,7 +636,6 @@ public class HelloController implements Initializable {
         conditionTable.setVisible(false);
         immunizationTable.setVisible(false);
         carePlanTable.setVisible(false);
-        imageShowLabel.setVisible(false);
 
         if (firstClickPatient) {
             firstClickPatient = false;
@@ -656,7 +665,6 @@ public class HelloController implements Initializable {
         imagingPane.setVisible(false);
         encounterPane1.setVisible(false);
         encounterPane2.setVisible(false);
-        imageShowLabel.setVisible(false);
 
         if (firstClickOrganization) {
             firstClickOrganization = false;
@@ -707,7 +715,6 @@ public class HelloController implements Initializable {
         patientPane.setVisible(false);
         organizationPane.setVisible(false);
         imagingPane.setVisible(false);
-        imageShowLabel.setVisible(false);
 
         if (firstClickEncounter) {
             firstClickEncounter = false;
@@ -735,7 +742,6 @@ public class HelloController implements Initializable {
         exstEncounterPane.setVisible(false);
         encounterPane1.setVisible(false);
         encounterPane2.setVisible(false);
-        imageShowLabel.setVisible(false);
 
         if (firstClickImaging) {
             firstClickImaging = false;
@@ -1001,7 +1007,6 @@ public class HelloController implements Initializable {
         checkBox5.setVisible(false);
         checkBox6.setVisible(false);
         checkBox1.setSelected(true);
-        imageShowLabel.setVisible(false);
     }
 
     public void setSearchOrganization(){
@@ -1020,7 +1025,6 @@ public class HelloController implements Initializable {
         checkBox6.setVisible(true);
         checkBox6.setText("Practitioner ID");
         checkBox1.setSelected(true);
-        imageShowLabel.setVisible(false);
     }
 
     public void setSearchOff(){
@@ -1032,7 +1036,6 @@ public class HelloController implements Initializable {
         checkBox4.setVisible(false);
         checkBox5.setVisible(false);
         checkBox6.setVisible(false);
-        imageShowLabel.setVisible(false);
     }
 
     public void setSearchEncounter(){
@@ -1047,7 +1050,6 @@ public class HelloController implements Initializable {
         checkBox5.setVisible(false);
         checkBox6.setVisible(false);
         checkBox1.setSelected(true);
-        imageShowLabel.setVisible(false);
     }
 
     public void setSearchImage(){
@@ -1062,31 +1064,6 @@ public class HelloController implements Initializable {
         checkBox5.setVisible(false);
         checkBox6.setVisible(false);
         checkBox1.setSelected(true);
-        imageShowLabel.setVisible(false);
-    }
-
-    public void showImagePatientClick() {
-        if(personElement.getId() == null){
-            new Alert(Alert.AlertType.ERROR, "Patient not selected").showAndWait();
-            return;
-        }
-        patientPane.setVisible(false);
-        organizationPane.setVisible(false);
-        exstEncounterPane.setVisible(false);
-        encounterPane1.setVisible(false);
-        encounterPane2.setVisible(false);
-        imagingPane.setVisible(true);
-
-        imagingStudiesDownloadSearch.downloadImageWithPatientId(personElement.getId());
-        List<ImagingStudy> imagingStudies = imagingStudiesDownloadSearch.getImageSearch();
-        ImagingStudiesConverter imagingStudiesConverter = new ImagingStudiesConverter(imagingStudies);
-        imagingStudiesConverter.convert();
-        for (ImagingStudiesConverter.ImagingStudiesClass imagingStudy : imagingStudiesConverter.getFieldsListImagingStudies())
-            if (!imagingStudy.getVuoto())
-                imageTable.getItems().add(imagingStudy);
-            else
-                new Alert(Alert.AlertType.ERROR, "Image not found").showAndWait();
-        autoResizeColumns(imageTable);
     }
 
     public void generateCDAEncounter(ActionEvent actionEvent) {
@@ -1138,8 +1115,6 @@ public class HelloController implements Initializable {
         immunizationTable.getItems().clear();
         carePlanTable.getItems().clear();
         personElement = personTable.getSelectionModel().getSelectedItem();
-
-        imageShowLabel.setVisible(false);
 
         if(personElement != null) {
             allergyTable.setVisible(true);
@@ -1203,7 +1178,6 @@ public class HelloController implements Initializable {
         patientPane.setVisible(false);
         organizationPane.setVisible(false);
         imagingPane.setVisible(false);
-        imageShowLabel.setVisible(false);
 
         observationTable.getItems().clear();
         medReqTable.getItems().clear();
