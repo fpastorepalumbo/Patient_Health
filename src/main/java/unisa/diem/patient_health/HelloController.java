@@ -148,6 +148,8 @@ public class HelloController implements Initializable {
     public TableColumn stateOrganizationClm;
     @FXML
     public TableColumn phoneOrganizationClm;
+    @FXML
+    public TableColumn organizationIdClm;
 
     // payerTable
     @FXML
@@ -490,6 +492,8 @@ public class HelloController implements Initializable {
         cityOrganizationClm.setCellValueFactory(new PropertyValueFactory<>("city"));
         stateOrganizationClm.setCellValueFactory(new PropertyValueFactory<>("state"));
         phoneOrganizationClm.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        organizationIdClm.setCellValueFactory(new PropertyValueFactory<>("id"));
+
 
         organizationNameClm.setCellFactory(TextFieldTableCell.forTableColumn());
 
@@ -1290,7 +1294,8 @@ public class HelloController implements Initializable {
     }
 
     public void copyIdOrganization(ActionEvent actionEvent) {
-
+        String id = organizationTable.getSelectionModel().getSelectedItem().getId();
+        copyID(id);
     }
 
     public void copyNamePayer(ActionEvent actionEvent) {

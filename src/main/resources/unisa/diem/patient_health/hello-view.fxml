@@ -45,12 +45,14 @@
                             <TableColumn fx:id="cityClmPersona" prefWidth="106.0" text="City" />
                             <TableColumn fx:id="stateClmPersona" prefWidth="91.0" text="State" />
                         </columns>
-                        <ContextMenu>
-                            <items>
-                                <MenuItem fx:id="copiaIDPatient" mnemonicParsing="false" onAction="#copyIDPatient" text="Copy Patient ID" />
-                                <MenuItem fx:id="examinePatient" mnemonicParsing="false" onAction="#examinePatient" text="Examine Patient" />
-                            </items>
-                        </ContextMenu>
+                        <contextMenu>
+                            <ContextMenu>
+                                <items>
+                                    <MenuItem fx:id="copiaIDPatient" mnemonicParsing="false" onAction="#copyIDPatient" text="Copy Patient ID" />
+                                    <MenuItem fx:id="examinePatient" mnemonicParsing="false" onAction="#examinePatient" text="Examine Patient" />
+                                </items>
+                            </ContextMenu>
+                        </contextMenu>
                     </TableView>
 
                     <TableView fx:id="allergyTable" layoutX="14.0" layoutY="248.0" prefHeight="118.0" prefWidth="558.0">
@@ -80,11 +82,13 @@
                             <TableColumn fx:id="stopDateClmCondition" prefWidth="75.0" text="Stop Date" />
                             <TableColumn fx:id="encounterClmCondition" prefWidth="88.0" text="Encounter" />
                         </columns>
-                        <ContextMenu>
-                            <items>
-                                <MenuItem fx:id="examineCondition" mnemonicParsing="false" onAction="#examineCondition" text="Examine Condition" />
-                            </items>
-                        </ContextMenu>
+                        <contextMenu>
+                            <ContextMenu>
+                                <items>
+                                    <MenuItem fx:id="examineCondition" mnemonicParsing="false" onAction="#examineCondition" text="Examine Condition" />
+                                </items>
+                            </ContextMenu>
+                        </contextMenu>
                     </TableView>
 
                     <TableView fx:id="carePlanTable" layoutX="590.0" layoutY="557.0" prefHeight="87.0" prefWidth="443.0">
@@ -100,6 +104,7 @@
                 <Pane fx:id="organizationPane" layoutX="-4.0" layoutY="-1.0" prefHeight="695.0" prefWidth="1053.0" visible="false">
                     <TableView fx:id="organizationTable" layoutX="14.0" layoutY="14.0" onScroll="#organizationScrollTable" prefHeight="249.0" prefWidth="772.0">
                         <columns>
+                            <TableColumn fx:id="organizationIdClm" prefWidth="221.0" text="Organization Id" />
                             <TableColumn fx:id="organizationNameClm" prefWidth="221.0" text="Organization Name" />
                             <TableColumn fx:id="cityOrganizationClm" minWidth="0.0" prefWidth="178.0" text="City" />
                             <TableColumn fx:id="stateOrganizationClm" minWidth="0.0" prefWidth="177.0" text="State" />

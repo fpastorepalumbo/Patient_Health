@@ -27,6 +27,8 @@ public class OrganizationConverter extends BaseConverter {
         for(Organization organization : bundleOrganizations) {
             OrganizationClass oc = new OrganizationClass();
 
+            oc.setId(organization.getId());
+
             oc.setName(organization.getName());
 
             oc.setCity(organization.getAddress().get(0).getCity());
@@ -44,6 +46,7 @@ public class OrganizationConverter extends BaseConverter {
             oc.setCity("N/A");
             oc.setState("N/A");
             oc.setPhone("N/A");
+            oc.setId("N/A");
             oc.setVuoto(true);
             fieldsListOrganization.add(oc);
         }
@@ -57,12 +60,14 @@ public class OrganizationConverter extends BaseConverter {
         private String state;
         private String phone;
         private Boolean vuoto;
+        private String id;
 
         public OrganizationClass() {
             this.name = "";
             this.city = "";
             this.state = "";
             this.phone = "";
+            this.id = "";
             this.vuoto = false;
         }
 
@@ -74,7 +79,9 @@ public class OrganizationConverter extends BaseConverter {
                     ", state='" + state + '\'' +
                     ", phone='" + phone + '\'' +
                     ", vuoto=" + vuoto +
+                    ", id='" + id + '\'' +
                     '}';
         }
+
     }
 }
