@@ -67,6 +67,7 @@ public class PatientConverter extends BaseConverter {
 
             fieldsListPatient.add(pc);
         }
+
         if (fieldsListPatient.isEmpty()) {
             PatientClass pc = new PatientClass();
             pc.setId("N/A");
@@ -82,7 +83,6 @@ public class PatientConverter extends BaseConverter {
             pc.setCity("N/A");
             pc.setState("N/A");
             pc.setVuoto(true);
-            fieldsListPatient.add(pc);
         }
     }
 

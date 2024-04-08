@@ -353,9 +353,8 @@ public class HelloController implements Initializable {
 
     @FXML
     public Pane homePaneId;
-
     @FXML
-    public SplitPane splitpaneId;
+    public SplitPane splitPaneId;
 
     public HelloController() {
         patientDownload = new PatientDownload();
@@ -384,10 +383,8 @@ public class HelloController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         homePaneId.setVisible(true);
-        homePaneId.setStyle("-fx-background-image: url('/resources/images/sfondoHome.webp'); " +
-                    "-fx-background-size: cover;");
-
-        splitpaneId.setVisible(false);
+        homePaneId.setStyle("-fx-background-image: url('file:./resources/images/sfondoHome.webp); " + "-fx-background-size: cover;");
+        splitPaneId.setVisible(false);
         patientPane.setVisible(false);
         organizationPane.setVisible(false);
         exstEncounterPane.setVisible(false);
@@ -1344,7 +1341,4 @@ public class HelloController implements Initializable {
             column.setPrefWidth( max + 10.0d );
         } );
     }
-
-
-
 }
