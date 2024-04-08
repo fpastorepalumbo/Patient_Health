@@ -734,190 +734,7 @@ public class HelloController implements Initializable {
         }
     }
 
-    public void clickPatientTable() {
-        allergyTable.getItems().clear();
-        conditionTable.getItems().clear();
-        immunizationTable.getItems().clear();
-        carePlanTable.getItems().clear();
-        personElement = personTable.getSelectionModel().getSelectedItem();
 
-        imageShowLabel.setVisible(true);
-
-        if(personElement != null) {
-            allergyTable.setVisible(true);
-            conditionTable.setVisible(true);
-            immunizationTable.setVisible(true);
-            carePlanTable.setVisible(false);
-
-            AllergyDownload allergyDownload = new AllergyDownload(personElement.getId());
-            allergyDownload.download();
-            List<AllergyIntolerance> allergies = allergyDownload.getAllergies();
-            AllergyConverter allergyConverter = new AllergyConverter(allergies);
-            allergyConverter.convert();
-            for (AllergyConverter.AllergyClass allergy : allergyConverter.getFieldsListAllergy())
-                allergyTable.getItems().add(allergy);
-            autoResizeColumns(allergyTable);
-
-            ImmunizationDownload immunizationDownload = new ImmunizationDownload(personElement.getId());
-            immunizationDownload.download();
-            List<Immunization> immunizations = immunizationDownload.getImmunizations();
-            ImmunizationConverter immunizationConverter = new ImmunizationConverter(immunizations);
-            immunizationConverter.convert();
-            for (ImmunizationConverter.ImmunizationClass immunization : immunizationConverter.getFieldsListImmunization())
-                immunizationTable.getItems().add(immunization);
-            autoResizeColumns(immunizationTable);
-
-            ConditionDownload conditionDownload = new ConditionDownload(personElement.getId());
-            conditionDownload.download();
-            List<Condition> conditions = conditionDownload.getConditions();
-            ConditionConverter conditionConverter = new ConditionConverter(conditions);
-            conditionConverter.convert();
-            for (ConditionConverter.ConditionClass condition : conditionConverter.getFieldsListCondition())
-                conditionTable.getItems().add(condition);
-            autoResizeColumns(conditionTable);
-        }
-    }
-
-    public void clickEncounterTable() {
-        setSearchOff();
-        exstEncounterPane.setVisible(true);
-        encounterPane1.setVisible(false);
-        encounterPane2.setVisible(true);
-        patientPane.setVisible(false);
-        organizationPane.setVisible(false);
-        imagingPane.setVisible(false);
-        imageShowLabel.setVisible(false);
-
-        observationTable.getItems().clear();
-        medReqTable.getItems().clear();
-        procedureTable.getItems().clear();
-        deviceTable.getItems().clear();
-
-        encounterElement = encounterTable.getSelectionModel().getSelectedItem();
-
-        if (encounterElement != null) {
-            medReqTable.setVisible(true);
-            observationTable.setVisible(true);
-            procedureTable.setVisible(true);
-            deviceTable.setVisible(true);
-            String encID = encounterElement.getId();
-
-            ObservationsDownload observationDownload = new ObservationsDownload(encID);
-            observationDownload.download();
-            List<Observation> observations = observationDownload.getObservations();
-            ObservationsConverter observationsConverter = new ObservationsConverter(observations);
-            observationsConverter.convert();
-            for (ObservationsConverter.ObservationClass observation : observationsConverter.getFieldsListObservation())
-                observationTable.getItems().add(observation);
-            autoResizeColumns(observationTable);
-
-            MedicationRequestDownload medReqDownload = new MedicationRequestDownload(encID);
-            medReqDownload.download();
-            List<MedicationRequest> medReqs = medReqDownload.getMedicationRequests();
-            MedicationRequestsConverter medReqConverter = new MedicationRequestsConverter(medReqs);
-            medReqConverter.convert();
-            for (MedicationRequestsConverter.MedicationRequestsClass medReq : medReqConverter.getFieldsListMedRequest())
-                medReqTable.getItems().add(medReq);
-            autoResizeColumns(medReqTable);
-
-            ProceduresDownload procedureDownload = new ProceduresDownload(encID);
-            procedureDownload.download();
-            List<Procedure> procedures = procedureDownload.getProcedures();
-            ProceduresConverter procedureConverter = new ProceduresConverter(procedures);
-            procedureConverter.convert();
-            for (ProceduresConverter.ProcedureClass procedure : procedureConverter.getFieldsListProcedure())
-                procedureTable.getItems().add(procedure);
-            autoResizeColumns(procedureTable);
-
-            DevicesDownload deviceDownload = new DevicesDownload(encID);
-            deviceDownload.download();
-            List<DeviceRequest> devices = deviceDownload.getDevices();
-            DevicesConverter deviceConverter = new DevicesConverter(devices);
-            deviceConverter.convert();
-            for (DevicesConverter.DeviceClass device : deviceConverter.getFieldsListDevices())
-                deviceTable.getItems().add(device);
-            autoResizeColumns(deviceTable);
-        }
-    }
-
-    public void clickConditionTable() {
-        ConditionConverter.ConditionClass conditionElement = conditionTable.getSelectionModel().getSelectedItem();
-
-        if (conditionElement != null)
-            carePlanTable.setVisible(true);
-        carePlanTable.getItems().clear();
-
-        CarePlanDownload carePlanDownload = new CarePlanDownload(personElement.getId());
-        carePlanDownload.download();
-        List<CarePlan> carePlans = carePlanDownload.getCarePlans();
-        CarePlanConverter carePlanConverter = new CarePlanConverter(carePlans);
-        carePlanConverter.convert();
-        for (CarePlanConverter.CarePlanClass carePlan : carePlanConverter.getFieldsListCarePlan())
-            carePlanTable.getItems().add(carePlan);
-        autoResizeColumns(carePlanTable);
-    }
-
-    public void start(Stage primaryStage) {
-        GridPane gridPane = new GridPane();
-
-        // Load your images (assuming they are in the same directory as this class)
-        Image[] images = new Image[256];
-        Base64.Decoder base64Decoder = Base64.getDecoder();
-        for (int i = 0; i < 256; i++) {
-            ByteArrayInputStream imgInputStream = new ByteArrayInputStream(base64Decoder.decode(currentFrames.get(i)));
-
-            images[i] = new Image(imgInputStream);
-        }
-
-        // Add images to the grid
-        for (int i = 0; i < 256; i++) {
-            ImageView imageView = new ImageView(images[i]);
-            imageView.setFitWidth(60);
-            imageView.setFitHeight(50);
-            gridPane.add(imageView, i/16, i%16); // Adding images to grid
-        }
-
-        Scene scene = new Scene(gridPane);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Image Grid");
-        primaryStage.show();
-    }
-    /*
-    public void showImage(Stage primaryStage) {
-        // Load image from base64
-        Base64.Decoder base64Decoder = Base64.getDecoder();
-        ByteArrayInputStream imgInputStream = new ByteArrayInputStream(base64Decoder.decode(currentImage));
-
-        Image image = new Image(imgInputStream);
-
-        // Crea un ImageView per visualizzare l'immagine
-        ImageView imageView = new ImageView(image);
-
-        // Crea un layout di StackPane e aggiungi l'ImageView ad esso
-        StackPane root = new StackPane();
-        root.getChildren().add(imageView);
-
-        // Crea la scena e aggiungi il layout ad essa
-        Scene scene = new Scene(root, 600, 400);
-
-        // Imposta il titolo della finestra
-        primaryStage.setTitle("Mostra Immagine");
-
-        // Imposta la scena sulla finestra primaria e mostra la finestra
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
-     */
-
-    public void clickImageTable() {
-        ImagingStudiesConverter.ImagingStudiesClass imageElement = imageTable.getSelectionModel().getSelectedItem();
-
-        if (imageElement != null) {
-            ImagingStudy im = FhirWrapper.getClient().read().resource(ImagingStudy.class).withId(imageElement.getId()).execute();
-            currentFrames = dicomService.getDicomFile(im).serveAllFrames();
-            start(new Stage());
-        }
-    }
 
     public void loadDataset() {
         try {
@@ -1255,6 +1072,239 @@ public class HelloController implements Initializable {
         autoResizeColumns(imageTable);
     }
 
+
+
+    public void generateCDA(ActionEvent actionEvent) {
+        String id = encounterTable.getSelectionModel().getSelectedItem().getId();
+        String patientID = encounterTable.getSelectionModel().getSelectedItem().getPatient();
+        String organizationID = encounterTable.getSelectionModel().getSelectedItem().getOrganization();
+        String practitionerID = encounterTable.getSelectionModel().getSelectedItem().getPractitioner();
+        String payerID = encounterTable.getSelectionModel().getSelectedItem().getPayer();
+        String cost = encounterTable.getSelectionModel().getSelectedItem().getCost();
+        String coverage = encounterTable.getSelectionModel().getSelectedItem().getCoverage();
+        // datasetUtility.generateCDA(id, patientID, organizationID, practitionerID, payerID, cost, coverage);
+    }
+
+    public void generateCDAEncounter(ActionEvent actionEvent) {
+
+    }
+
+    public void copyIDEncounter(ActionEvent actionEvent) {
+        String id = encounterTable.getSelectionModel().getSelectedItem().getId();
+        copyID(id);
+    }
+
+    public void copyID(String id) {
+        final Clipboard clipboard = Clipboard.getSystemClipboard();
+        final ClipboardContent content = new ClipboardContent();
+        content.putString(id);
+        clipboard.setContent(content);
+    }
+
+    public void copyIDPatient(ActionEvent actionEvent) {
+        String id = personTable.getSelectionModel().getSelectedItem().getId();
+        copyID(id);
+    }
+
+    public void examinePatient(ActionEvent actionEvent) {
+        allergyTable.getItems().clear();
+        conditionTable.getItems().clear();
+        immunizationTable.getItems().clear();
+        carePlanTable.getItems().clear();
+        personElement = personTable.getSelectionModel().getSelectedItem();
+
+        imageShowLabel.setVisible(true);
+
+        if(personElement != null) {
+            allergyTable.setVisible(true);
+            conditionTable.setVisible(true);
+            immunizationTable.setVisible(true);
+            carePlanTable.setVisible(false);
+
+            AllergyDownload allergyDownload = new AllergyDownload(personElement.getId());
+            allergyDownload.download();
+            List<AllergyIntolerance> allergies = allergyDownload.getAllergies();
+            AllergyConverter allergyConverter = new AllergyConverter(allergies);
+            allergyConverter.convert();
+            for (AllergyConverter.AllergyClass allergy : allergyConverter.getFieldsListAllergy())
+                allergyTable.getItems().add(allergy);
+            autoResizeColumns(allergyTable);
+
+            ImmunizationDownload immunizationDownload = new ImmunizationDownload(personElement.getId());
+            immunizationDownload.download();
+            List<Immunization> immunizations = immunizationDownload.getImmunizations();
+            ImmunizationConverter immunizationConverter = new ImmunizationConverter(immunizations);
+            immunizationConverter.convert();
+            for (ImmunizationConverter.ImmunizationClass immunization : immunizationConverter.getFieldsListImmunization())
+                immunizationTable.getItems().add(immunization);
+            autoResizeColumns(immunizationTable);
+
+            ConditionDownload conditionDownload = new ConditionDownload(personElement.getId());
+            conditionDownload.download();
+            List<Condition> conditions = conditionDownload.getConditions();
+            ConditionConverter conditionConverter = new ConditionConverter(conditions);
+            conditionConverter.convert();
+            for (ConditionConverter.ConditionClass condition : conditionConverter.getFieldsListCondition())
+                conditionTable.getItems().add(condition);
+            autoResizeColumns(conditionTable);
+        }
+    }
+
+    public void examineCondition(ActionEvent actionEvent) {
+        // copia il contenuto di ClickConditionTable
+        ConditionConverter.ConditionClass conditionElement = conditionTable.getSelectionModel().getSelectedItem();
+
+        if (conditionElement != null)
+            carePlanTable.setVisible(true);
+        carePlanTable.getItems().clear();
+
+        CarePlanDownload carePlanDownload = new CarePlanDownload(personElement.getId());
+        carePlanDownload.download();
+        List<CarePlan> carePlans = carePlanDownload.getCarePlans();
+        CarePlanConverter carePlanConverter = new CarePlanConverter(carePlans);
+        carePlanConverter.convert();
+        for (CarePlanConverter.CarePlanClass carePlan : carePlanConverter.getFieldsListCarePlan())
+            carePlanTable.getItems().add(carePlan);
+        autoResizeColumns(carePlanTable);
+    }
+
+    public void examineEncounter(ActionEvent actionEvent) {
+        // copia il contenuto di ClickEncounterTable
+        setSearchOff();
+        exstEncounterPane.setVisible(true);
+        encounterPane1.setVisible(false);
+        encounterPane2.setVisible(true);
+        patientPane.setVisible(false);
+        organizationPane.setVisible(false);
+        imagingPane.setVisible(false);
+        imageShowLabel.setVisible(false);
+
+        observationTable.getItems().clear();
+        medReqTable.getItems().clear();
+        procedureTable.getItems().clear();
+        deviceTable.getItems().clear();
+
+        encounterElement = encounterTable.getSelectionModel().getSelectedItem();
+
+        if (encounterElement != null) {
+            medReqTable.setVisible(true);
+            observationTable.setVisible(true);
+            procedureTable.setVisible(true);
+            deviceTable.setVisible(true);
+            String encID = encounterElement.getId();
+
+            ObservationsDownload observationDownload = new ObservationsDownload(encID);
+            observationDownload.download();
+            List<Observation> observations = observationDownload.getObservations();
+            ObservationsConverter observationsConverter = new ObservationsConverter(observations);
+            observationsConverter.convert();
+            for (ObservationsConverter.ObservationClass observation : observationsConverter.getFieldsListObservation())
+                observationTable.getItems().add(observation);
+            autoResizeColumns(observationTable);
+
+            MedicationRequestDownload medReqDownload = new MedicationRequestDownload(encID);
+            medReqDownload.download();
+            List<MedicationRequest> medReqs = medReqDownload.getMedicationRequests();
+            MedicationRequestsConverter medReqConverter = new MedicationRequestsConverter(medReqs);
+            medReqConverter.convert();
+            for (MedicationRequestsConverter.MedicationRequestsClass medReq : medReqConverter.getFieldsListMedRequest())
+                medReqTable.getItems().add(medReq);
+            autoResizeColumns(medReqTable);
+
+            ProceduresDownload procedureDownload = new ProceduresDownload(encID);
+            procedureDownload.download();
+            List<Procedure> procedures = procedureDownload.getProcedures();
+            ProceduresConverter procedureConverter = new ProceduresConverter(procedures);
+            procedureConverter.convert();
+            for (ProceduresConverter.ProcedureClass procedure : procedureConverter.getFieldsListProcedure())
+                procedureTable.getItems().add(procedure);
+            autoResizeColumns(procedureTable);
+
+            DevicesDownload deviceDownload = new DevicesDownload(encID);
+            deviceDownload.download();
+            List<DeviceRequest> devices = deviceDownload.getDevices();
+            DevicesConverter deviceConverter = new DevicesConverter(devices);
+            deviceConverter.convert();
+            for (DevicesConverter.DeviceClass device : deviceConverter.getFieldsListDevices())
+                deviceTable.getItems().add(device);
+            autoResizeColumns(deviceTable);
+        }
+
+    }
+
+    public void showImages(Stage primaryStage) {
+        GridPane gridPane = new GridPane();
+
+        // Load your images (assuming they are in the same directory as this class)
+        Image[] images = new Image[256];
+        Base64.Decoder base64Decoder = Base64.getDecoder();
+        for (int i = 0; i < 256; i++) {
+            ByteArrayInputStream imgInputStream = new ByteArrayInputStream(base64Decoder.decode(currentFrames.get(i)));
+
+            images[i] = new Image(imgInputStream);
+        }
+
+        // Add images to the grid
+        for (int i = 0; i < 256; i++) {
+            ImageView imageView = new ImageView(images[i]);
+            imageView.setFitWidth(60);
+            imageView.setFitHeight(50);
+            gridPane.add(imageView, i/16, i%16); // Adding images to grid
+        }
+
+        Scene scene = new Scene(gridPane);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Image Grid");
+        primaryStage.show();
+    }
+
+
+    public void clickImageTable() {
+        ImagingStudiesConverter.ImagingStudiesClass imageElement = imageTable.getSelectionModel().getSelectedItem();
+
+        if (imageElement != null) {
+            ImagingStudy im = FhirWrapper.getClient().read().resource(ImagingStudy.class).withId(imageElement.getId()).execute();
+            currentFrames = dicomService.getDicomFile(im).serveAllFrames();
+            showImages(new Stage());
+        }
+    }
+
+    public void copyNameOrganization(ActionEvent actionEvent) {
+        String id = organizationTable.getSelectionModel().getSelectedItem().getName();
+        copyID(id);
+    }
+
+    public void copyNamePayer(ActionEvent actionEvent) {
+        String id = payerTable.getSelectionModel().getSelectedItem().getName();
+        copyID(id);
+    }
+
+    public void copyNamePractotioner(ActionEvent actionEvent) {
+        String id = practitionerTable.getSelectionModel().getSelectedItem().getName();
+        copyID(id);
+    }
+
+
+    public void copyIDDevice(ActionEvent actionEvent) {
+        String id = deviceTable.getSelectionModel().getSelectedItem().getCode();
+        copyID(id);
+    }
+
+    public void copyIDProcedure(ActionEvent actionEvent) {
+        String id = procedureTable.getSelectionModel().getSelectedItem().getCode();
+        copyID(id);
+    }
+
+    public void copyIDMedReq(ActionEvent actionEvent) {
+        String id = medReqTable.getSelectionModel().getSelectedItem().getCode();
+        copyID(id);
+    }
+
+    public void copyIDObservation(ActionEvent actionEvent) {
+        String id = observationTable.getSelectionModel().getSelectedItem().getCode();
+        copyID(id);
+    }
+
     public static void autoResizeColumns( TableView<?> table ){
         // Set the right policy
         table.setColumnResizePolicy( TableView.UNCONSTRAINED_RESIZE_POLICY);
@@ -1280,84 +1330,5 @@ public class HelloController implements Initializable {
             // set the new max-widht with some extra space
             column.setPrefWidth( max + 10.0d );
         } );
-    }
-
-    public void generateCDA(ActionEvent actionEvent) {
-        String id = encounterTable.getSelectionModel().getSelectedItem().getId();
-        String patientID = encounterTable.getSelectionModel().getSelectedItem().getPatient();
-        String organizationID = encounterTable.getSelectionModel().getSelectedItem().getOrganization();
-        String practitionerID = encounterTable.getSelectionModel().getSelectedItem().getPractitioner();
-        String payerID = encounterTable.getSelectionModel().getSelectedItem().getPayer();
-        String cost = encounterTable.getSelectionModel().getSelectedItem().getCost();
-        String coverage = encounterTable.getSelectionModel().getSelectedItem().getCoverage();
-        // datasetUtility.generateCDA(id, patientID, organizationID, practitionerID, payerID, cost, coverage);
-    }
-
-    public void copyIDEncounter(ActionEvent actionEvent) {
-        String id = encounterTable.getSelectionModel().getSelectedItem().getId();
-        copyID(id);
-    }
-
-
-    public void generateCDAEncounter(ActionEvent actionEvent) {
-    }
-
-    public void copyID(String id) {
-        final Clipboard clipboard = Clipboard.getSystemClipboard();
-        final ClipboardContent content = new ClipboardContent();
-        content.putString(id);
-        clipboard.setContent(content);
-    }
-
-    public void copyIDPatient(ActionEvent actionEvent) {
-        String id = personTable.getSelectionModel().getSelectedItem().getId();
-        copyID(id);
-    }
-
-    public void examinePatient(ActionEvent actionEvent) {
-        // copia il contenuto di ClickPatientTable
-    }
-
-    public void examineCondition(ActionEvent actionEvent) {
-        // copia il contenuto di ClickConditionTable
-    }
-
-    public void copyNameOrganization(ActionEvent actionEvent) {
-        String id = organizationTable.getSelectionModel().getSelectedItem().getName();
-        copyID(id);
-    }
-
-    public void copyNamePayer(ActionEvent actionEvent) {
-        String id = payerTable.getSelectionModel().getSelectedItem().getName();
-        copyID(id);
-    }
-
-    public void copyNamePractotioner(ActionEvent actionEvent) {
-        String id = practitionerTable.getSelectionModel().getSelectedItem().getName();
-        copyID(id);
-    }
-
-    public void examineEncounter(ActionEvent actionEvent) {
-        // copia il contenuto di ClickEncounterTable
-    }
-
-    public void copyIDDevice(ActionEvent actionEvent) {
-        String id = deviceTable.getSelectionModel().getSelectedItem().getCode();
-        copyID(id);
-    }
-
-    public void copyIDProcedure(ActionEvent actionEvent) {
-        String id = procedureTable.getSelectionModel().getSelectedItem().getCode();
-        copyID(id);
-    }
-
-    public void copyIDMedReq(ActionEvent actionEvent) {
-        String id = medReqTable.getSelectionModel().getSelectedItem().getCode();
-        copyID(id);
-    }
-
-    public void copyIDObservation(ActionEvent actionEvent) {
-        String id = observationTable.getSelectionModel().getSelectedItem().getCode();
-        copyID(id);
     }
 }
