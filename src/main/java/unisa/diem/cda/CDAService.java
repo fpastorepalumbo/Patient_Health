@@ -21,10 +21,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-/**
- * Utility class for generating C-CDA documents using the classes provided by
- * the MDTH library.
- */
+// Utility class for generating C-CDA documents using the classes provided by the MDTH library.
 public class CDAService {
 
     private final SimpleDateFormat onlyDateFmt = new SimpleDateFormat("yyyy-MM-dd");
@@ -38,12 +35,7 @@ public class CDAService {
         this.fhirService = new FhirService();
     }
 
-    /**
-     * Converts FHIR Patient resource to MDHT CDA Patient object.
-     *
-     * @param patient FHIR Patient resource
-     * @return MDHT CDA Patient object
-     */
+    // Converts FHIR Patient resource to MDHT CDA Patient object.
     private Patient mapPatient(org.hl7.fhir.r4.model.Patient patient) {
         Patient mapped = CDAFactory.eINSTANCE.createPatient();
 
@@ -85,12 +77,7 @@ public class CDAService {
         return mapped;
     }
 
-    /**
-     * Converts FHIR Encounter resource to MDHT CDA Encounter object.
-     *
-     * @param encounter FHIR Encounter resource
-     * @return MDHT CDA Encounter object
-     */
+    // Convert FHIR Encounter resource to MDHT CDA Encounter object.
     private Encounter mapEncounter(org.hl7.fhir.r4.model.Encounter encounter) {
         org.hl7.fhir.r4.model.Practitioner practitioner = (org.hl7.fhir.r4.model.Practitioner) fhirService.resolveId(
                 org.hl7.fhir.r4.model.Practitioner.class,
@@ -125,12 +112,7 @@ public class CDAService {
         return mapped;
     }
 
-    /**
-     * Converts FHIR Practitioner resource to MDHT CDA Performer2 object.
-     *
-     * @param practitioner FHIR Practitioner resource
-     * @return MDHT CDA Performer2 object
-     */
+    // Convert FHIR Practitioner resource to MDHT CDA Performer2 object.
     private Performer2 mapPractitioner(org.hl7.fhir.r4.model.Practitioner practitioner) {
         Performer2 mapped = CDAFactory.eINSTANCE.createPerformer2();
         AssignedEntity assignedEntity = CDAFactory.eINSTANCE.createAssignedEntity();
@@ -146,13 +128,7 @@ public class CDAService {
         return mapped;
     }
 
-    /**
-     * Converts FHIR MedicationRequest resource to MDHT CDA SubstanceAdministration
-     * object.
-     *
-     * @param mst FHIR MedicationRequest resource
-     * @return MDHT CDA SubstanceAdministration object
-     */
+    // Convert FHIR MedicationRequest resource to MDHT CDA SubstanceAdministration object.
     private SubstanceAdministration mapPrescription(MedicationRequest mst) {
         SubstanceAdministration mapped = CDAFactory.eINSTANCE.createSubstanceAdministration();
         mapped.setClassCode(ActClass.SBADM);
@@ -204,13 +180,8 @@ public class CDAService {
     }
 
     /**
-     * Converts FHIR DeviceRequest resource to MDHT CDA SubstanceAdministration
-     * object.
-     * The Consumable type is used to differentiate between a device administration
-     * and a medication administration.
-     *
-     * @param req FHIR DeviceRequest resource
-     * @return MDHT CDA SubstanceAdministration object
+     * Convert FHIR DeviceRequest resource to MDHT CDA SubstanceAdministration object.
+     * The Consumable type is used to differentiate between a device administration and a medication administration.
      */
     private SubstanceAdministration mapDeviceRequest(DeviceRequest req) {
         SubstanceAdministration mapped = CDAFactory.eINSTANCE.createSubstanceAdministration();
@@ -258,12 +229,7 @@ public class CDAService {
         return mapped;
     }
 
-    /**
-     * Converts FHIR Observation resource to MDHT CDA Observation object.
-     *
-     * @param observation FHIR Observation resource
-     * @return MDHT CDA Observation object
-     */
+    // Convert FHIR Observation resource to MDHT CDA Observation object.
     private Observation mapObservation(org.hl7.fhir.r4.model.Observation observation) {
         Observation mapped = CDAFactory.eINSTANCE.createObservation();
         mapped.setClassCode(ActClassObservation.OBS);
@@ -303,12 +269,8 @@ public class CDAService {
     }
 
     /**
-     * Converts FHIR Condition resource to MDHT CDA Observation object.
-     * The Observation class is used to differentiate between a condition and an
-     * observation.
-     *
-     * @param condition FHIR Condition resource
-     * @return MDHT CDA Observation object
+     * Convert FHIR Condition resource to MDHT CDA Observation object.
+     * The Observation class is used to differentiate between a condition and an observation.
      */
     private Observation mapCondition(Condition condition) {
         Observation mapped = CDAFactory.eINSTANCE.createObservation();
@@ -336,12 +298,7 @@ public class CDAService {
         return mapped;
     }
 
-    /**
-     * Converts FHIR Procedure resource to MDHT CDA Procedure object.
-     *
-     * @param procedure FHIR Procedure resource
-     * @return MDHT CDA Procedure object
-     */
+    // Converts FHIR Procedure resource to MDHT CDA Procedure object.
     private Procedure mapProcedure(org.hl7.fhir.r4.model.Procedure procedure) {
         Procedure mapped = CDAFactory.eINSTANCE.createProcedure();
         mapped.setClassCode(ActClass.PROC);
@@ -362,12 +319,8 @@ public class CDAService {
     }
 
     /**
-     * Converts FHIR ImagingStudy resource to MDHT CDA ObservationMedia object.
-     * The imaging study is represented using the ObservationMedia class with the
-     * DICOM encoded in Base64 format and stored as value
-     *
-     * @param study FHIR ImagingStudy resource
-     * @return MDHT CDA ObservationMedia object
+     * Convert FHIR ImagingStudy resource to MDHT CDA ObservationMedia object.
+     * The imaging study is represented using the ObservationMedia class with the DICOM encoded in Base64 format and stored as value
      */
     private ObservationMedia mapImagingStudy(ImagingStudy study) {
         Observation reference = CDAFactory.eINSTANCE.createObservation();
@@ -388,13 +341,7 @@ public class CDAService {
         return media;
     }
 
-    /**
-     * Collects all the observations associated with the encounter and adds them to
-     * the given section.
-     *
-     * @param encounter FHIR Encounter resource
-     * @param section   MDHT CDA Section object
-     */
+    // Collect all the observations associated with the encounter and add them to the given section.
     private void addAllObservations(org.hl7.fhir.r4.model.Encounter encounter, Section section) {
         String id = "Encounter/" + encounter.getIdElement().getIdPart();
         List<org.hl7.fhir.r4.model.Observation> obsList = fhirService.getClient()
@@ -411,13 +358,7 @@ public class CDAService {
         obsList.forEach(obs -> section.addObservation(mapObservation(obs)));
     }
 
-    /**
-     * Collects all the conditions associated with the encounter and adds them to
-     * the given section.
-     *
-     * @param encounter FHIR Encounter resource
-     * @param section   MDHT CDA Section object
-     */
+    // Collect all the conditions associated with the encounter and add them to the given section.
     private void addAllConditions(org.hl7.fhir.r4.model.Encounter encounter, Section section) {
         List<Condition> condList = fhirService.getClient()
                 .search()
@@ -433,13 +374,7 @@ public class CDAService {
         condList.forEach(cond -> section.addObservation(mapCondition(cond)));
     }
 
-    /**
-     * Collects all the MedicationRequests associated with the encounter and adds
-     * them to the given section.
-     *
-     * @param encounter FHIR Encounter resource
-     * @param section   MDHT CDA Section object
-     */
+    // Collects all the MedicationRequests associated with the encounter and add them to the given section.
     private void addAllPrescription(org.hl7.fhir.r4.model.Encounter encounter, Section section) {
         List<MedicationRequest> mstList = fhirService.getClient()
                 .search()
@@ -455,13 +390,7 @@ public class CDAService {
         mstList.forEach(mst -> section.addSubstanceAdministration(mapPrescription(mst)));
     }
 
-    /**
-     * Collects all the DeviceRequests associated with the encounter and adds them
-     * to the given section.
-     *
-     * @param encounter FHIR Encounter resource
-     * @param section   MDHT CDA Section object
-     */
+    // Collect all the DeviceRequests associated with the encounter and add them to the given section.
     private void addAllDeviceRequests(org.hl7.fhir.r4.model.Encounter encounter, Section section) {
         List<DeviceRequest> reqList = fhirService.getClient()
                 .search()
@@ -477,13 +406,7 @@ public class CDAService {
         reqList.forEach(req -> section.addSubstanceAdministration(mapDeviceRequest(req)));
     }
 
-    /**
-     * Collects all the Procedures associated with the encounter and adds them to
-     * the given section.
-     *
-     * @param encounter FHIR Encounter resource
-     * @param section   MDHT CDA Section object
-     */
+    // Collect all the Procedures associated with the encounter and add them to the given section.
     private void addAllProcedures(org.hl7.fhir.r4.model.Encounter encounter, Section section) {
         List<org.hl7.fhir.r4.model.Procedure> procList = fhirService.getClient()
                 .search()
@@ -500,13 +423,7 @@ public class CDAService {
         procList.forEach(proc -> section.addProcedure(mapProcedure(proc)));
     }
 
-    /**
-     * Collects all the ImagingStudies associated with the encounter and adds them
-     * to the given section.
-     *
-     * @param encounter FHIR Encounter resource
-     * @param section   MDHT CDA Section object
-     */
+    // Collect all the ImagingStudies associated with the encounter and add them to the given section.
     private void addAllImagingStudies(org.hl7.fhir.r4.model.Encounter encounter, Section section) {
         List<ImagingStudy> studyList = fhirService.getClient()
                 .search()
@@ -522,13 +439,7 @@ public class CDAService {
         studyList.forEach(study -> section.addObservationMedia(mapImagingStudy(study)));
     }
 
-    /**
-     * Creates CDA ClinicalDocument object from given encounter.
-     *
-     * @param encounterId encounter ID
-     * @return CDA ClinicalDocument object
-     * @throws ResourceNotFoundException if encounter is not found
-     */
+    // Creates CDA ClinicalDocument object from given encounter.
     public ClinicalDocument getClinicalDocument(String encounterId) throws ResourceNotFoundException {
         datetimeFmt.setTimeZone(TimeZone.getTimeZone("UTC"));
         org.hl7.fhir.r4.model.Encounter encounter = (org.hl7.fhir.r4.model.Encounter) fhirService.resolveId(
@@ -569,12 +480,7 @@ public class CDAService {
         return clinicalDocument;
     }
 
-    /**
-     * Generated XML string from CDA ClinicalDocument object.
-     *
-     * @param encounterId encounter ID
-     * @return XML string
-     */
+    // Generated XML string from CDA ClinicalDocument object.
     @SneakyThrows
     public String generateCD(String encounterId) {
         StringWriter wrt = new StringWriter();
