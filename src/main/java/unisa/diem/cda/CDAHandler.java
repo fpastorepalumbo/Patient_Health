@@ -2,7 +2,6 @@ package unisa.diem.cda;
 
 import ca.uhn.fhir.rest.server.exceptions.ResourceNotFoundException;
 import lombok.SneakyThrows;
-import org.apache.commons.net.util.Base64;
 import org.hl7.fhir.r4.model.*;
 import org.openhealthtools.mdht.uml.cda.ClinicalDocument;
 import org.openhealthtools.mdht.uml.cda.Encounter;
@@ -25,11 +24,9 @@ public class CDAHandler {
     }
 
     // Create C-CDA document from encounter and save it as FHIR DocumentReference resource.
-    public String saveCDAToFhir(String encounterId) throws ResourceNotFoundException {
+    public void saveCDAToFhir(String encounterId) throws ResourceNotFoundException {
         DocumentReference doc = convert(cdaService.getClinicalDocument(encounterId));
         fhirService.getClient().update().resource(doc).execute();
-        String base64 = doc.getContentFirstRep().getAttachment().getDataElement().getValueAsString();
-        return new String(Base64.decodeBase64(base64));
     }
 
     /**
