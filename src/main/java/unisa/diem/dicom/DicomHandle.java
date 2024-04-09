@@ -1,6 +1,8 @@
 package unisa.diem.dicom;
 
 import com.pixelmed.dicom.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -227,8 +229,8 @@ public class DicomHandle {
      * @param end   end index
      * @return list of base64-encoded strings
      */
-    public List<String> serveFrames(int start, int end) {
-        List<String> frames = new ArrayList<>();
+    public ObservableList<String> serveFrames(int start, int end) {
+        ObservableList<String> frames = FXCollections.observableArrayList();
         for (int i = start; i < end; i++) {
             frames.add(serveFrame(i));
         }
@@ -240,7 +242,7 @@ public class DicomHandle {
      *
      * @return list of base64-encoded strings
      */
-    public List<String> serveAllFrames() {
+    public ObservableList<String> serveAllFrames() {
         int numFrames = getInt(TagFromName.NumberOfFrames);
         return serveFrames(0, numFrames);
     }

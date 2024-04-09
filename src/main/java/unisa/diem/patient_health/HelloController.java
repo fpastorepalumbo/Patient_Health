@@ -1,6 +1,7 @@
 package unisa.diem.patient_health;
 
-import javafx.event.ActionEvent;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -11,11 +12,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.hl7.fhir.r4.model.*;
@@ -23,22 +22,19 @@ import unisa.diem.cda.CDAImporter;
 import unisa.diem.converter.*;
 import unisa.diem.dicom.DicomService;
 import unisa.diem.downloader.*;
-import unisa.diem.fhir.FhirService;
 import unisa.diem.fhir.FhirWrapper;
 import unisa.diem.parser.DatasetService;
 
-import javax.swing.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class HelloController implements Initializable {
     @FXML
-    public TableView<PatientConverter.PatientClass> personTable;
+    public TableView<PatientConverter.PatientClass> patientTable;
     @FXML
     public TableView<AllergyConverter.AllergyClass> allergyTable;
     @FXML
@@ -66,34 +62,29 @@ public class HelloController implements Initializable {
     @FXML
     public TableView<ImagingStudiesConverter.ImagingStudiesClass> imageTable;
 
+    //  patientTable
     @FXML
-    public MenuItem copiaID;
+    public TableColumn nameClmPatient;
     @FXML
-    public MenuItem generateCDA;
-
-    //  personTable
+    public TableColumn surnameClmPatient;
     @FXML
-    public TableColumn nameClmPersona;
+    public TableColumn birthdateClmPatient;
     @FXML
-    public TableColumn surnameClmPersona;
+    public TableColumn deathdateClmPatient;
     @FXML
-    public TableColumn birthdateClmPersona;
+    public TableColumn ssnClmPatient;
     @FXML
-    public TableColumn deathdateClmPersona;
+    public TableColumn maritalClmPatient;
     @FXML
-    public TableColumn ssnClmPersona;
+    public TableColumn genderClmPatient;
     @FXML
-    public TableColumn maritalClmPersona;
+    public TableColumn birthplaceClmPatient;
     @FXML
-    public TableColumn genderClmPersona;
+    public TableColumn addressClmPatient;
     @FXML
-    public TableColumn birthplaceClmPersona;
+    public TableColumn cityClmPatient;
     @FXML
-    public TableColumn addressClmPersona;
-    @FXML
-    public TableColumn cityClmPersona;
-    @FXML
-    public TableColumn stateClmPersona;
+    public TableColumn stateClmPatient;
 
     //  allergyTable
     @FXML
@@ -151,7 +142,6 @@ public class HelloController implements Initializable {
     @FXML
     public TableColumn phoneOrganizationClm;
 
-
     // payerTable
     @FXML
     public TableColumn payerIdClm;
@@ -163,7 +153,6 @@ public class HelloController implements Initializable {
     public TableColumn statePayerClm;
     @FXML
     public TableColumn phonePayerClm;
-
 
     // practitionerTable
     @FXML
@@ -267,41 +256,34 @@ public class HelloController implements Initializable {
 
     // imageTable
     @FXML
-    public TableColumn idClm;
+    public TableColumn idClmImage;
     @FXML
-    public TableColumn bodyCodeClm;
+    public TableColumn bodyCodeClmImage;
     @FXML
-    public TableColumn bodyDescrClm;
+    public TableColumn bodyDescrClmImage;
     @FXML
-    public TableColumn modeCodeClm;
+    public TableColumn modeCodeClmImage;
     @FXML
-    public TableColumn modeDescrClm;
+    public TableColumn modeDescrClmImage;
     @FXML
-    public TableColumn sopCodeClm;
+    public TableColumn sopCodeClmImage;
     @FXML
-    public TableColumn sopDescrClm;
+    public TableColumn sopDescrClmImage;
     @FXML
-    public TableColumn dateImageClm;
+    public TableColumn dateClmImage;
     @FXML
-    public TableColumn patientImageClm;
+    public TableColumn patientClmImage;
     @FXML
-    public TableColumn encounterImageClm;
+    public TableColumn encounterClmImage;
 
     private final DicomService dicomService;
-    private CDAImporter cdaImporter;
-    private List<String> currentFrames;
-    private String currentImage;
+    private final CDAImporter cdaImporter;
+    private ObservableList<String> currentFrames;
+    @FXML
+    public Pane homePaneId;
+    @FXML
+    public SplitPane splitPaneId;
 
-    @FXML
-    private Label welcomeText;
-    @FXML
-    private Label patientLabel;
-    @FXML
-    private Label organizationLabel;
-    @FXML
-    private Label encounterLabel;
-    @FXML
-    private Label imagineLabel;
     @FXML
     private Pane patientPane;
     @FXML
@@ -313,11 +295,11 @@ public class HelloController implements Initializable {
     @FXML
     private Pane encounterPane2;
     @FXML
-    private Pane imagingPane;
+    private Pane imagePane;
     @FXML
-    private TextField searchBar1;
+    private TextField searchBar;
     @FXML
-    private Button buttonSearch;
+    private Button searchButton;
     @FXML
     private CheckBox checkBox1;
     @FXML
@@ -337,26 +319,19 @@ public class HelloController implements Initializable {
     public EncountersDownload encounterDownloadSearch;
     public OrganizationDownload organizationDownload;
     public OrganizationDownload organizationDownloadSearch;
-    public PayersDownload payersDownload;
-    public PayersDownload payersDownloadSearch;
-    public PractitionersDownload practitionersDownload;
-    public PractitionersDownload practitionersDownloadSearch;
-    public ImagingStudiesDownload imagingStudiesDownload;
-    public ImagingStudiesDownload imagingStudiesDownloadSearch;
+    public PayersDownload payerDownload;
+    public PayersDownload payerDownloadSearch;
+    public PractitionersDownload practitionerDownload;
+    public PractitionersDownload practitionerDownloadSearch;
+    public ImagingStudiesDownload imagingStudyDownload;
+    public ImagingStudiesDownload imagingStudyDownloadSearch;
     public DatasetService datasetUtility;
     public PatientConverter.PatientClass personElement;
     public EncounterConverter.EncounterClass encounterElement;
     public boolean firstClickPatient;
     public boolean firstClickOrganization;
     public boolean firstClickEncounter;
-    public boolean firstClickImaging;
-
-    @FXML
-    public Pane homePaneId;
-    @FXML
-    public SplitPane splitPaneId;
-    @FXML
-    public ImageView imageHome;
+    public boolean firstClickImage;
 
     public HelloController() {
         patientDownload = new PatientDownload();
@@ -365,29 +340,26 @@ public class HelloController implements Initializable {
         encounterDownloadSearch = new EncountersDownload();
         organizationDownload = new OrganizationDownload();
         organizationDownloadSearch = new OrganizationDownload();
-        payersDownload = new PayersDownload();
-        payersDownloadSearch = new PayersDownload();
-        practitionersDownload = new PractitionersDownload();
-        practitionersDownloadSearch = new PractitionersDownload();
-        imagingStudiesDownload = new ImagingStudiesDownload();
-        imagingStudiesDownloadSearch = new ImagingStudiesDownload();
+        payerDownload = new PayersDownload();
+        payerDownloadSearch = new PayersDownload();
+        practitionerDownload = new PractitionersDownload();
+        practitionerDownloadSearch = new PractitionersDownload();
+        imagingStudyDownload = new ImagingStudiesDownload();
+        imagingStudyDownloadSearch = new ImagingStudiesDownload();
 
         datasetUtility = new DatasetService();
-        cdaImporter = new CDAImporter();
         personElement = null;
         encounterElement = null;
 
         dicomService = new DicomService();
-        currentFrames = new ArrayList<>();
+        currentFrames = FXCollections.observableArrayList();
+        cdaImporter = new CDAImporter();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         homePaneId.setVisible(true);
         homePaneId.setStyle("-fx-background-image: url('file:src/main/resources/images/sfondoHome.png'); " + "-fx-background-size: 1280 720;");
-
-
 
         splitPaneId.setVisible(false);
         patientPane.setVisible(false);
@@ -395,10 +367,10 @@ public class HelloController implements Initializable {
         exstEncounterPane.setVisible(false);
         encounterPane1.setVisible(false);
         encounterPane2.setVisible(false);
-        imagingPane.setVisible(false);
+        imagePane.setVisible(false);
 
-        searchBar1.setVisible(false);
-        buttonSearch.setVisible(false);
+        searchBar.setVisible(false);
+        searchButton.setVisible(false);
         checkBox1.setVisible(false);
         checkBox2.setVisible(false);
         checkBox3.setVisible(false);
@@ -462,19 +434,19 @@ public class HelloController implements Initializable {
             }
         });
 
-        nameClmPersona.setCellValueFactory(new PropertyValueFactory<>("name"));
-        surnameClmPersona.setCellValueFactory(new PropertyValueFactory<>("surname"));
-        birthdateClmPersona.setCellValueFactory(new PropertyValueFactory<>("birthdate"));
-        deathdateClmPersona.setCellValueFactory(new PropertyValueFactory<>("deathdate"));
-        ssnClmPersona.setCellValueFactory(new PropertyValueFactory<>("ssn"));
-        maritalClmPersona.setCellValueFactory(new PropertyValueFactory<>("marital"));
-        genderClmPersona.setCellValueFactory(new PropertyValueFactory<>("gender"));
-        birthplaceClmPersona.setCellValueFactory(new PropertyValueFactory<>("birthplace"));
-        addressClmPersona.setCellValueFactory(new PropertyValueFactory<>("address"));
-        cityClmPersona.setCellValueFactory(new PropertyValueFactory<>("city"));
-        stateClmPersona.setCellValueFactory(new PropertyValueFactory<>("state"));
+        nameClmPatient.setCellValueFactory(new PropertyValueFactory<>("name"));
+        surnameClmPatient.setCellValueFactory(new PropertyValueFactory<>("surname"));
+        birthdateClmPatient.setCellValueFactory(new PropertyValueFactory<>("birthdate"));
+        deathdateClmPatient.setCellValueFactory(new PropertyValueFactory<>("deathdate"));
+        ssnClmPatient.setCellValueFactory(new PropertyValueFactory<>("ssn"));
+        maritalClmPatient.setCellValueFactory(new PropertyValueFactory<>("marital"));
+        genderClmPatient.setCellValueFactory(new PropertyValueFactory<>("gender"));
+        birthplaceClmPatient.setCellValueFactory(new PropertyValueFactory<>("birthplace"));
+        addressClmPatient.setCellValueFactory(new PropertyValueFactory<>("address"));
+        cityClmPatient.setCellValueFactory(new PropertyValueFactory<>("city"));
+        stateClmPatient.setCellValueFactory(new PropertyValueFactory<>("state"));
 
-        nameClmPersona.setCellFactory(TextFieldTableCell.forTableColumn());
+        nameClmPatient.setCellFactory(TextFieldTableCell.forTableColumn());
 
         codeClmAllergy.setCellValueFactory(new PropertyValueFactory<>("code"));
         descriptionClmAllergy.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -557,7 +529,6 @@ public class HelloController implements Initializable {
 
         observationEncounterClm2.setCellFactory(TextFieldTableCell.forTableColumn());
 
-
         codeMedReqClm.setCellValueFactory(new PropertyValueFactory<>("code"));
         descriptionMedReqClm.setCellValueFactory(new PropertyValueFactory<>("description"));
         baseCostMedReqClm.setCellValueFactory(new PropertyValueFactory<>("baseCost"));
@@ -586,19 +557,19 @@ public class HelloController implements Initializable {
 
         codeDeviceClm.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        idClm.setCellValueFactory(new PropertyValueFactory<>("id"));
-        idClm.setVisible(false);
-        bodyCodeClm.setCellValueFactory(new PropertyValueFactory<>("bodySiteCode"));
-        bodyDescrClm.setCellValueFactory(new PropertyValueFactory<>("bodySiteDescription"));
-        modeCodeClm.setCellValueFactory(new PropertyValueFactory<>("modalityCode"));
-        modeDescrClm.setCellValueFactory(new PropertyValueFactory<>("modalityDescription"));
-        sopCodeClm.setCellValueFactory(new PropertyValueFactory<>("sopCode"));
-        sopDescrClm.setCellValueFactory(new PropertyValueFactory<>("sopDescription"));
-        dateImageClm.setCellValueFactory(new PropertyValueFactory<>("date"));
-        patientImageClm.setCellValueFactory(new PropertyValueFactory<>("patient"));
-        encounterImageClm.setCellValueFactory(new PropertyValueFactory<>("encounter"));
+        idClmImage.setCellValueFactory(new PropertyValueFactory<>("id"));
+        idClmImage.setVisible(false);
+        bodyCodeClmImage.setCellValueFactory(new PropertyValueFactory<>("bodySiteCode"));
+        bodyDescrClmImage.setCellValueFactory(new PropertyValueFactory<>("bodySiteDescription"));
+        modeCodeClmImage.setCellValueFactory(new PropertyValueFactory<>("modalityCode"));
+        modeDescrClmImage.setCellValueFactory(new PropertyValueFactory<>("modalityDescription"));
+        sopCodeClmImage.setCellValueFactory(new PropertyValueFactory<>("sopCode"));
+        sopDescrClmImage.setCellValueFactory(new PropertyValueFactory<>("sopDescription"));
+        dateClmImage.setCellValueFactory(new PropertyValueFactory<>("date"));
+        patientClmImage.setCellValueFactory(new PropertyValueFactory<>("patient"));
+        encounterClmImage.setCellValueFactory(new PropertyValueFactory<>("encounter"));
 
-        personTable.getItems().clear();
+        patientTable.getItems().clear();
         allergyTable.getItems().clear();
         conditionTable.getItems().clear();
         immunizationTable.getItems().clear();
@@ -616,7 +587,15 @@ public class HelloController implements Initializable {
         firstClickPatient = true;
         firstClickOrganization = true;
         firstClickEncounter = true;
-        firstClickImaging = true;
+        firstClickImage = true;
+    }
+
+    public void loadDataset() {
+        try {
+            datasetUtility.loadDataset();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML
@@ -626,11 +605,10 @@ public class HelloController implements Initializable {
 
         setSearchPatient();
 
-
         patientPane.setVisible(true);
         organizationPane.setVisible(false);
         exstEncounterPane.setVisible(false);
-        imagingPane.setVisible(false);
+        imagePane.setVisible(false);
         encounterPane1.setVisible(false);
         encounterPane2.setVisible(false);
 
@@ -641,7 +619,7 @@ public class HelloController implements Initializable {
 
         if (firstClickPatient) {
             firstClickPatient = false;
-            personTable.getItems().clear();
+            patientTable.getItems().clear();
 
             patientDownload.download();
             List<Patient> patients = patientDownload.getPatients();
@@ -649,8 +627,8 @@ public class HelloController implements Initializable {
             patientConverter.convert();
 
             for (PatientConverter.PatientClass patient : patientConverter.getFieldsListPatient())
-                personTable.getItems().add(patient);
-            autoResizeColumns(personTable);
+                patientTable.getItems().add(patient);
+            autoResizeColumns(patientTable);
         }
     }
 
@@ -664,7 +642,7 @@ public class HelloController implements Initializable {
         organizationPane.setVisible(true);
         patientPane.setVisible(false);
         exstEncounterPane.setVisible(false);
-        imagingPane.setVisible(false);
+        imagePane.setVisible(false);
         encounterPane1.setVisible(false);
         encounterPane2.setVisible(false);
 
@@ -683,8 +661,8 @@ public class HelloController implements Initializable {
                 organizationTable.getItems().add(organization);
             autoResizeColumns(organizationTable);
 
-            payersDownload.download();
-            List<Organization> payers = payersDownload.getPayers();
+            payerDownload.download();
+            List<Organization> payers = payerDownload.getPayers();
             PayersConverter payersConverter = new PayersConverter(payers);
             payersConverter.convert();
 
@@ -692,8 +670,8 @@ public class HelloController implements Initializable {
                 payerTable.getItems().add(payer);
             autoResizeColumns(payerTable);
 
-            practitionersDownload.download();
-            List<Practitioner> practitioners = practitionersDownload.getPractitioners();
+            practitionerDownload.download();
+            List<Practitioner> practitioners = practitionerDownload.getPractitioners();
             PractitionersConverter practitionersConverter = new PractitionersConverter(practitioners);
             practitionersConverter.convert();
 
@@ -716,7 +694,7 @@ public class HelloController implements Initializable {
         encounterPane2.setVisible(false);
         patientPane.setVisible(false);
         organizationPane.setVisible(false);
-        imagingPane.setVisible(false);
+        imagePane.setVisible(false);
 
         if (firstClickEncounter) {
             firstClickEncounter = false;
@@ -733,23 +711,23 @@ public class HelloController implements Initializable {
     }
     @FXML
     public void imagineLabelClick() {
-        if (imagingPane.isVisible())
+        if (imagePane.isVisible())
             return;
 
         setSearchImage();
 
-        imagingPane.setVisible(true);
+        imagePane.setVisible(true);
         patientPane.setVisible(false);
         organizationPane.setVisible(false);
         exstEncounterPane.setVisible(false);
         encounterPane1.setVisible(false);
         encounterPane2.setVisible(false);
 
-        if (firstClickImaging) {
-            firstClickImaging = false;
+        if (firstClickImage) {
+            firstClickImage = false;
             imageTable.getItems().clear();
-            imagingStudiesDownload.download();
-            List<ImagingStudy> imagingStudies = imagingStudiesDownload.getImages();
+            imagingStudyDownload.download();
+            List<ImagingStudy> imagingStudies = imagingStudyDownload.getImages();
             ImagingStudiesConverter imagingStudiesConverter = new ImagingStudiesConverter(imagingStudies);
             imagingStudiesConverter.convert();
 
@@ -759,26 +737,16 @@ public class HelloController implements Initializable {
         }
     }
 
-
-
-    public void loadDataset() {
-        try {
-            datasetUtility.loadDataset();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public void patientScrollTable(ScrollEvent scrollEvent) {
         if (scrollEvent.getDeltaY() < 0) {
-            personTable.getItems().clear();
+            patientTable.getItems().clear();
             patientDownload.download();
             List<Patient> patients = patientDownload.getPatients();
             PatientConverter patientConverter = new PatientConverter(patients);
             patientConverter.convert();
             for (PatientConverter.PatientClass patient : patientConverter.getFieldsListPatient())
-                personTable.getItems().add(patient);
-            autoResizeColumns(personTable);
+                patientTable.getItems().add(patient);
+            autoResizeColumns(patientTable);
         }
     }
 
@@ -798,8 +766,8 @@ public class HelloController implements Initializable {
     public void practitionerScrollTable(ScrollEvent scrollEvent) {
         if (scrollEvent.getDeltaY() < 0) {
             practitionerTable.getItems().clear();
-            practitionersDownload.download();
-            List<Practitioner> practitioners = practitionersDownload.getPractitioners();
+            practitionerDownload.download();
+            List<Practitioner> practitioners = practitionerDownload.getPractitioners();
             PractitionersConverter practitionersConverter = new PractitionersConverter(practitioners);
             practitionersConverter.convert();
             for (PractitionersConverter.PractitionerClass practitioner : practitionersConverter.getFieldsListPractitioner())
@@ -824,8 +792,8 @@ public class HelloController implements Initializable {
     public void imageScrollTable(ScrollEvent scrollEvent) {
         if(scrollEvent.getDeltaY()<0){
             imageTable.getItems().clear();
-            imagingStudiesDownload.download();
-            List<ImagingStudy> imagingStudies = imagingStudiesDownload.getImages();
+            imagingStudyDownload.download();
+            List<ImagingStudy> imagingStudies = imagingStudyDownload.getImages();
             ImagingStudiesConverter imagingStudiesConverter = new ImagingStudiesConverter(imagingStudies);
             imagingStudiesConverter.convert();
             for (ImagingStudiesConverter.ImagingStudiesClass imagingStudy : imagingStudiesConverter.getFieldsListImagingStudies())
@@ -835,8 +803,8 @@ public class HelloController implements Initializable {
     }
 
     public void searchButtonClick() {
-        String search1 = searchBar1.getText();
-        searchBar1.clear();
+        String search1 = searchBar.getText();
+        searchBar.clear();
 
         if (search1.isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "No arguments find").showAndWait();
@@ -866,14 +834,14 @@ public class HelloController implements Initializable {
             PatientConverter patientConverter = new PatientConverter(patients);
             patientConverter.convert();
 
-            personTable.getItems().clear();
+            patientTable.getItems().clear();
             for (PatientConverter.PatientClass patient : patientConverter.getFieldsListPatient()) {
              if(!patient.getVuoto())
-                personTable.getItems().add(patient);
+                patientTable.getItems().add(patient);
              else
                  new Alert(Alert.AlertType.ERROR, "Patient not found").showAndWait();
             }
-            autoResizeColumns(personTable);
+            autoResizeColumns(patientTable);
 
         } else if (organizationPane.isVisible()) {
             firstClickOrganization = true;
@@ -906,8 +874,8 @@ public class HelloController implements Initializable {
             }
             else if (checkBox3.isSelected()){
                 payerTable.getItems().clear();
-                payersDownloadSearch.downloadPayerWithName(search1);
-                List<Organization> payers = payersDownloadSearch.getPayerSearch();
+                payerDownloadSearch.downloadPayerWithName(search1);
+                List<Organization> payers = payerDownloadSearch.getPayerSearch();
                 PayersConverter payersConverter = new PayersConverter(payers);
                 payersConverter.convert();
                 for (PayersConverter.PayersClass payer : payersConverter.getFieldsListPayer())
@@ -918,8 +886,8 @@ public class HelloController implements Initializable {
                 autoResizeColumns(payerTable);
             } else if (checkBox4.isSelected()){
                 payerTable.getItems().clear();
-                payersDownloadSearch.downloadPayerWithId(search1);
-                List<Organization> payers = payersDownloadSearch.getPayerSearch();
+                payerDownloadSearch.downloadPayerWithId(search1);
+                List<Organization> payers = payerDownloadSearch.getPayerSearch();
                 PayersConverter payersConverter = new PayersConverter(payers);
                 payersConverter.convert();
                 for (PayersConverter.PayersClass payer : payersConverter.getFieldsListPayer())
@@ -931,8 +899,8 @@ public class HelloController implements Initializable {
             }
             else if (checkBox5.isSelected()){
                 practitionerTable.getItems().clear();
-                practitionersDownloadSearch.downloadPractitionerWithName(search1);
-                List<Practitioner> practitioners = practitionersDownloadSearch.getPractitionerSearch();
+                practitionerDownloadSearch.downloadPractitionerWithName(search1);
+                List<Practitioner> practitioners = practitionerDownloadSearch.getPractitionerSearch();
                 PractitionersConverter practitionersConverter = new PractitionersConverter(practitioners);
                 practitionersConverter.convert();
                 for (PractitionersConverter.PractitionerClass practitioner : practitionersConverter.getFieldsListPractitioner())
@@ -944,8 +912,8 @@ public class HelloController implements Initializable {
 
             } else if (checkBox6.isSelected()){
                 practitionerTable.getItems().clear();
-                practitionersDownloadSearch.downloadPractitionerWithId(search1);
-                List<Practitioner> practitioners = practitionersDownloadSearch.getPractitionerSearch();
+                practitionerDownloadSearch.downloadPractitionerWithId(search1);
+                List<Practitioner> practitioners = practitionerDownloadSearch.getPractitionerSearch();
                 PractitionersConverter practitionersConverter = new PractitionersConverter(practitioners);
                 practitionersConverter.convert();
                 for (PractitionersConverter.PractitionerClass practitioner : practitionersConverter.getFieldsListPractitioner())
@@ -976,16 +944,16 @@ public class HelloController implements Initializable {
                     new Alert(Alert.AlertType.ERROR, "Encounter not found").showAndWait();
             autoResizeColumns(encounterTable);
 
-        } else if (imagingPane.isVisible()) {
-            firstClickImaging= true;
+        } else if (imagePane.isVisible()) {
+            firstClickImage = true;
             imageTable.getItems().clear();
 
             if (checkBox1.isSelected())
-                imagingStudiesDownloadSearch.downloadImageWithPatientId(search1);
+                imagingStudyDownloadSearch.downloadImageWithPatientId(search1);
             else if (checkBox2.isSelected())
-                imagingStudiesDownloadSearch.downloadImageWithEncounterId(search1);
+                imagingStudyDownloadSearch.downloadImageWithEncounterId(search1);
 
-            List<ImagingStudy> imagingStudies = imagingStudiesDownloadSearch.getImageSearch();
+            List<ImagingStudy> imagingStudies = imagingStudyDownloadSearch.getImageSearch();
             ImagingStudiesConverter imagingStudiesConverter = new ImagingStudiesConverter(imagingStudies);
             imagingStudiesConverter.convert();
             for (ImagingStudiesConverter.ImagingStudiesClass imagingStudy : imagingStudiesConverter.getFieldsListImagingStudies())
@@ -997,9 +965,9 @@ public class HelloController implements Initializable {
         }
     }
 
-    public void setSearchPatient(){
-        searchBar1.setVisible(true);
-        buttonSearch.setVisible(true);
+    public void setSearchPatient() {
+        searchBar.setVisible(true);
+        searchButton.setVisible(true);
         checkBox1.setVisible(true);
         checkBox1.setText("Patient ID");
         checkBox2.setVisible(true);
@@ -1011,9 +979,9 @@ public class HelloController implements Initializable {
         checkBox1.setSelected(true);
     }
 
-    public void setSearchOrganization(){
-        searchBar1.setVisible(true);
-        buttonSearch.setVisible(true);
+    public void setSearchOrganization() {
+        searchBar.setVisible(true);
+        searchButton.setVisible(true);
         checkBox1.setVisible(true);
         checkBox1.setText("Organization Name");
         checkBox2.setVisible(true);
@@ -1029,9 +997,9 @@ public class HelloController implements Initializable {
         checkBox1.setSelected(true);
     }
 
-    public void setSearchOff(){
-        searchBar1.setVisible(false);
-        buttonSearch.setVisible(false);
+    public void setSearchOff() {
+        searchBar.setVisible(false);
+        searchButton.setVisible(false);
         checkBox1.setVisible(false);
         checkBox2.setVisible(false);
         checkBox3.setVisible(false);
@@ -1040,9 +1008,9 @@ public class HelloController implements Initializable {
         checkBox6.setVisible(false);
     }
 
-    public void setSearchEncounter(){
-        searchBar1.setVisible(true);
-        buttonSearch.setVisible(true);
+    public void setSearchEncounter() {
+        searchBar.setVisible(true);
+        searchButton.setVisible(true);
         checkBox1.setVisible(true);
         checkBox1.setText("Encounter ID");
         checkBox2.setVisible(true);
@@ -1054,9 +1022,9 @@ public class HelloController implements Initializable {
         checkBox1.setSelected(true);
     }
 
-    public void setSearchImage(){
-        searchBar1.setVisible(true);
-        buttonSearch.setVisible(true);
+    public void setSearchImage() {
+        searchBar.setVisible(true);
+        searchButton.setVisible(true);
         checkBox1.setVisible(true);
         checkBox1.setText("Patient ID");
         checkBox2.setVisible(true);
@@ -1068,35 +1036,9 @@ public class HelloController implements Initializable {
         checkBox1.setSelected(true);
     }
 
-    public void generateCDAEncounter(ActionEvent actionEvent) {
+    public void generateCDAEncounter() {
         String id = encounterTable.getSelectionModel().getSelectedItem().getId();
-
         cdaImporter.saveCDAToFhir(id);
-    }
-
-    public void copyIDEncounter(ActionEvent actionEvent) {
-        String id = encounterTable.getSelectionModel().getSelectedItem().getId();
-        copyID(id);
-    }
-
-    public void copyIDPatientOnEncounter(ActionEvent actionEvent) {
-        String id = encounterTable.getSelectionModel().getSelectedItem().getPatient();
-        copyID(id);
-    }
-
-    public void copyIDOrganizationOnEncounter(ActionEvent actionEvent) {
-        String id = encounterTable.getSelectionModel().getSelectedItem().getOrganization();
-        copyID(id);
-    }
-
-    public void copyIDPractitionerOnEncounter(ActionEvent actionEvent) {
-        String id = encounterTable.getSelectionModel().getSelectedItem().getPractitioner();
-        copyID(id);
-    }
-
-    public void copyIDPayerOnEncounter(ActionEvent actionEvent) {
-        String id = encounterTable.getSelectionModel().getSelectedItem().getPayer();
-        copyID(id);
     }
 
     public void copyID(String id) {
@@ -1106,17 +1048,91 @@ public class HelloController implements Initializable {
         clipboard.setContent(content);
     }
 
-    public void copyIDPatient(ActionEvent actionEvent) {
-        String id = personTable.getSelectionModel().getSelectedItem().getId();
+    public void copyIDPatient() {
+        String id = patientTable.getSelectionModel().getSelectedItem().getId();
         copyID(id);
     }
 
-    public void examinePatient(ActionEvent actionEvent) {
+    public void copyIDOrganization() {
+        String id = organizationTable.getSelectionModel().getSelectedItem().getId();
+        copyID(id);
+    }
+
+    public void copyIDPayer() {
+        String id = payerTable.getSelectionModel().getSelectedItem().getId();
+        copyID(id);
+    }
+    public void copyIDPractitioner() {
+        String id = practitionerTable.getSelectionModel().getSelectedItem().getId();
+        copyID(id);
+    }
+
+    public void copyIDEncounter() {
+        String id = encounterTable.getSelectionModel().getSelectedItem().getId();
+        copyID(id);
+    }
+
+    public void copyIDPatientOnEncounter() {
+        String id = encounterTable.getSelectionModel().getSelectedItem().getPatient();
+        copyID(id);
+    }
+
+    public void copyIDOrganizationOnEncounter() {
+        String id = encounterTable.getSelectionModel().getSelectedItem().getOrganization();
+        copyID(id);
+    }
+
+    public void copyIDPayerOnEncounter() {
+        String id = encounterTable.getSelectionModel().getSelectedItem().getPayer();
+        copyID(id);
+    }
+
+    public void copyIDPractitionerOnEncounter() {
+        String id = encounterTable.getSelectionModel().getSelectedItem().getPractitioner();
+        copyID(id);
+    }
+
+    public void copyNameOrganization() {
+        String id = organizationTable.getSelectionModel().getSelectedItem().getName();
+        copyID(id);
+    }
+
+    public void copyNamePayer() {
+        String id = payerTable.getSelectionModel().getSelectedItem().getName();
+        copyID(id);
+    }
+
+    public void copyNamePractitioner() {
+        String id = practitionerTable.getSelectionModel().getSelectedItem().getName();
+        copyID(id);
+    }
+
+    public void copyCodeDevice() {
+        String id = deviceTable.getSelectionModel().getSelectedItem().getCode();
+        copyID(id);
+    }
+
+    public void copyCodeProcedure() {
+        String id = procedureTable.getSelectionModel().getSelectedItem().getCode();
+        copyID(id);
+    }
+
+    public void copyCodeMedReq() {
+        String id = medReqTable.getSelectionModel().getSelectedItem().getCode();
+        copyID(id);
+    }
+
+    public void copyCodeObservation() {
+        String id = observationTable.getSelectionModel().getSelectedItem().getCode();
+        copyID(id);
+    }
+
+    public void examinePatient() {
         allergyTable.getItems().clear();
         conditionTable.getItems().clear();
         immunizationTable.getItems().clear();
         carePlanTable.getItems().clear();
-        personElement = personTable.getSelectionModel().getSelectedItem();
+        personElement = patientTable.getSelectionModel().getSelectedItem();
 
         if(personElement != null) {
             allergyTable.setVisible(true);
@@ -1153,8 +1169,7 @@ public class HelloController implements Initializable {
         }
     }
 
-    public void examineCondition(ActionEvent actionEvent) {
-        // copia il contenuto di ClickConditionTable
+    public void examineCondition() {
         ConditionConverter.ConditionClass conditionElement = conditionTable.getSelectionModel().getSelectedItem();
 
         if (conditionElement != null)
@@ -1171,15 +1186,14 @@ public class HelloController implements Initializable {
         autoResizeColumns(carePlanTable);
     }
 
-    public void examineEncounter(ActionEvent actionEvent) {
-        // copia il contenuto di ClickEncounterTable
+    public void examineEncounter() {
         setSearchOff();
         exstEncounterPane.setVisible(true);
         encounterPane1.setVisible(false);
         encounterPane2.setVisible(true);
         patientPane.setVisible(false);
         organizationPane.setVisible(false);
-        imagingPane.setVisible(false);
+        imagePane.setVisible(false);
 
         observationTable.getItems().clear();
         medReqTable.getItems().clear();
@@ -1231,27 +1245,23 @@ public class HelloController implements Initializable {
                 deviceTable.getItems().add(device);
             autoResizeColumns(deviceTable);
         }
-
     }
 
     public void showImages(Stage primaryStage) {
         GridPane gridPane = new GridPane();
 
-        // Load your images (assuming they are in the same directory as this class)
         Image[] images = new Image[256];
         Base64.Decoder base64Decoder = Base64.getDecoder();
         for (int i = 0; i < 256; i++) {
             ByteArrayInputStream imgInputStream = new ByteArrayInputStream(base64Decoder.decode(currentFrames.get(i)));
-
             images[i] = new Image(imgInputStream);
         }
 
-        // Add images to the grid
         for (int i = 0; i < 256; i++) {
             ImageView imageView = new ImageView(images[i]);
             imageView.setFitWidth(60);
             imageView.setFitHeight(50);
-            gridPane.add(imageView, i/16, i%16); // Adding images to grid
+            gridPane.add(imageView, i/16, i%16);
         }
 
         Scene scene = new Scene(gridPane);
@@ -1266,115 +1276,59 @@ public class HelloController implements Initializable {
 
         if (imageElement != null) {
             ImagingStudy im = FhirWrapper.getClient().read().resource(ImagingStudy.class).withId(imageElement.getId()).execute();
+
             currentFrames = dicomService.getDicomFile(im).serveAllFrames();
             showImages(new Stage());
         }
     }
 
-    public void copyNameOrganization(ActionEvent actionEvent) {
-        String id = organizationTable.getSelectionModel().getSelectedItem().getName();
-        copyID(id);
-    }
-
-    public void copyIdOrganization(ActionEvent actionEvent) {
-        String id = organizationTable.getSelectionModel().getSelectedItem().getId();
-        copyID(id);
-    }
-
-    public void copyNamePayer(ActionEvent actionEvent) {
-        String id = payerTable.getSelectionModel().getSelectedItem().getName();
-        copyID(id);
-    }
-
-    public void copyNamePractotioner(ActionEvent actionEvent) {
-        String id = practitionerTable.getSelectionModel().getSelectedItem().getName();
-        copyID(id);
-    }
-
-    public void copyIdPayer(ActionEvent actionEvent) {
-        String id = payerTable.getSelectionModel().getSelectedItem().getId();
-        copyID(id);
-    }
-    public void copyIDPractitioner(ActionEvent actionEvent) {
-        String id = practitionerTable.getSelectionModel().getSelectedItem().getId();
-        copyID(id);
-    }
-
-    public void copyCodeDevice(ActionEvent actionEvent) {
-        String id = deviceTable.getSelectionModel().getSelectedItem().getCode();
-        copyID(id);
-    }
-
-    public void copyCodeProcedure(ActionEvent actionEvent) {
-        String id = procedureTable.getSelectionModel().getSelectedItem().getCode();
-        copyID(id);
-    }
-
-    public void copyCodeMedReq(ActionEvent actionEvent) {
-        String id = medReqTable.getSelectionModel().getSelectedItem().getCode();
-        copyID(id);
-    }
-
-    public void copyCodeObservation(ActionEvent actionEvent) {
-        String id = observationTable.getSelectionModel().getSelectedItem().getCode();
-        copyID(id);
-    }
-
-    public static void autoResizeColumns( TableView<?> table ){
-        // Set the right policy
-        table.setColumnResizePolicy( TableView.UNCONSTRAINED_RESIZE_POLICY);
-        table.getColumns().stream().forEach( (column) ->
+    public static void autoResizeColumns(TableView<?> table) {
+        table.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+        table.getColumns().stream().forEach((column) ->
         {
-            // Minimal width = columnheader
-            Text t = new Text( column.getText() );
+            Text t = new Text(column.getText());
             double max = t.getLayoutBounds().getWidth();
-            for ( int i = 0; i < table.getItems().size(); i++ )
+            for (int i = 0; i < table.getItems().size(); i++)
             {
-                // cell must not be empty
-                if ( column.getCellData( i ) != null )
+                if (column.getCellData(i) != null)
                 {
-                    t = new Text( column.getCellData( i ).toString() );
-                    double calcwidth = t.getLayoutBounds().getWidth();
-                    // remember new max-width
-                    if ( calcwidth > max )
+                    t = new Text(column.getCellData(i).toString());
+                    double calcWidth = t.getLayoutBounds().getWidth();
+                    if (calcWidth > max)
                     {
-                        max = calcwidth;
+                        max = calcWidth;
                     }
                 }
             }
-            // set the new max-widht with some extra space
-            column.setPrefWidth( max + 10.0d );
-        } );
+            column.setPrefWidth(max + 10.0d );
+        });
     }
 
-    public void clickHomeLabel(MouseEvent mouseEvent) {
+    public void homeClick() {
         splitPaneId.setVisible(false);
         homePaneId.setVisible(true);
         homePaneId.setStyle("-fx-background-image: url('file:src/main/resources/images/sfondoHome.png'); " + "-fx-background-size: 1280 720;");
     }
 
-    public void patientClick(MouseEvent mouseEvent) {
+    public void patientClick() {
         splitPaneId.setVisible(true);
         homePaneId.setVisible(false);
-       patientLabelClick();
-
+        patientLabelClick();
     }
 
-    public void organizationClick(MouseEvent mouseEvent) {
+    public void organizationClick() {
         splitPaneId.setVisible(true);
         homePaneId.setVisible(false);
         organizationLabelClick();
-
     }
 
-    public void encounterClick(MouseEvent mouseEvent) {
+    public void encounterClick() {
         splitPaneId.setVisible(true);
         homePaneId.setVisible(false);
-         encounterLabelClick();
-
+        encounterLabelClick();
     }
 
-    public void imagingStudyClick(MouseEvent mouseEvent) {
+    public void imagingStudyClick() {
         splitPaneId.setVisible(true);
         homePaneId.setVisible(false);
         imagineLabelClick();

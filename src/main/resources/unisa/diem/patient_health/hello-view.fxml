@@ -13,13 +13,13 @@
     <AnchorPane prefHeight="637.0" prefWidth="1280.0">
         <SplitPane fx:id="splitPaneId" dividerPositions="0.18013856812933027" prefHeight="695.0" prefWidth="1280.0" visible="false">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="671.0" prefWidth="227.0">
-                <TextField fx:id="searchBar1" layoutX="14.0" layoutY="272.0" prefHeight="25.0" prefWidth="140.0" />
-                <Button fx:id="buttonSearch" layoutX="161.0" layoutY="272.0" mnemonicParsing="false" onMouseClicked="#searchButtonClick" text="Search" />
+                <TextField fx:id="searchBar" layoutX="14.0" layoutY="272.0" prefHeight="25.0" prefWidth="140.0" />
+                <Button fx:id="searchButton" layoutX="161.0" layoutY="272.0" mnemonicParsing="false" onMouseClicked="#searchButtonClick" text="Search" />
                 <Label fx:id="patientLabel" alignment="CENTER" layoutX="14.0" layoutY="59.0" onMouseClicked="#patientLabelClick" prefHeight="39.0" prefWidth="182.0" text="Patient" />
                 <Label fx:id="organizationLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="98.0" onMouseClicked="#organizationLabelClick" prefHeight="49.0" prefWidth="182.0" text="Organization" />
                 <Label fx:id="encounterLabel" alignment="CENTER" layoutX="14.0" layoutY="147.0" onMouseClicked="#encounterLabelClick" prefHeight="49.0" prefWidth="182.0" text="Encounter" />
                 <Label fx:id="imagingLabel" alignment="CENTER" layoutX="14.0" layoutY="196.0" onMouseClicked="#imagineLabelClick" prefHeight="39.0" prefWidth="182.0" text="Imaging Study" />
-            <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" onMouseClicked="#clickHomeLabel" prefHeight="39.0" prefWidth="182.0" text="Home" />
+            <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" onMouseClicked="#homeClick" prefHeight="39.0" prefWidth="182.0" text="Home" />
             <CheckBox fx:id="checkBox2" layoutX="14.0" layoutY="342.0" mnemonicParsing="false" />
             <CheckBox fx:id="checkBox3" layoutX="14.0" layoutY="370.0" mnemonicParsing="false" />
             <CheckBox fx:id="checkBox6" layoutX="14.0" layoutY="449.0" mnemonicParsing="false" />
@@ -30,19 +30,19 @@
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="672.0" prefWidth="1045.0">
                 <Pane fx:id="patientPane" prefHeight="695.0" prefWidth="1045.0" visible="false">
-                    <TableView fx:id="personTable" layoutX="14.0" layoutY="28.0" onScroll="#patientScrollTable" prefHeight="200.0" prefWidth="1022.0">
+                    <TableView fx:id="patientTable" layoutX="14.0" layoutY="28.0" onScroll="#patientScrollTable" prefHeight="200.0" prefWidth="1022.0">
                         <columns>
-                            <TableColumn fx:id="nameClmPersona" prefWidth="89.0" text="Name" />
-                            <TableColumn fx:id="surnameClmPersona" prefWidth="85.0" text="Surname" />
-                            <TableColumn fx:id="birthdateClmPersona" prefWidth="79.0" text="Birthdate" />
-                            <TableColumn fx:id="deathdateClmPersona" prefWidth="102.0" text="Death Date" />
-                            <TableColumn fx:id="ssnClmPersona" prefWidth="84.0" text="SSN" />
-                            <TableColumn fx:id="maritalClmPersona" prefWidth="82.0" text="Marital" />
-                            <TableColumn fx:id="genderClmPersona" prefWidth="89.0" text="Gender" />
-                            <TableColumn fx:id="birthplaceClmPersona" prefWidth="104.0" text="Birthplace" />
-                            <TableColumn fx:id="addressClmPersona" prefWidth="109.0" text="Address" />
-                            <TableColumn fx:id="cityClmPersona" prefWidth="106.0" text="City" />
-                            <TableColumn fx:id="stateClmPersona" prefWidth="91.0" text="State" />
+                            <TableColumn fx:id="nameClmPatient" prefWidth="89.0" text="Name" />
+                            <TableColumn fx:id="surnameClmPatient" prefWidth="85.0" text="Surname" />
+                            <TableColumn fx:id="birthdateClmPatient" prefWidth="79.0" text="Birthdate" />
+                            <TableColumn fx:id="deathdateClmPatient" prefWidth="102.0" text="Death Date" />
+                            <TableColumn fx:id="ssnClmPatient" prefWidth="84.0" text="SSN" />
+                            <TableColumn fx:id="maritalClmPatient" prefWidth="82.0" text="Marital" />
+                            <TableColumn fx:id="genderClmPatient" prefWidth="89.0" text="Gender" />
+                            <TableColumn fx:id="birthplaceClmPatient" prefWidth="104.0" text="Birthplace" />
+                            <TableColumn fx:id="addressClmPatient" prefWidth="109.0" text="Address" />
+                            <TableColumn fx:id="cityClmPatient" prefWidth="106.0" text="City" />
+                            <TableColumn fx:id="stateClmPatient" prefWidth="91.0" text="State" />
                         </columns>
                         <contextMenu>
                             <ContextMenu>
@@ -113,7 +113,7 @@
                             <ContextMenu>
                                 <items>
                                     <MenuItem fx:id="copyNameOrg" mnemonicParsing="false" onAction="#copyNameOrganization" text="Copy Organization Name" />
-                                    <MenuItem fx:id="copyIdOrg" mnemonicParsing="false" onAction="#copyIdOrganization" text="Copy Organization Id" />
+                                    <MenuItem fx:id="copyIdOrg" mnemonicParsing="false" onAction="#copyIDOrganization" text="Copy Organization Id" />
                                 </items>
                             </ContextMenu>
                         </contextMenu>
@@ -131,7 +131,7 @@
                             <ContextMenu>
                                 <items>
                                     <MenuItem fx:id="copyNamePayer" mnemonicParsing="false" onAction="#copyNamePayer" text="Copy Payer Name" />
-                                    <MenuItem fx:id="copyIdPayer" mnemonicParsing="false" onAction="#copyIdPayer" text="Copy Payer Id" />
+                                    <MenuItem fx:id="copyIDPayer" mnemonicParsing="false" onAction="#copyIDPayer" text="Copy Payer Id" />
                                 </items>
                             </ContextMenu>
                         </contextMenu>
@@ -151,7 +151,7 @@
                         <contextMenu>
                             <ContextMenu>
                                 <items>
-                                    <MenuItem fx:id="copiaNamePract" mnemonicParsing="false" onAction="#copyNamePractotioner" text="Copy Practitioner Name" />
+                                    <MenuItem fx:id="copiaNamePract" mnemonicParsing="false" onAction="#copyNamePractitioner" text="Copy Practitioner Name" />
                                     <MenuItem fx:id="copiaIDPract" mnemonicParsing="false" onAction="#copyIDPractitioner" text="Copy Practitioner ID" />
                                 </items>
                             </ContextMenu>
@@ -268,19 +268,19 @@
                     </Pane>
                 </Pane>
 
-                <Pane fx:id="imagingPane" prefHeight="685.0" prefWidth="1045.0" visible="false">
+                <Pane fx:id="imagePane" prefHeight="685.0" prefWidth="1045.0" visible="false">
                     <TableView fx:id="imageTable" layoutX="14.0" layoutY="14.0" onMouseClicked="#clickImageTable" onScroll="#imageScrollTable" prefHeight="662.0" prefWidth="1022.0">
                         <columns>
-                            <TableColumn fx:id="idClm" prefWidth="100.0" text="Image ID" />
-                            <TableColumn fx:id="bodyCodeClm" prefWidth="117.0" text="Body Site Code" />
-                            <TableColumn fx:id="bodyDescrClm" prefWidth="166.0" text="Body Site Description" />
-                            <TableColumn fx:id="modeCodeClm" prefWidth="148.0" text="Modality Code" />
-                            <TableColumn fx:id="modeDescrClm" prefWidth="168.0" text="Modality Description" />
-                            <TableColumn fx:id="sopCodeClm" prefWidth="107.0" text="SOP Code" />
-                            <TableColumn fx:id="sopDescrClm" prefWidth="154.0" text="SOP Description" />
-                            <TableColumn fx:id="dateImageClm" prefWidth="111.0" text="Date" />
-                            <TableColumn fx:id="patientImageClm" prefWidth="125.0" text="Patient" />
-                            <TableColumn fx:id="encounterImageClm" prefWidth="131.0" text="Encounter" />
+                            <TableColumn fx:id="idClmImage" prefWidth="100.0" text="Image ID" />
+                            <TableColumn fx:id="bodyCodeClmImage" prefWidth="117.0" text="Body Site Code" />
+                            <TableColumn fx:id="bodyDescrClmImage" prefWidth="166.0" text="Body Site Description" />
+                            <TableColumn fx:id="modeCodeClmImage" prefWidth="148.0" text="Modality Code" />
+                            <TableColumn fx:id="modeDescrClmImage" prefWidth="168.0" text="Modality Description" />
+                            <TableColumn fx:id="sopCodeClmImage" prefWidth="107.0" text="SOP Code" />
+                            <TableColumn fx:id="sopDescrClmImage" prefWidth="154.0" text="SOP Description" />
+                            <TableColumn fx:id="dateClmImage" prefWidth="111.0" text="Date" />
+                            <TableColumn fx:id="patientClmImage" prefWidth="125.0" text="Patient" />
+                            <TableColumn fx:id="encounterClmImage" prefWidth="131.0" text="Encounter" />
                         </columns>
                     </TableView>
                 </Pane>
