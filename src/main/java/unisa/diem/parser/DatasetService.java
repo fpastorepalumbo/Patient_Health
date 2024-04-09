@@ -18,14 +18,12 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
-/**
- * Service bean with utility methods for dealing with CSV records.
- */
+ // Service class with utility methods for dealing with CSV records.
 public class DatasetService {
 
     private final DateFormat onlyDateFmt = new SimpleDateFormat("yyyy-MM-dd");
     private final DateFormat datetimeFmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-    private final Logger logger = Logger.getLogger("DatasetLoader");
+    private final Logger logger = Logger.getLogger("DatasetParser");
 
     @Getter
     private final DicomService dicomService;
@@ -34,41 +32,18 @@ public class DatasetService {
         dicomService = new DicomService();
     }
 
-    /**
-     * Logs a message with the INFO level
-     *
-     * @param fmt  format string
-     * @param args format arguments
-     */
+    // Logs a message with the INFO level
     public void logInfo(String fmt, Object... args) {
         logger.setLevel(Level.INFO);
         logger.info(String.format(fmt, args));
     }
 
-    /**
-     * Logs a message with the SEVERE level
-     *
-     * @param fmt  format string
-     * @param args format arguments
-     */
+    // Logs a message with the SEVERE level
     public void logSevere(String fmt, Object... args) {
         logger.severe(String.format(fmt, args));
     }
 
-    /**
-     * Returns the value of the given property from the given record.
-     * The condition for existance of a property are
-     * <ul>
-     * <li>the property is mapped in the CSV file</li>
-     * <li>the property is not null</li>
-     * <li>the property is not an empty string</li>
-     * <li>the property is not the string "false"</li>
-     * </ul>
-     *
-     * @param record CSV record
-     * @param prop   property name
-     * @return true if the property exists, false otherwise
-     */
+     // Return the value of the given property from the given record.
     public boolean hasProp(CSVRecord record, String prop) {
         return (record.isMapped(prop) &&
                 record.get(prop) != null &&
@@ -76,12 +51,7 @@ public class DatasetService {
                 !record.get(prop).equals("false"));
     }
 
-    /**
-     * Parse the CSV file with the given name and return its records.
-     *
-     * @param subject name of the CSV file without the .csv extension
-     * @return list of CSV records
-     */
+    // Parse the CSV file with the given name and return its records.
     public List<CSVRecord> parse(String subject) {
         CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
                 .setHeader()
@@ -98,39 +68,21 @@ public class DatasetService {
         }
     }
 
-    /**
-     * Parse a date string in the format yyyy-MM-dd and return a Date object.
-     *
-     * @param date date string
-     * @return date object
-     * @throws ParseException if the date string is not in the expected format
-     */
+    // Parse a date string in the format yyyy-MM-dd and return a Date object.
     public Date parseDate(String date) throws ParseException {
         return onlyDateFmt.parse(date);
     }
 
-    /**
-     * Parse a datetime string in the format yyyy-MM-dd'T'HH:mm:ss'Z' and return a
-     * Date object.
-     *
-     * @param datetime datetime string
-     * @return date object
-     * @throws ParseException if the date string is not in the expected format
-     */
+    // Parse a datetime string in the format yyyy-MM-dd'T'HH:mm:ss'Z' and return a Date object.
     public Date parseDatetime(String datetime) throws ParseException {
         return datetimeFmt.parse(datetime);
     }
 
-    /**
-     * Checks for the presence of the file ds_loaded_ok in the current directory,
-     * and if it doesn't exist, loads the dataset and creates it
-     *
-     * @throws IOException if file errors arise
-     */
+    // Check for the presence of the file dataset_loaded in the current directory, and if it doesn't exist, parse the dataset and create it
     public void loadDataset() throws IOException {
         Path path = Paths.get("dataset_loaded");
         if (!Files.exists(path)) {
-            new DatasetLoader(this).load();
+            new DatasetParser(this).parse();
             Files.createFile(path);
         }
     }

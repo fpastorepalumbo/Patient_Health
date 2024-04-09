@@ -1,7 +1,7 @@
 package unisa.diem.parser;
 
 import ca.uhn.fhir.util.BundleBuilder;
-import unisa.diem.fhir.FhirWrapper;
+import unisa.diem.fhir.FhirHandler;
 import org.apache.commons.csv.CSVRecord;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
@@ -11,14 +11,14 @@ import org.hl7.fhir.r4.model.Reference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProceduresLoader extends BaseLoader {
+public class ProceduresParser extends BaseParser {
 
-    ProceduresLoader(DatasetService datasetService) {
+    ProceduresParser(DatasetService datasetService) {
         super(datasetService, "procedures");
     }
 
     @Override
-    public void load() {
+    public void parse() {
         int count = 0;
         List<Procedure> buffer = new ArrayList<>();
 
@@ -51,14 +51,14 @@ public class ProceduresLoader extends BaseLoader {
             buffer.add(proc);
 
             if (count % 100 == 0 || count == records.size()) {
-                BundleBuilder bb = new BundleBuilder(FhirWrapper.getContext());
+                BundleBuilder bb = new BundleBuilder(FhirHandler.getContext());
                 buffer.forEach(bb::addTransactionCreateEntry);
-                FhirWrapper.getClient().transaction().withBundle(bb.getBundle()).execute();
+                FhirHandler.getClient().transaction().withBundle(bb.getBundle()).execute();
                 if (count % 1000 == 0)
-                    datasetService.logInfo("Loaded %d procedures", count);
+                    datasetService.logInfo("Parsed %d procedures", count);
                 buffer.clear();
             }
         }
-        datasetService.logInfo("Loaded ALL procedures");
+        datasetService.logInfo("Parsed ALL procedures");
     }
 }

@@ -1,7 +1,7 @@
 package unisa.diem.parser;
 
 import ca.uhn.fhir.util.BundleBuilder;
-import unisa.diem.fhir.FhirWrapper;
+import unisa.diem.fhir.FhirHandler;
 import lombok.SneakyThrows;
 import org.apache.commons.csv.CSVRecord;
 import org.hl7.fhir.r4.model.*;
@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class DevicesLoader extends BaseLoader {
+public class DevicesParser extends BaseParser {
 
-    public DevicesLoader(DatasetService datasetService) {
+    public DevicesParser(DatasetService datasetService) {
         super(datasetService, "devices");
     }
 
@@ -29,7 +29,7 @@ public class DevicesLoader extends BaseLoader {
 
     @Override
     @SneakyThrows
-    public void load() {
+    public void parse() {
         int count = 0;
         List<Device> devBuffer = new ArrayList<>();
         List<DeviceRequest> reqBuffer = new ArrayList<>();
@@ -89,16 +89,16 @@ public class DevicesLoader extends BaseLoader {
             reqBuffer.add(dr);
 
             if (count % 100 == 0 || count == records.size()) {
-                BundleBuilder bb = new BundleBuilder(FhirWrapper.getContext());
+                BundleBuilder bb = new BundleBuilder(FhirHandler.getContext());
                 devBuffer.forEach(bb::addTransactionUpdateEntry);
                 reqBuffer.forEach(bb::addTransactionCreateEntry);
-                FhirWrapper.getClient().transaction().withBundle(bb.getBundle()).execute();
+                FhirHandler.getClient().transaction().withBundle(bb.getBundle()).execute();
                 if (count % 1000 == 0)
-                    datasetService.logInfo("Loaded %d devices", count);
+                    datasetService.logInfo("Parsed %d devices", count);
                 devBuffer.clear();
                 reqBuffer.clear();
             }
         }
-        datasetService.logInfo("Loaded ALL devices");
+        datasetService.logInfo("Parsed ALL devices");
     }
 }

@@ -1,7 +1,7 @@
 package unisa.diem.parser;
 
 import ca.uhn.fhir.util.BundleBuilder;
-import unisa.diem.fhir.FhirWrapper;
+import unisa.diem.fhir.FhirHandler;
 import lombok.SneakyThrows;
 import org.apache.commons.csv.CSVRecord;
 import org.hl7.fhir.r4.model.*;
@@ -9,15 +9,15 @@ import org.hl7.fhir.r4.model.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AllergiesLoader extends BaseLoader {
+public class AllergiesParser extends BaseParser {
 
-    AllergiesLoader(DatasetService datasetService) {
+    AllergiesParser(DatasetService datasetService) {
         super(datasetService, "allergies");
     }
 
     @Override
     @SneakyThrows
-    public void load() {
+    public void parse() {
         int count = 0;
         List<AllergyIntolerance> buffer = new ArrayList<>();
 
@@ -41,14 +41,14 @@ public class AllergiesLoader extends BaseLoader {
             buffer.add(alin);
 
             if (count % 100 == 0 || count == records.size()) {
-                BundleBuilder bb = new BundleBuilder(FhirWrapper.getContext());
+                BundleBuilder bb = new BundleBuilder(FhirHandler.getContext());
                 buffer.forEach(bb::addTransactionCreateEntry);
-                FhirWrapper.getClient().transaction().withBundle(bb.getBundle()).execute();
+                FhirHandler.getClient().transaction().withBundle(bb.getBundle()).execute();
                 if (count % 1000 == 0)
-                    datasetService.logInfo("Loaded %d allergies", count);
+                    datasetService.logInfo("Parsed %d allergies", count);
                 buffer.clear();
             }
         }
-        datasetService.logInfo("Loaded ALL allergies");
+        datasetService.logInfo("Parsed ALL allergies");
     }
 }

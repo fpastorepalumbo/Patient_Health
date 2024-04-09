@@ -1,7 +1,7 @@
 package unisa.diem.parser;
 
 import ca.uhn.fhir.util.BundleBuilder;
-import unisa.diem.fhir.FhirWrapper;
+import unisa.diem.fhir.FhirHandler;
 import lombok.SneakyThrows;
 import org.apache.commons.csv.CSVRecord;
 import org.hl7.fhir.r4.model.*;
@@ -10,15 +10,15 @@ import org.hl7.fhir.r4.model.Enumerations.AdministrativeGender;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PractitionersLoader extends BaseLoader {
+public class PractitionersParser extends BaseParser {
 
-    PractitionersLoader(DatasetService datasetService) {
+    PractitionersParser(DatasetService datasetService) {
         super(datasetService, "practitioners");
     }
 
     @Override
     @SneakyThrows
-    public void load() {
+    public void parse() {
         List<Practitioner> buffer = new ArrayList<>();
         int count = 0;
         for (CSVRecord rec : records) {
@@ -74,14 +74,14 @@ public class PractitionersLoader extends BaseLoader {
             buffer.add(practitioner);
 
             if (count % 100 == 0 || count == records.size()) {
-                BundleBuilder bb = new BundleBuilder(FhirWrapper.getContext());
+                BundleBuilder bb = new BundleBuilder(FhirHandler.getContext());
                 buffer.forEach(bb::addTransactionUpdateEntry);
-                FhirWrapper.getClient().transaction().withBundle(bb.getBundle()).execute();
+                FhirHandler.getClient().transaction().withBundle(bb.getBundle()).execute();
                 if (count % 1000 == 0)
-                    datasetService.logInfo("Loaded %d practitioners", count);
+                    datasetService.logInfo("Parsed %d practitioners", count);
                 buffer.clear();
             }
         }
-        datasetService.logInfo("Loaded ALL practitioners");
+        datasetService.logInfo("Parsed ALL practitioners");
     }
 }

@@ -18,11 +18,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.hl7.fhir.r4.model.*;
-import unisa.diem.cda.CDAImporter;
+import unisa.diem.cda.CDAHandler;
 import unisa.diem.converter.*;
 import unisa.diem.dicom.DicomService;
 import unisa.diem.downloader.*;
-import unisa.diem.fhir.FhirWrapper;
+import unisa.diem.fhir.FhirHandler;
 import unisa.diem.parser.DatasetService;
 
 import java.io.ByteArrayInputStream;
@@ -275,7 +275,7 @@ public class HelloController implements Initializable {
     public TableColumn encounterClmImage;
 
     private final DicomService dicomService;
-    private final CDAImporter cdaImporter;
+    private final CDAHandler cdaHandler;
     public Label patientLabel;
     public Label organizationLabel;
     public Label encounterLabel;
@@ -355,7 +355,7 @@ public class HelloController implements Initializable {
 
         dicomService = new DicomService();
         currentFrames = FXCollections.observableArrayList();
-        cdaImporter = new CDAImporter();
+        cdaHandler = new CDAHandler();
     }
 
     @Override
@@ -1070,7 +1070,7 @@ public class HelloController implements Initializable {
 
     public void generateCDAEncounter() {
         String id = encounterTable.getSelectionModel().getSelectedItem().getId();
-        cdaImporter.saveCDAToFhir(id);
+        cdaHandler.saveCDAToFhir(id);
     }
 
     public void copyID(String id) {
@@ -1306,7 +1306,7 @@ public class HelloController implements Initializable {
         ImagingStudiesConverter.ImagingStudiesClass imageElement = imageTable.getSelectionModel().getSelectedItem();
 
         if (imageElement != null) {
-            ImagingStudy im = FhirWrapper.getClient().read().resource(ImagingStudy.class).withId(imageElement.getId()).execute();
+            ImagingStudy im = FhirHandler.getClient().read().resource(ImagingStudy.class).withId(imageElement.getId()).execute();
 
             currentFrames = dicomService.getDicomFile(im).serveAllFrames();
             showImages(new Stage());

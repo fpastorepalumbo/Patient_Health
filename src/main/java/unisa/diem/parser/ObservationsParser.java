@@ -1,21 +1,21 @@
 package unisa.diem.parser;
 
 import ca.uhn.fhir.util.BundleBuilder;
-import unisa.diem.fhir.FhirWrapper;
+import unisa.diem.fhir.FhirHandler;
 import org.apache.commons.csv.CSVRecord;
 import org.hl7.fhir.r4.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ObservationsLoader extends BaseLoader {
+public class ObservationsParser extends BaseParser {
 
-    ObservationsLoader(DatasetService datasetService) {
+    ObservationsParser(DatasetService datasetService) {
         super(datasetService, "observations");
     }
 
     @Override
-    public void load() {
+    public void parse() {
         int count = 0;
         List<Observation> buffer = new ArrayList<>();
 
@@ -62,14 +62,14 @@ public class ObservationsLoader extends BaseLoader {
             buffer.add(obs);
 
             if (count % 100 == 0 || count == records.size()) {
-                BundleBuilder bb = new BundleBuilder(FhirWrapper.getContext());
+                BundleBuilder bb = new BundleBuilder(FhirHandler.getContext());
                 buffer.forEach(bb::addTransactionCreateEntry);
-                FhirWrapper.getClient().transaction().withBundle(bb.getBundle()).execute();
+                FhirHandler.getClient().transaction().withBundle(bb.getBundle()).execute();
                 if (count % 1000 == 0)
-                    datasetService.logInfo("Loaded %d observations", count);
+                    datasetService.logInfo("Parsed %d observations", count);
                 buffer.clear();
             }
         }
-        datasetService.logInfo("Loaded ALL observations");
+        datasetService.logInfo("Parsed ALL observations");
     }
 }

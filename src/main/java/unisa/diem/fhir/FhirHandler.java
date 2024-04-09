@@ -3,40 +3,31 @@ package unisa.diem.fhir;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 
-/**
- * Global singleton object holding an instance of the FHIR context.
- */
-public class FhirWrapper {
+
+public class FhirHandler {
 
     private static final String baseUrl = "http://localhost:8080/fhir";
-    private static FhirWrapper instance;
+    private static FhirHandler instance;
     private final FhirContext ctx;
 
-    private FhirWrapper() {
+    private FhirHandler() {
         ctx = FhirContext.forR4();
     }
 
     /**
      * Returns the global instance of the FHIR context.
      * If the instance doesn't exist yet, it is created.
-     *
-     * @return FHIR context shared instance
      */
     public static FhirContext getContext() {
         if (instance == null) {
-            instance = new FhirWrapper();
+            instance = new FhirHandler();
         }
         return instance.ctx;
     }
 
-    /**
-     * Returns a copy of the FHIR client from the global instance of the FHIR context.
-     *
-     * @return FHIR client
-     */
+    // Return a copy of the FHIR client from the global instance of the FHIR context.
     public static IGenericClient getClient() {
         getContext().getRestfulClientFactory().setSocketTimeout(60 * 1000);
         return getContext().newRestfulGenericClient(baseUrl);
     }
-
 }

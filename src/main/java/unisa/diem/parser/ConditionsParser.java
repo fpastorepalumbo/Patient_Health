@@ -1,21 +1,21 @@
 package unisa.diem.parser;
 
 import ca.uhn.fhir.util.BundleBuilder;
-import unisa.diem.fhir.FhirWrapper;
+import unisa.diem.fhir.FhirHandler;
 import org.apache.commons.csv.CSVRecord;
 import org.hl7.fhir.r4.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConditionsLoader extends BaseLoader {
+public class ConditionsParser extends BaseParser {
 
-    ConditionsLoader(DatasetService datasetService) {
+    ConditionsParser(DatasetService datasetService) {
         super(datasetService, "conditions");
     }
 
     @Override
-    public void load() {
+    public void parse() {
         int count = 0;
         List<Condition> buffer = new ArrayList<>();
 
@@ -45,14 +45,14 @@ public class ConditionsLoader extends BaseLoader {
             buffer.add(cond);
 
             if (count % 100 == 0 || count == records.size()) {
-                BundleBuilder bb = new BundleBuilder(FhirWrapper.getContext());
+                BundleBuilder bb = new BundleBuilder(FhirHandler.getContext());
                 buffer.forEach(bb::addTransactionCreateEntry);
-                FhirWrapper.getClient().transaction().withBundle(bb.getBundle()).execute();
+                FhirHandler.getClient().transaction().withBundle(bb.getBundle()).execute();
                 if (count % 1000 == 0)
-                    datasetService.logInfo("Loaded %d conditions", count);
+                    datasetService.logInfo("Parsed %d conditions", count);
                 buffer.clear();
             }
         }
-        datasetService.logInfo("Loaded ALL conditions");
+        datasetService.logInfo("Parsed ALL conditions");
     }
 }

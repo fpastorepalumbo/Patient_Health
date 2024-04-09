@@ -12,29 +12,19 @@ import unisa.diem.fhir.FhirService;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-/**
- * Class responsible for creating C-CDA document from encounter and importing
- * them as FHIR DocumentReference resource.
- */
-public class CDAImporter {
+// Class responsible for creating C-CDA document from encounter and saving them as FHIR DocumentReference resource.
+public class CDAHandler {
     private final SimpleDateFormat DATETIME_FMT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
     private final CDAService cdaService;
     private final FhirService fhirService;
 
-    public CDAImporter() {
+    public CDAHandler() {
         this.cdaService = new CDAService();
         this.fhirService = new FhirService();
     }
 
-    /**
-     * Creates C-CDA document from encounter and imports it as FHIR
-     * DocumentReference resource.
-     *
-     * @param encounterId encounter ID
-     * @return C-CDA document
-     * @throws ResourceNotFoundException if encounter is not found
-     */
+    // Create C-CDA document from encounter and save it as FHIR DocumentReference resource.
     public String saveCDAToFhir(String encounterId) throws ResourceNotFoundException {
         DocumentReference doc = convert(cdaService.getClinicalDocument(encounterId));
         fhirService.getClient().update().resource(doc).execute();
@@ -43,12 +33,8 @@ public class CDAImporter {
     }
 
     /**
-     * Converts ClinicalDocument to DocumentReference.
-     * Takes, as input, a ClinicalDocument object produced by the MDHT library and
-     * converts it to a FHIR DocumentReference
-     *
-     * @param cda ClinicalDocument object
-     * @return DocumentReference object
+     * Convert ClinicalDocument to DocumentReference.
+     * Take, as input, a ClinicalDocument object produced by the MDHT library and convert it to a FHIR DocumentReference
      */
     @SneakyThrows
     private DocumentReference convert(ClinicalDocument cda) {

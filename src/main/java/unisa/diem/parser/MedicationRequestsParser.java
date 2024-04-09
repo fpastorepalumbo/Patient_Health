@@ -1,7 +1,7 @@
 package unisa.diem.parser;
 
 import ca.uhn.fhir.util.BundleBuilder;
-import unisa.diem.fhir.FhirWrapper;
+import unisa.diem.fhir.FhirHandler;
 import lombok.SneakyThrows;
 import org.apache.commons.csv.CSVRecord;
 import org.hl7.fhir.r4.model.*;
@@ -11,16 +11,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MedicationRequestsLoader extends BaseLoader {
+public class MedicationRequestsParser extends BaseParser {
     private final Iterable<CSVRecord> encRecords;
     private final Map<String, CSVRecord> encIndex;
 
-    MedicationRequestsLoader(DatasetService datasetService) {
+    MedicationRequestsParser(DatasetService datasetService) {
         super(datasetService, "medications");
 
         encRecords = datasetService.parse("encounters");
         if (records == null || encRecords == null)
-            datasetService.logSevere("Failed to load medications");
+            datasetService.logSevere("Failed to parse medications");
         encIndex = makeIndex();
     }
 
@@ -33,7 +33,7 @@ public class MedicationRequestsLoader extends BaseLoader {
 
     @Override
     @SneakyThrows
-    public void load() {
+    public void parse() {
         int count = 0;
         List<MedicationRequest> buffer = new ArrayList<>();
         List<Claim> clmBuffer = new ArrayList<>();
@@ -131,18 +131,18 @@ public class MedicationRequestsLoader extends BaseLoader {
             eobBuffer.add(eob);
 
             if (count % 100 == 0 || count == records.size()) {
-                BundleBuilder bb = new BundleBuilder(FhirWrapper.getContext());
+                BundleBuilder bb = new BundleBuilder(FhirHandler.getContext());
                 buffer.forEach(bb::addTransactionUpdateEntry);
                 clmBuffer.forEach(bb::addTransactionUpdateEntry);
                 eobBuffer.forEach(bb::addTransactionUpdateEntry);
-                FhirWrapper.getClient().transaction().withBundle(bb.getBundle()).execute();
+                FhirHandler.getClient().transaction().withBundle(bb.getBundle()).execute();
                 if (count % 1000 == 0)
-                    datasetService.logInfo("Loaded %d medication requests", count);
+                    datasetService.logInfo("Parsed %d medication requests", count);
                 buffer.clear();
                 clmBuffer.clear();
                 eobBuffer.clear();
             }
         }
-        datasetService.logInfo("Loaded ALL medication requests");
+        datasetService.logInfo("Parsed ALL medication requests");
     }
 }

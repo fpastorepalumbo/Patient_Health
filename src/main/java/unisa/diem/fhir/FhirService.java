@@ -3,37 +3,20 @@ package unisa.diem.fhir;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import org.hl7.fhir.r4.model.*;
 
-/**
- * Utility class with shared fields and methods for executing FHIR requests.
- */
+// Utility class with shared fields and methods for executing FHIR requests.
 public class FhirService {
 
-    /**
-     * Returns the FHIR client from the global instance of the FHIR context.
-     *
-     * @return FHIR client
-     */
+    // Return the FHIR client from the global instance of the FHIR context.
     public IGenericClient getClient() {
-        return FhirWrapper.getClient();
+        return FhirHandler.getClient();
     }
 
-    /**
-     * Resolves a FHIR resource by its type and ID.
-     *
-     * @param type FHIR resource type class
-     * @param id   resource ID
-     * @return FHIR resource (needs casting to match the desired type)
-     */
+    // Resolve the resource by its ID.
     public Resource resolveId(Class<? extends Resource> type, String id) {
-        return FhirWrapper.getClient().read().resource(type).withId(id).execute();
+        return FhirHandler.getClient().read().resource(type).withId(id).execute();
     }
 
-    /**
-     * Get the Claim related to the given Encounter.
-     *
-     * @param res Encounter resource
-     * @return Claim resource
-     */
+    // Get the Claim resource related to the given Encounter.
     public Claim getClaim(Encounter res) {
         return getClient().search().forResource(Claim.class)
                 .where(Claim.ENCOUNTER.hasId("Encounter/" + res.getIdElement().getIdPart()))
@@ -44,12 +27,7 @@ public class FhirService {
                 .findFirst().orElse(null);
     }
 
-    /**
-     * Get the Claim related to the given MedicationRequest.
-     *
-     * @param res MedicationRequest resource
-     * @return Claim resource
-     */
+    // Get the Claim related to the given MedicationRequest.
     public Claim getClaim(MedicationRequest res) {
         return getClient().search().forResource(Claim.class)
                 .where(Claim.ENCOUNTER.hasId(res.getEncounter().getReference()))
@@ -60,12 +38,7 @@ public class FhirService {
                 .toList().get(1);
     }
 
-    /**
-     * Get the ExplanationOfBenefit related to the given Encounter.
-     *
-     * @param res Encounter resource
-     * @return ExplanationOfBenefit resource
-     */
+    // Get the ExplanationOfBenefit related to the given Encounter.
     public ExplanationOfBenefit getEOB(Encounter res) {
         return getClient().search().forResource(ExplanationOfBenefit.class)
                 .where(ExplanationOfBenefit.CLAIM.hasId("Claim/" + getClaim(res).getIdElement().getIdPart()))
@@ -76,12 +49,7 @@ public class FhirService {
                 .findFirst().orElse(null);
     }
 
-    /**
-     * Get the ExplanationOfBenefit related to the given MedicationRequest.
-     *
-     * @param res MedicationRequest resource
-     * @return ExplanationOfBenefit resource
-     */
+    // Get the ExplanationOfBenefit related to the given MedicationRequest.
     public ExplanationOfBenefit getEOB(MedicationRequest res) {
         return getClient().search().forResource(ExplanationOfBenefit.class)
                 .where(ExplanationOfBenefit.CLAIM.hasId("Claim/" + getClaim(res).getIdElement().getIdPart()))

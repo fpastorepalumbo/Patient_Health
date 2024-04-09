@@ -1,7 +1,7 @@
 package unisa.diem.parser;
 
 import ca.uhn.fhir.util.BundleBuilder;
-import unisa.diem.fhir.FhirWrapper;
+import unisa.diem.fhir.FhirHandler;
 import lombok.SneakyThrows;
 import org.apache.commons.csv.CSVRecord;
 import org.hl7.fhir.r4.model.*;
@@ -9,15 +9,15 @@ import org.hl7.fhir.r4.model.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CarePlansLoader extends BaseLoader {
+public class CarePlansParser extends BaseParser {
 
-    CarePlansLoader(DatasetService datasetService) {
+    CarePlansParser(DatasetService datasetService) {
         super(datasetService, "careplans");
     }
 
     @Override
     @SneakyThrows
-    public void load() {
+    public void parse() {
         int count = 0;
         List<CarePlan> buffer = new ArrayList<>();
 
@@ -71,14 +71,14 @@ public class CarePlansLoader extends BaseLoader {
             buffer.add(cp);
 
             if (count % 100 == 0 || count == records.size()) {
-                BundleBuilder bb = new BundleBuilder(FhirWrapper.getContext());
+                BundleBuilder bb = new BundleBuilder(FhirHandler.getContext());
                 buffer.forEach(bb::addTransactionUpdateEntry);
-                FhirWrapper.getClient().transaction().withBundle(bb.getBundle()).execute();
+                FhirHandler.getClient().transaction().withBundle(bb.getBundle()).execute();
                 if (count % 1000 == 0)
-                    datasetService.logInfo("Loaded %d care plans", count);
+                    datasetService.logInfo("Parsed %d care plans", count);
                 buffer.clear();
             }
         }
-        datasetService.logInfo("Loaded ALL care plans");
+        datasetService.logInfo("Parsed ALL care plans");
     }
 }

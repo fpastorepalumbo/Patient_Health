@@ -2,22 +2,22 @@ package unisa.diem.parser;
 
 import ca.uhn.fhir.util.BundleBuilder;
 import org.hl7.fhir.r4.model.*;
-import unisa.diem.fhir.FhirWrapper;
+import unisa.diem.fhir.FhirHandler;
 import lombok.SneakyThrows;
 import org.apache.commons.csv.CSVRecord;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImmunizationsLoader extends BaseLoader {
+public class ImmunizationsParser extends BaseParser {
 
-    ImmunizationsLoader(DatasetService datasetService) {
+    ImmunizationsParser(DatasetService datasetService) {
         super(datasetService, "immunizations");
     }
 
     @Override
     @SneakyThrows
-    public void load() {
+    public void parse() {
         int count = 0;
         List<Immunization> buffer = new ArrayList<>();
 
@@ -42,14 +42,14 @@ public class ImmunizationsLoader extends BaseLoader {
             buffer.add(imm);
 
             if (count % 100 == 0 || count == records.size()) {
-                BundleBuilder bb = new BundleBuilder(FhirWrapper.getContext());
+                BundleBuilder bb = new BundleBuilder(FhirHandler.getContext());
                 buffer.forEach(bb::addTransactionCreateEntry);
-                FhirWrapper.getClient().transaction().withBundle(bb.getBundle()).execute();
+                FhirHandler.getClient().transaction().withBundle(bb.getBundle()).execute();
                 if (count % 1000 == 0)
-                    datasetService.logInfo("Loaded %d immunizations", count);
+                    datasetService.logInfo("Parsed %d immunizations", count);
                 buffer.clear();
             }
         }
-        datasetService.logInfo("Loaded ALL immunizations");
+        datasetService.logInfo("Parsed ALL immunizations");
     }
 }

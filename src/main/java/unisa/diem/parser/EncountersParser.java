@@ -1,7 +1,7 @@
 package unisa.diem.parser;
 
 import ca.uhn.fhir.util.BundleBuilder;
-import unisa.diem.fhir.FhirWrapper;
+import unisa.diem.fhir.FhirHandler;
 import lombok.SneakyThrows;
 import org.apache.commons.csv.CSVRecord;
 import org.hl7.fhir.r4.model.*;
@@ -9,15 +9,15 @@ import org.hl7.fhir.r4.model.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EncountersLoader extends BaseLoader {
+public class EncountersParser extends BaseParser {
 
-    EncountersLoader(DatasetService datasetService) {
+    EncountersParser(DatasetService datasetService) {
         super(datasetService, "encounters");
     }
 
     @Override
     @SneakyThrows
-    public void load() {
+    public void parse() {
         int count = 0;
         List<Encounter> encBuffer = new ArrayList<>();
         List<Claim> claimBuffer = new ArrayList<>();
@@ -124,18 +124,18 @@ public class EncountersLoader extends BaseLoader {
             eobBuffer.add(eob);
 
             if (count % 100 == 0 || count == records.size()) {
-                BundleBuilder bb = new BundleBuilder(FhirWrapper.getContext());
+                BundleBuilder bb = new BundleBuilder(FhirHandler.getContext());
                 encBuffer.forEach(bb::addTransactionUpdateEntry);
                 claimBuffer.forEach(bb::addTransactionUpdateEntry);
                 eobBuffer.forEach(bb::addTransactionUpdateEntry);
-                FhirWrapper.getClient().transaction().withBundle(bb.getBundle()).execute();
+                FhirHandler.getClient().transaction().withBundle(bb.getBundle()).execute();
                 if (count % 1000 == 0)
-                    datasetService.logInfo("Loaded %d encounters", count);
+                    datasetService.logInfo("Parsed %d encounters", count);
                 encBuffer.clear();
                 claimBuffer.clear();
                 eobBuffer.clear();
             }
         }
-        datasetService.logInfo("loaded ALL encounters");
+        datasetService.logInfo("Parsed ALL encounters");
     }
 }

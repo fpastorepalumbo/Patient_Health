@@ -2,7 +2,7 @@ package unisa.diem.dicom;
 
 import com.pixelmed.dicom.DicomException;
 import com.pixelmed.dicom.TagFromName;
-import unisa.diem.fhir.FhirWrapper;
+import unisa.diem.fhir.FhirHandler;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.hl7.fhir.r4.model.ImagingStudy;
@@ -15,28 +15,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-/**
- * Service bean with method for working with DICOM files.
- */
+// Service Class with method for working with DICOM files.
 public class DicomService {
 
-    /**
-     * Returns the filename part of a DICOM file.
-     * In the Coherent dataset a dicom filename is in the format:
-     *
-     * <pre>
-     * {PATIENT_NAME}_{PATIENT_SURNAME}_{PATIENT_UID}_{DICOM_StudyInstanceUID}.dcm
-     * </pre>
-     * <p>
-     * This method returns the first three parts of the filename. The last is
-     * embedded inside the DICOM metadata.
-     * This is useful to restrict the number of DICOM files to be read.
-     *
-     * @param img ImagingStudy resource
-     * @return filename part
-     */
+    // Return the filename part of a DICOM file.
     private String getFilenamePart(ImagingStudy img) {
-        Patient patient = FhirWrapper.getClient().read().resource(Patient.class)
+        Patient patient = FhirHandler.getClient().read().resource(Patient.class)
                 .withId(img.getSubject().getReference()).execute();
 
         String givenName = patient.getNameFirstRep().getGivenAsSingleString(),
@@ -47,12 +31,8 @@ public class DicomService {
     }
 
     /**
-     * Returns the DICOM file object from the Coherent dataset.
-     * Reads all files whose name contains the given filename part and returns the
-     * one whose StudyInstanceUID matches.
-     *
-     * @param filename filename part
-     * @return DICOM file object
+     * Return the DICOM file object from the Coherent dataset.
+     * Read all files whose name contains the given filename part and returns the one whose StudyInstanceUID matches.
      */
     public File getFileObject(String filename) {
         Path root = Path.of("src/main/resources/coherent-11-07-2022/dicom");
@@ -68,7 +48,7 @@ public class DicomService {
                 return null;
 
             for (Path path : paths) {
-                DicomHandle dh = new DicomHandle(path.toFile());
+                DicomHandler dh = new DicomHandler(path.toFile());
                 String studyUid = dh.getString(TagFromName.StudyInstanceUID);
                 if (path.toString().contains(studyUid))
                     return path.toFile();
@@ -81,14 +61,10 @@ public class DicomService {
     }
 
     /**
-     * Returns the DICOM Handle object from the Coherent dataset.
-     * Reads all files whose name contains the given filename part and returns the
-     * one whose StudyInstanceUID matches.
-     *
-     * @param filename filename part
-     * @return DICOM file object
+     * Return the DICOM Handle object from the Coherent dataset.
+     * Read all files whose name contains the given filename part and returns the one whose StudyInstanceUID matches.
      */
-    public DicomHandle getDicomFile(String filename) {
+    public DicomHandler getDicomFile(String filename) {
         Path root = Path.of("src/main/resources/coherent-11-07-2022/dicom");
 
         try (var stream = Files.walk(root)) {
@@ -102,7 +78,7 @@ public class DicomService {
                 return null;
 
             for (Path path : paths) {
-                DicomHandle dh = new DicomHandle(path.toFile());
+                DicomHandler dh = new DicomHandler(path.toFile());
                 String studyUid = dh.getString(TagFromName.StudyInstanceUID);
                 if (path.toString().contains(studyUid))
                     return dh;
@@ -114,23 +90,12 @@ public class DicomService {
         }
     }
 
-    /**
-     * Returns the DICOM file corresponding to the given ImagingStudy resource.
-     *
-     * @param img ImagingStudy resource
-     * @return DICOM Handle object
-     */
-    public DicomHandle getDicomFile(ImagingStudy img) {
+    // Return the DICOM file corresponding to the given ImagingStudy resource.
+    public DicomHandler getDicomFile(ImagingStudy img) {
         return getDicomFile(getFilenamePart(img));
     }
 
-    /**
-     * Get the DICOM file corresponding to the given ImagingStudy resource and
-     * encodes it in Base64.
-     *
-     * @param img ImagingStudy resource
-     * @return Base64 encoded string of the DICOM corresponding DICOM file
-     */
+    // Get the DICOM file corresponding to the given ImagingStudy resource and encodes it in Base64.
     public String getBase64Binary(ImagingStudy img) {
         try {
             File file = getFileObject(getFilenamePart(img));

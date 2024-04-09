@@ -10,18 +10,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
-import java.util.List;
 import java.util.logging.Logger;
 
-/**
- * Object for handling DICOM files and their metadata v
- */
-public class DicomHandle {
+// Class for handling DICOM files and their metadata.
+public class DicomHandler {
 
-    private static final Logger logger = Logger.getLogger(DicomHandle.class.getName());
+    private static final Logger logger = Logger.getLogger(DicomHandler.class.getName());
     private final AttributeList attrs;
     private int numRows;
     private int numCols;
@@ -30,19 +26,12 @@ public class DicomHandle {
     private short[] shortPixelData;
     private byte[] bytePixelData;
 
-    public DicomHandle(File file) throws IOException, DicomException {
+    public DicomHandler(File file) throws IOException, DicomException {
         attrs = read(file.getAbsolutePath());
         loadEssentialData();
     }
 
-    /**
-     * Reads a DICOM file and returns its attribute list
-     *
-     * @param filePath path to the DICOM file
-     * @return attribute list
-     * @throws IOException    if the file is not found
-     * @throws DicomException if the file is not a valid DICOM file
-     */
+    // Read a DICOM file and returns its attribute list
     private AttributeList read(String filePath) throws IOException, DicomException {
         File dicomFile = new File(filePath);
         DicomInputStream dicomInputStream;
@@ -56,11 +45,7 @@ public class DicomHandle {
         return attributeList;
     }
 
-    /**
-     * Loads essential and frequently-used data from the attribute list
-     *
-     * @throws DicomException if the attribute list is not valid
-     */
+    // Load essential and frequently-used data from the attribute list
     private void loadEssentialData() throws DicomException {
         assert attrs != null;
 
@@ -80,13 +65,7 @@ public class DicomHandle {
             bytePixelData = pixelDataAttr.getByteValues();
     }
 
-    /**
-     * Returns a string representation of the attribute list in the form
-     * <pre>KEY NAME: [VR, VL] STRING_VALUE</pre>
-     * If a string representation for a value cannot be provided (i.e. binary values), the value field is left blank
-     *
-     * @return string representation of the attribute list
-     */
+    // Return a string representation of the attribute list
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -109,11 +88,8 @@ public class DicomHandle {
     }
 
     /**
-     * Returns values for a given attribute tag as a string array
-     * If the attribute is not present, or if it is not a string attribute, returns null
-     *
-     * @param tag attribute tag
-     * @return string array of values
+     * Return values for a given attribute tag as a string array
+     * If the attribute is not present, or if it is not a string attribute, return null
      */
     public String[] getStrings(AttributeTag tag) {
         assert attrs != null;
@@ -128,12 +104,7 @@ public class DicomHandle {
         }
     }
 
-    /**
-     * Returns the first value for a given attribute tag as a string
-     *
-     * @param tag attribute tag
-     * @return string value
-     */
+    // Return the first value for a given attribute tag as a string
     public String getString(AttributeTag tag) {
         String[] strings = getStrings(tag);
         if (strings == null)
@@ -142,11 +113,8 @@ public class DicomHandle {
     }
 
     /**
-     * Returns values for a given attribute tag as an integer array
-     * If the attribute is not present, or if it is not an integer attribute, returns null
-     *
-     * @param tag attribute tag
-     * @return integer array of values
+     * Return values for a given attribute tag as an integer array
+     * If the attribute is not present, or if it is not an integer attribute, return null
      */
     public int[] getInts(AttributeTag tag) {
         assert attrs != null;
@@ -158,33 +126,18 @@ public class DicomHandle {
         }
     }
 
-    /**
-     * Returns the first value for a given attribute tag as an integer
-     *
-     * @param tag attribute tag
-     * @return integer value
-     */
+    // Return the first value for a given attribute tag as an integer
     public int getInt(AttributeTag tag) {
         return getInts(tag)[0];
     }
 
-    /**
-     * Tells if the attribute list contains a given attribute tag
-     *
-     * @param tag attribute tag
-     * @return true if the attribute list contains the given tag, false otherwise
-     */
+    // Verify whether the attribute list contains a given attribute tag
     public boolean hasAttr(AttributeTag tag) {
         assert attrs != null;
         return attrs.get(tag) != null;
     }
 
-    /**
-     * Returns the frame at the given index as a DicomFrame object
-     *
-     * @param index frame index
-     * @return DicomFrame object
-     */
+    // Return the frame at the given index as a DicomFrame object
     private DicomFrame getFrame(int index) {
         try {
             int start, end;
@@ -210,25 +163,14 @@ public class DicomHandle {
         }
     }
 
-    /**
-     * Returns the frame at the given index as a base64-encoded string
-     *
-     * @param index frame index
-     * @return base64-encoded string
-     */
+    // Return the frame at the given index as a base64-encoded string
     public String serveFrame(int index) {
         DicomFrame frame = getFrame(index);
         assert frame != null;
         return frame.toBase64();
     }
 
-    /**
-     * Returns a list of base64-encoded strings for the frames in the given range
-     *
-     * @param start start index
-     * @param end   end index
-     * @return list of base64-encoded strings
-     */
+    // Return a list of base64-encoded strings for the frames in the given range
     public ObservableList<String> serveFrames(int start, int end) {
         ObservableList<String> frames = FXCollections.observableArrayList();
         for (int i = start; i < end; i++) {
@@ -237,34 +179,21 @@ public class DicomHandle {
         return frames;
     }
 
-    /**
-     * Returns a list of base64-encoded strings for all the frames
-     *
-     * @return list of base64-encoded strings
-     */
+    // Return a list of base64-encoded strings for all the frames
     public ObservableList<String> serveAllFrames() {
         int numFrames = getInt(TagFromName.NumberOfFrames);
         return serveFrames(0, numFrames);
     }
 
-    /**
-     * Object for handling DICOM frames
-     */
+    // Hidden Class for handling DICOM frames
     private static class DicomFrame {
         byte[] data;
 
         /**
-         * Creates a DicomFrame object from either a byte array or a short array of PixelData
+         * Create a DicomFrame object from either a byte array or a short array of PixelData
          * The array's element size is determined by the value representation (VR) of the PixelData attribute
-         *
-         * @param w      frame width
-         * @param h      frame height
-         * @param isWord true if the frame is a word frame, false if it is a byte frame
-         * @param pxs    byte array
-         * @throws IOException if the byte array cannot be converted to a BufferedImage
          */
         public DicomFrame(int w, int h, boolean isWord, Object pxs) throws IOException {
-
             if (!isWord) {
                 if (!(pxs instanceof byte[] bytes))
                     throw new IllegalArgumentException("Expected byte[] for byte data, got " + pxs.getClass().getName());
@@ -286,11 +215,7 @@ public class DicomHandle {
             }
         }
 
-        /**
-         * Returns the frame as a base64-encoded string
-         *
-         * @return base64-encoded string
-         */
+        // Return the frame as a base64-encoded string
         public String toBase64() {
             return Base64.getEncoder().encodeToString(data);
         }

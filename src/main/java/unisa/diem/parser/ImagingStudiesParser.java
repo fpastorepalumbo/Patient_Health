@@ -2,8 +2,8 @@ package unisa.diem.parser;
 
 import ca.uhn.fhir.util.BundleBuilder;
 import com.pixelmed.dicom.TagFromName;
-import unisa.diem.dicom.DicomHandle;
-import unisa.diem.fhir.FhirWrapper;
+import unisa.diem.dicom.DicomHandler;
+import unisa.diem.fhir.FhirHandler;
 import lombok.SneakyThrows;
 import org.apache.commons.csv.CSVRecord;
 import org.hl7.fhir.r4.model.CodeableConcept;
@@ -16,11 +16,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ImagingStudiesLoader extends BaseLoader {
+public class ImagingStudiesParser extends BaseParser {
 
     private Map<String, String> patientIndex = new HashMap<>();
 
-    ImagingStudiesLoader(DatasetService datasetService) {
+    ImagingStudiesParser(DatasetService datasetService) {
         super(datasetService, "imaging_studies");
         patientIndex = makeIndex();
     }
@@ -34,7 +34,7 @@ public class ImagingStudiesLoader extends BaseLoader {
 
     @SneakyThrows
     @Override
-    public void load() {
+    public void parse() {
         int count = 0;
         List<ImagingStudy> buffer = new ArrayList<>();
 
@@ -43,7 +43,7 @@ public class ImagingStudiesLoader extends BaseLoader {
             Reference enc = new Reference("Encounter/" + rec.get("ENCOUNTER"));
 
             String filename = patientIndex.get(rec.get("PATIENT")) + "_" + rec.get("PATIENT");
-            DicomHandle dicom = datasetService.getDicomService().getDicomFile(filename);
+            DicomHandler dicom = datasetService.getDicomService().getDicomFile(filename);
 
             if (dicom == null)
                 continue;
@@ -114,14 +114,14 @@ public class ImagingStudiesLoader extends BaseLoader {
             buffer.add(is);
 
             if (count % 10 == 0 || count == records.size()) {
-                BundleBuilder bb = new BundleBuilder(FhirWrapper.getContext());
+                BundleBuilder bb = new BundleBuilder(FhirHandler.getContext());
                 buffer.forEach(bb::addTransactionUpdateEntry);
-                FhirWrapper.getClient().transaction().withBundle(bb.getBundle()).execute();
+                FhirHandler.getClient().transaction().withBundle(bb.getBundle()).execute();
                 if (count % 100 == 0)
-                    datasetService.logInfo("Loaded %d imaging studies", count);
+                    datasetService.logInfo("Parsed %d imaging studies", count);
                 buffer.clear();
             }
         }
-        datasetService.logInfo("Loaded ALL imaging studies");
+        datasetService.logInfo("Parsed ALL imaging studies");
     }
 }
