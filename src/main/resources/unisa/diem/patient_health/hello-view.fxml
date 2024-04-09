@@ -18,8 +18,8 @@
                 <Label fx:id="patientLabel" alignment="CENTER" layoutX="14.0" layoutY="59.0" onMouseClicked="#patientLabelClick" prefHeight="39.0" prefWidth="182.0" text="Patient" />
                 <Label fx:id="organizationLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="98.0" onMouseClicked="#organizationLabelClick" prefHeight="49.0" prefWidth="182.0" text="Organization" />
                 <Label fx:id="encounterLabel" alignment="CENTER" layoutX="14.0" layoutY="147.0" onMouseClicked="#encounterLabelClick" prefHeight="49.0" prefWidth="182.0" text="Encounter" />
-                <Label fx:id="imagingLabel" alignment="CENTER" layoutX="14.0" layoutY="196.0" onMouseClicked="#imagineLabelClick" prefHeight="39.0" prefWidth="182.0" text="Imaging Study" />
-            <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" onMouseClicked="#homeClick" prefHeight="39.0" prefWidth="182.0" text="Home" />
+                <Label fx:id="imageLabel" alignment="CENTER" layoutX="14.0" layoutY="196.0" onMouseClicked="#imageLabelClick" prefHeight="39.0" prefWidth="182.0" text="Imaging Study" />
+            <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" onMouseClicked="#homeLabelClick" prefHeight="39.0" prefWidth="182.0" text="Home" />
             <CheckBox fx:id="checkBox2" layoutX="14.0" layoutY="342.0" mnemonicParsing="false" />
             <CheckBox fx:id="checkBox3" layoutX="14.0" layoutY="370.0" mnemonicParsing="false" />
             <CheckBox fx:id="checkBox6" layoutX="14.0" layoutY="449.0" mnemonicParsing="false" />
@@ -47,7 +47,7 @@
                         <contextMenu>
                             <ContextMenu>
                                 <items>
-                                    <MenuItem fx:id="copiaIDPatient" mnemonicParsing="false" onAction="#copyIDPatient" text="Copy Patient ID" />
+                                    <MenuItem fx:id="copyIDPatient" mnemonicParsing="false" onAction="#copyIDPatient" text="Copy Patient ID" />
                                     <MenuItem fx:id="examinePatient" mnemonicParsing="false" onAction="#examinePatient" text="Examine Patient" />
                                 </items>
                             </ContextMenu>
@@ -112,8 +112,8 @@
                         <contextMenu>
                             <ContextMenu>
                                 <items>
-                                    <MenuItem fx:id="copyNameOrg" mnemonicParsing="false" onAction="#copyNameOrganization" text="Copy Organization Name" />
-                                    <MenuItem fx:id="copyIdOrg" mnemonicParsing="false" onAction="#copyIDOrganization" text="Copy Organization Id" />
+                                    <MenuItem fx:id="copyNameOrganization" mnemonicParsing="false" onAction="#copyNameOrganization" text="Copy Organization Name" />
+                                    <MenuItem fx:id="copyIDOrganization" mnemonicParsing="false" onAction="#copyIDOrganization" text="Copy Organization Id" />
                                 </items>
                             </ContextMenu>
                         </contextMenu>
@@ -151,8 +151,8 @@
                         <contextMenu>
                             <ContextMenu>
                                 <items>
-                                    <MenuItem fx:id="copiaNamePract" mnemonicParsing="false" onAction="#copyNamePractitioner" text="Copy Practitioner Name" />
-                                    <MenuItem fx:id="copiaIDPract" mnemonicParsing="false" onAction="#copyIDPractitioner" text="Copy Practitioner ID" />
+                                    <MenuItem fx:id="copyNamePractitioner" mnemonicParsing="false" onAction="#copyNamePractitioner" text="Copy Practitioner Name" />
+                                    <MenuItem fx:id="copyIDPractitioner" mnemonicParsing="false" onAction="#copyIDPractitioner" text="Copy Practitioner ID" />
                                 </items>
                             </ContextMenu>
                         </contextMenu>
@@ -163,7 +163,6 @@
                     <Pane fx:id="encounterPane1" prefHeight="685.0" prefWidth="1045.0">
                         <TableView fx:id="encounterTable" layoutX="14.0" layoutY="14.0" onScroll="#encounterScrollTable" prefHeight="403.0" prefWidth="1022.0">
                             <columns>
-                                <TableColumn fx:id="completeIdEncounterClm" prefWidth="190.0" text="Complete Encounter ID" />
                                 <TableColumn fx:id="idEncounterClm" prefWidth="190.0" text="Encounter ID" />
                                 <TableColumn fx:id="codeEncounterClm" minWidth="0.0" prefWidth="109.0" text="Code" />
                                 <TableColumn fx:id="descriptionEncounterClm" minWidth="0.0" prefWidth="71.0" text="Description" />
@@ -179,12 +178,12 @@
                             <contextMenu>
                                 <ContextMenu>
                                     <items>
-                                        <MenuItem fx:id="copiaIDEn" mnemonicParsing="false" onAction="#copyIDEncounter" text="Copy Encounter ID" />
-                                        <MenuItem fx:id="copiaIDPt" mnemonicParsing="false" onAction="#copyIDPatientOnEncounter" text="Copy Patient ID" />
-                                        <MenuItem fx:id="copiaIDOr" mnemonicParsing="false" onAction="#copyIDOrganizationOnEncounter" text="Copy Organization ID" />
-                                        <MenuItem fx:id="copiaIDPr" mnemonicParsing="false" onAction="#copyIDPractitionerOnEncounter" text="Copy Practitioner ID" />
-                                        <MenuItem fx:id="copiaIDPy" mnemonicParsing="false" onAction="#copyIDPayerOnEncounter" text="Copy Payer ID" />
-                                        <MenuItem fx:id="generateCDABtn" mnemonicParsing="false" onAction="#generateCDAEncounter" text="Generate CDA" />
+                                        <MenuItem fx:id="copyIDEncounter" mnemonicParsing="false" onAction="#copyIDEncounter" text="Copy Encounter ID" />
+                                        <MenuItem fx:id="copyIDPatientOnEncounter" mnemonicParsing="false" onAction="#copyIDPatientOnEncounter" text="Copy Patient ID" />
+                                        <MenuItem fx:id="copyIDOrganizationOnEncounter" mnemonicParsing="false" onAction="#copyIDOrganizationOnEncounter" text="Copy Organization ID" />
+                                        <MenuItem fx:id="copyIDPractitionerOnEncounter" mnemonicParsing="false" onAction="#copyIDPractitionerOnEncounter" text="Copy Practitioner ID" />
+                                        <MenuItem fx:id="copyIDPayerOnEncounter" mnemonicParsing="false" onAction="#copyIDPayerOnEncounter" text="Copy Payer ID" />
+                                        <MenuItem fx:id="generateCDAEncounter" mnemonicParsing="false" onAction="#generateCDAEncounter" text="Generate CDA" />
                                         <MenuItem fx:id="examineEncounter" mnemonicParsing="false" onAction="#examineEncounter" text="Examine Encounter" />
                                     </items>
                                 </ContextMenu>
@@ -204,7 +203,7 @@
                             <contextMenu>
                                 <ContextMenu>
                                     <items>
-                                        <MenuItem fx:id="copiaIDObs" mnemonicParsing="false" onAction="#copyCodeObservation" text="Copy Observation Code" />
+                                        <MenuItem fx:id="copyCodeObservation" mnemonicParsing="false" onAction="#copyCodeObservation" text="Copy Observation Code" />
                                        </items>
                                 </ContextMenu>
                             </contextMenu>
@@ -226,7 +225,7 @@
                             <contextMenu>
                                 <ContextMenu>
                                     <items>
-                                        <MenuItem fx:id="copiaIDMedReq" mnemonicParsing="false" onAction="#copyCodeMedReq" text="Copy MedReq Code" />
+                                        <MenuItem fx:id="copyCodeMedReq" mnemonicParsing="false" onAction="#copyCodeMedReq" text="Copy MedReq Code" />
                                     </items>
                                 </ContextMenu>
                             </contextMenu>
@@ -242,7 +241,7 @@
                             <contextMenu>
                                 <ContextMenu>
                                     <items>
-                                        <MenuItem fx:id="copiaIDProcedure" mnemonicParsing="false" onAction="#copyCodeProcedure" text="Copy Procedure Code" />
+                                        <MenuItem fx:id="copyCodeProcedure" mnemonicParsing="false" onAction="#copyCodeProcedure" text="Copy Procedure Code" />
                                     </items>
                                 </ContextMenu>
                             </contextMenu>
@@ -259,7 +258,7 @@
                             <contextMenu>
                                 <ContextMenu>
                                     <items>
-                                        <MenuItem fx:id="copiaIDDevice" mnemonicParsing="false" onAction="#copyCodeDevice" text="Copy Device Code" />
+                                        <MenuItem fx:id="copyCodeDevice" mnemonicParsing="false" onAction="#copyCodeDevice" text="Copy Device Code" />
                                     </items>
                                 </ContextMenu>
                             </contextMenu>
@@ -286,12 +285,15 @@
                 </Pane>
             </AnchorPane>
         </SplitPane>
-      <Pane fx:id="homePaneId" prefHeight="695.0" prefWidth="1280.0">
-         <children>
-            <Button layoutX="243.0" layoutY="627.0" mnemonicParsing="false" onMouseClicked="#patientClick" text="Patient" />
-            <Button layoutX="439.0" layoutY="627.0" mnemonicParsing="false" onMouseClicked="#organizationClick" text="Organization" />
-            <Button layoutX="645.0" layoutY="627.0" mnemonicParsing="false" onMouseClicked="#encounterClick" text="Encounter" />
-            <Button layoutX="864.0" layoutY="627.0" mnemonicParsing="false" onMouseClicked="#imagingStudyClick" text="Imaging Study" />
-         </children></Pane>
+        <Pane fx:id="homePaneId" prefHeight="695.0" prefWidth="1280.0">
+            <Button layoutX="243.0" layoutY="627.0" mnemonicParsing="false" onMouseClicked="#patientClick"
+                    text="Patient"/>
+            <Button layoutX="439.0" layoutY="627.0" mnemonicParsing="false" onMouseClicked="#organizationClick"
+                    text="Organization"/>
+            <Button layoutX="645.0" layoutY="627.0" mnemonicParsing="false" onMouseClicked="#encounterClick"
+                    text="Encounter"/>
+            <Button layoutX="864.0" layoutY="627.0" mnemonicParsing="false" onMouseClicked="#imagingStudyClick"
+                    text="Imaging Study"/>
+        </Pane>
     </AnchorPane>
 </VBox>

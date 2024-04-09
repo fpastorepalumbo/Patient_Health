@@ -39,8 +39,6 @@ public class EncounterConverter extends BaseConverter {
             EncounterClass ec = new EncounterClass();
             String[] parts;
 
-            ec.setCompleteId(encounter.getId());
-
             parts = encounter.getId().split("/");
             String encID = parts[5];
 
@@ -80,7 +78,6 @@ public class EncounterConverter extends BaseConverter {
 
         if (fieldsListEncounter.isEmpty()) {
             EncounterClass ec = new EncounterClass();
-            ec.setCompleteId("N/A");
             ec.setId("N/A");
             ec.setCode("N/A");
             ec.setDescription("N/A");
@@ -138,7 +135,6 @@ public class EncounterConverter extends BaseConverter {
     @Setter
     @Getter
     public static class EncounterClass {
-        private String completeId;
         private String id;
         private String code;
         private String description;
@@ -153,7 +149,6 @@ public class EncounterConverter extends BaseConverter {
         private Boolean vuoto;
 
         public EncounterClass() {
-            this.completeId = "";
             this.id = "";
             this.code = "";
             this.description = "";
@@ -171,8 +166,7 @@ public class EncounterConverter extends BaseConverter {
         @Override
         public String toString() {
             return "EncounterClass{" +
-                    "completeId='" + completeId + '\'' +
-                    ", id='" + id + '\'' +
+                    "id='" + id + '\'' +
                     ", code='" + code + '\'' +
                     ", description='" + description + '\'' +
                     ", startDate='" + startDate + '\'' +

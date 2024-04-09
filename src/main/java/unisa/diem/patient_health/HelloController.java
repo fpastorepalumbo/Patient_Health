@@ -174,8 +174,6 @@ public class HelloController implements Initializable {
 
     // encounterTable
     @FXML
-    public TableColumn completeIdEncounterClm;
-    @FXML
     public TableColumn idEncounterClm;
     @FXML
     public TableColumn codeEncounterClm;
@@ -278,6 +276,10 @@ public class HelloController implements Initializable {
 
     private final DicomService dicomService;
     private final CDAImporter cdaImporter;
+    public Label patientLabel;
+    public Label organizationLabel;
+    public Label encounterLabel;
+    public Label imageLabel;
     private ObservableList<String> currentFrames;
     @FXML
     public Pane homePaneId;
@@ -505,8 +507,6 @@ public class HelloController implements Initializable {
 
         namePractitionerClm.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        completeIdEncounterClm.setCellValueFactory(new PropertyValueFactory<>("completeId"));
-        completeIdEncounterClm.setVisible(false);
         idEncounterClm.setCellValueFactory(new PropertyValueFactory<>("id"));
         codeEncounterClm.setCellValueFactory(new PropertyValueFactory<>("code"));
         descriptionEncounterClm.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -597,6 +597,13 @@ public class HelloController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+
+    public void homeLabelClick() {
+        splitPaneId.setVisible(false);
+        homePaneId.setVisible(true);
+        homePaneId.setStyle("-fx-background-image: url('file:src/main/resources/images/sfondoHome.png'); " + "-fx-background-size: 1280 720;");
+    }
+
 
     @FXML
     public void patientLabelClick() {
@@ -709,8 +716,9 @@ public class HelloController implements Initializable {
             autoResizeColumns(encounterTable);
         }
     }
+
     @FXML
-    public void imagineLabelClick() {
+    public void imageLabelClick() {
         if (imagePane.isVisible())
             return;
 
@@ -735,6 +743,30 @@ public class HelloController implements Initializable {
                 imageTable.getItems().add(imagingStudy);
             autoResizeColumns(imageTable);
         }
+    }
+
+    public void patientClick() {
+        splitPaneId.setVisible(true);
+        homePaneId.setVisible(false);
+        patientLabelClick();
+    }
+
+    public void organizationClick() {
+        splitPaneId.setVisible(true);
+        homePaneId.setVisible(false);
+        organizationLabelClick();
+    }
+
+    public void encounterClick() {
+        splitPaneId.setVisible(true);
+        homePaneId.setVisible(false);
+        encounterLabelClick();
+    }
+
+    public void imagingStudyClick() {
+        splitPaneId.setVisible(true);
+        homePaneId.setVisible(false);
+        imageLabelClick();
     }
 
     public void patientScrollTable(ScrollEvent scrollEvent) {
@@ -1270,7 +1302,6 @@ public class HelloController implements Initializable {
         primaryStage.show();
     }
 
-
     public void clickImageTable() {
         ImagingStudiesConverter.ImagingStudiesClass imageElement = imageTable.getSelectionModel().getSelectedItem();
 
@@ -1284,7 +1315,7 @@ public class HelloController implements Initializable {
 
     public static void autoResizeColumns(TableView<?> table) {
         table.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
-        table.getColumns().stream().forEach((column) ->
+        table.getColumns().forEach((column) ->
         {
             Text t = new Text(column.getText());
             double max = t.getLayoutBounds().getWidth();
@@ -1302,35 +1333,5 @@ public class HelloController implements Initializable {
             }
             column.setPrefWidth(max + 10.0d );
         });
-    }
-
-    public void homeClick() {
-        splitPaneId.setVisible(false);
-        homePaneId.setVisible(true);
-        homePaneId.setStyle("-fx-background-image: url('file:src/main/resources/images/sfondoHome.png'); " + "-fx-background-size: 1280 720;");
-    }
-
-    public void patientClick() {
-        splitPaneId.setVisible(true);
-        homePaneId.setVisible(false);
-        patientLabelClick();
-    }
-
-    public void organizationClick() {
-        splitPaneId.setVisible(true);
-        homePaneId.setVisible(false);
-        organizationLabelClick();
-    }
-
-    public void encounterClick() {
-        splitPaneId.setVisible(true);
-        homePaneId.setVisible(false);
-        encounterLabelClick();
-    }
-
-    public void imagingStudyClick() {
-        splitPaneId.setVisible(true);
-        homePaneId.setVisible(false);
-        imagineLabelClick();
     }
 }
